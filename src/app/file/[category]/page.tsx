@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { getCategoryById } from '@/lib/categories'
 import { FilingData, defaultFilingData } from '@/lib/filing-state'
 import { generateComplaintText } from '@/lib/complaint-generator'
+import type { SubmissionResult } from '@/lib/submit-complaint'
 import { Masthead } from '@/components/Masthead'
 import { Footer } from '@/components/Footer'
 import { DoubleRule } from '@/components/DoubleRule'
@@ -99,6 +100,9 @@ export default function FilingWizard({ params }: WizardProps) {
     selectedAgencies: category.agencies.map((a) => a.id),
   })
   const [expandedText, setExpandedText] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [submissionResults, setSubmissionResults] = useState<SubmissionResult[]>([])
 
   const update = useCallback((patch: Partial<FilingData>) => {
     setData((prev) => ({ ...prev, ...patch }))
@@ -136,6 +140,32 @@ export default function FilingWizard({ params }: WizardProps) {
       URL.revokeObjectURL(url)
     } catch (e) {
       console.error('PDF download failed', e)
+    }
+  }
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      const response = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Submission failed')
+      }
+
+      setSubmissionResults(result.results)
+      setStep(5)
+    } catch (err: any) {
+      setSubmitError(err.message)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -718,10 +748,18 @@ export default function FilingWizard({ params }: WizardProps) {
               </div>
             </div>
 
+            {submitError && (
+              <div className="mb-4 p-4 bg-warm border border-rule">
+                <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-faint mb-1">Submission Error</p>
+                <p className="font-body text-sm text-ink">{submitError}</p>
+              </div>
+            )}
+
             <StepNavigation
               onBack={() => setStep(3)}
-              onContinue={() => setStep(5)}
-              continueLabel={`Submit All — $${totalCost.toFixed(2)} →`}
+              onContinue={handleSubmit}
+              continueLabel={isSubmitting ? 'Submitting...' : `Submit All — $${totalCost.toFixed(2)} →`}
+              continueDisabled={isSubmitting}
               isLast
             />
           </div>
@@ -729,39 +767,107 @@ export default function FilingWizard({ params }: WizardProps) {
 
         {/* Step 5: Confirmation */}
         {step === 5 && (
-          <div className="text-center py-12">
-            <div className="font-serif text-6xl text-rule-dark mb-6">✓</div>
-            <DoubleRule />
-            <h2 className="font-serif text-3xl font-bold text-ink mt-6 mb-3">
-              Complaint Submitted
-            </h2>
-            <p className="font-body text-base text-ink-light mb-8">
-              Your complaint has been queued for submission to {selectedAgencyObjects.length} {selectedAgencyObjects.length === 1 ? 'agency' : 'agencies'}.
-            </p>
-
-            <div className="bg-paper border border-rule p-6 mb-8 text-left max-w-md mx-auto">
-              <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-ink-faint mb-4">
-                Next Steps
+          <div className="py-12">
+            <div className="text-center mb-8">
+              <div className="font-serif text-6xl text-rule-dark mb-6">✓</div>
+              <DoubleRule />
+              <h2 className="font-serif text-3xl font-bold text-ink mt-6 mb-3">
+                Complaint Submitted
+              </h2>
+              <p className="font-body text-base text-ink-light">
+                {submissionResults.filter((r) => r.method !== 'guided').length > 0 && (
+                  <>
+                    {submissionResults.filter((r) => r.method !== 'guided' && r.success).length} auto-filed,{' '}
+                  </>
+                )}
+                {submissionResults.filter((r) => r.method === 'guided').length > 0 && (
+                  <>{submissionResults.filter((r) => r.method === 'guided').length} require self-filing via guided walkthrough.</>
+                )}
               </p>
-              {selectedAgencyObjects.map((agency) => (
-                <div key={agency.id} className="flex items-center gap-3 py-2 border-b border-rule last:border-0">
-                  <span className="font-mono text-[9px] text-accent">✓</span>
-                  <div>
-                    <p className="font-serif text-sm font-bold text-ink">{agency.name}</p>
-                    <p className="font-mono text-[8px] tracking-[0.05em] text-ink-faint">
-                      {agency.method === 'guided' ? 'Filing guide sent to your email' : 'Auto-submitted via ' + agency.method}
-                    </p>
-                  </div>
-                </div>
-              ))}
+              <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-faint mt-2">
+                A receipt has been sent to {data.email}
+              </p>
             </div>
 
-            <Link
-              href="/file"
-              className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase border border-ink text-ink px-8 py-3 hover:bg-ink hover:text-cream transition-colors"
-            >
-              File Another Complaint
-            </Link>
+            <div className="space-y-3 mb-8">
+              {submissionResults.map((result) => {
+                const agency = category.agencies.find((a) => a.id === result.agency)
+                const agencyName = agency?.name || result.agency
+                const isAuto = result.method !== 'guided'
+
+                return (
+                  <div key={result.agency} className="bg-paper border border-rule p-4">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className={`font-mono text-[9px] ${result.success || !isAuto ? 'text-accent' : 'text-red-600'}`}>
+                          {result.success || !isAuto ? '✓' : '✗'}
+                        </span>
+                        <span className="font-serif text-sm font-bold text-ink">{agencyName}</span>
+                      </div>
+                      <span
+                        className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 ${
+                          result.method === 'guided'
+                            ? 'border border-rule text-ink-faint'
+                            : result.success
+                            ? 'bg-ink text-cream'
+                            : 'bg-red-100 text-red-700 border border-red-300'
+                        }`}
+                      >
+                        {result.method === 'guided'
+                          ? 'Self-Filing Required'
+                          : result.method === 'auto_email'
+                          ? result.success ? 'Emailed' : 'Email Failed'
+                          : result.success ? 'Faxed' : 'Fax Failed'}
+                      </span>
+                    </div>
+
+                    {result.method === 'auto_email' && result.success && (
+                      <p className="font-mono text-[8px] text-ink-faint pl-4">
+                        Sent to ada.complaint@usdoj.gov
+                        {result.confirmationId && <> · ID: {result.confirmationId}</>}
+                      </p>
+                    )}
+
+                    {result.method === 'auto_fax' && result.success && (
+                      <p className="font-mono text-[8px] text-ink-faint pl-4">
+                        Fax queued
+                        {result.confirmationId && <> · Fax ID: {result.confirmationId}</>}
+                      </p>
+                    )}
+
+                    {result.method === 'guided' && (
+                      <p className="font-mono text-[8px] text-ink-faint pl-4">
+                        <Link
+                          href={`/guide/${result.agency}`}
+                          className="underline hover:text-ink transition-colors"
+                        >
+                          Start guided filing →
+                        </Link>
+                      </p>
+                    )}
+
+                    {result.error && (
+                      <p className="font-mono text-[8px] text-red-600 pl-4 mt-1">{result.error}</p>
+                    )}
+
+                    {result.pdfHash && (
+                      <p className="font-mono text-[7px] text-ink-faint pl-4 mt-1 break-all">
+                        Evidence Hash: sha256:{result.pdfHash}
+                      </p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="text-center">
+              <Link
+                href="/file"
+                className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase border border-ink text-ink px-8 py-3 hover:bg-ink hover:text-cream transition-colors"
+              >
+                File Another Complaint
+              </Link>
+            </div>
           </div>
         )}
       </div>
