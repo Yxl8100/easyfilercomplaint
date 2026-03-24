@@ -35,9 +35,9 @@ export async function submitViaFax(
 
     return { success: true, faxId: result.data?.id }
 
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(`[Fax ${agency}] Exception:`, err)
-    return { success: false, error: err.message }
+    return { success: false, error: err instanceof Error ? err.message : 'Unknown error' }
   }
 }
 

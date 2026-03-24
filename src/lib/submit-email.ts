@@ -70,8 +70,8 @@ export async function submitDojComplaint(
     console.log(`[DOJ Email] Complaint sent successfully. Message ID: ${data?.id}`)
     return { success: true, messageId: data?.id }
 
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[DOJ Email] Exception:', err)
-    return { success: false, error: err.message }
+    return { success: false, error: err instanceof Error ? err.message : 'Unknown error' }
   }
 }

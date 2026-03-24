@@ -44,12 +44,13 @@ export async function submitToAgency(
   let pdfBytes: Uint8Array
   try {
     pdfBytes = await generateComplaintLetterPdf(data, agency)
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
     return {
       agency,
       method,
       success: false,
-      error: `PDF generation failed: ${err.message}`,
+      error: `PDF generation failed: ${message}`,
       timestamp,
     }
   }

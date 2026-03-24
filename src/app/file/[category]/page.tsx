@@ -162,8 +162,8 @@ export default function FilingWizard({ params }: WizardProps) {
 
       setSubmissionResults(result.results)
       setStep(5)
-    } catch (err: any) {
-      setSubmitError(err.message)
+    } catch (err: unknown) {
+      setSubmitError(err instanceof Error ? err.message : 'Unknown error')
     } finally {
       setIsSubmitting(false)
     }

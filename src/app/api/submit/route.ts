@@ -40,10 +40,11 @@ export async function POST(req: NextRequest) {
       results,
     })
 
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[Submit API] Error:', err)
+    const message = err instanceof Error ? err.message : 'Unknown error'
     return NextResponse.json(
-      { error: 'Submission failed', details: err.message },
+      { error: 'Submission failed', details: message },
       { status: 500 }
     )
   }
