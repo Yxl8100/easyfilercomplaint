@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(uuid())
+  email                 String    @unique
+  emailVerified         DateTime?
+  name                  String?
+  firstName             String?
+  lastName              String?
+  address               String?
+  city                  String?
+  state                 String?
+  zip                   String?
+  phone                 String?
+  ageRange              String?
+  county                String?
+  image                 String?
+
+  stripeCustomerId      String?   @unique
+  subscriptionId        String?
+  subscriptionStatus    String?
+  subscriptionExpiresAt DateTime?
+
+  accounts              Account[]
+  sessions              Session[]
+  filings               Filing[]
+  invoices              Invoice[]
+
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Filing {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+
+  category        String
+  targetName      String
+  targetAddress   String?
+  targetCity      String?
+  targetState     String?
+  targetZip       String?
+  targetUrl       String?
+  targetPhone     String?
+  targetEmail     String?
+
+  incidentDate    DateTime?
+  description     String
+  amountPaid      Decimal?  @db.Decimal(10, 2)
+  paymentMethod   String?
+  priorContact    Boolean   @default(false)
+  priorContactDetails String?
+
+  categoryFields  Json?
+  generatedText   Json?
+
+  submissions     Submission[]
+  invoiceId       String?
+  invoice         Invoice?  @relation(fields: [invoiceId], references: [id])
+
+  status          String    @default("draft")
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("filings")
+}
+
+model Submission {
+  id              String    @id @default(uuid())
+  filingId        String
+  filing          Filing    @relation(fields: [filingId], references: [id])
+
+  agency          String
+  agencyName      String
+  method          String
+
+  submittedAt     DateTime?
+  confirmationId  String?
+  faxStatus       String?
+  emailStatus     String?
+
+  guideOpened     Boolean   @default(false)
+  userConfirmedFiled Boolean @default(false)
+  userTrackingNumber String?
+
+  pdfHash         String?
+  pdfUrl          String?
+  complaintText   String?
+
+  status          String    @default("pending")
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([filingId])
+  @@index([agency])
+  @@map("submissions")
+}
+
+model Invoice {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+
+  filings         Filing[]
+
+  amount          Decimal   @db.Decimal(10, 2)
+  filingCount     Int
+
+  stripePaymentIntentId String?
+  status          String    @default("pending")
+
+  createdAt       DateTime  @default(now())
+  paidAt          DateTime?
+
+  @@index([userId])
+  @@map("invoices")
+}
+
+model ComplaintTemplate {
+  id              String    @id @default(uuid())
+  agency          String
+  category        String
+
+  templateBody    String
+  formFields      Json
+  submissionUrl   String?
+
+  isActive        Boolean   @default(true)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([agency, category])
+  @@map("complaint_templates")
+}
