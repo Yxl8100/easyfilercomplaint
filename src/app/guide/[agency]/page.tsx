@@ -68,10 +68,10 @@ export default function GuidePage({ params }: GuidePageProps) {
   const guide = agencyGuides[params.agency]
   if (!guide) {
     return (
-      <div className="min-h-screen bg-cream">
+      <div className="min-h-screen bg-bg">
         <Masthead />
         <div className="max-w-3xl mx-auto px-6 py-12">
-          <h1 className="font-serif text-3xl font-bold text-ink">Agency guide not found</h1>
+          <h1 className="font-serif text-3xl font-bold text-text">Agency guide not found</h1>
           <Link href="/file" className="font-mono text-[11px] tracking-[0.1em] uppercase text-accent mt-4 block">
             ← Back to filing
           </Link>
@@ -82,11 +82,11 @@ export default function GuidePage({ params }: GuidePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-bg">
       <Masthead />
-      <div className="border-b border-rule bg-warm">
+      <div className="border-b border-border bg-bg-alt">
         <div className="max-w-3xl mx-auto px-6 py-1.5">
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-ink-faint">
+          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-text-light">
             Guided Filing · {guide.name}
           </span>
         </div>
@@ -95,38 +95,38 @@ export default function GuidePage({ params }: GuidePageProps) {
       <div className="max-w-3xl mx-auto px-6 py-10">
         <div className="mb-8">
           <DoubleRule />
-          <h1 className="font-serif text-3xl font-bold text-ink mt-4 mb-2">
+          <h1 className="font-serif text-3xl font-bold text-text mt-4 mb-2">
             File with {guide.name}
           </h1>
-          <p className="font-body text-sm text-ink-light mb-4">
+          <p className="font-body text-sm text-text-mid mb-4">
             Follow these steps to submit your complaint directly on the {guide.name} website.
           </p>
           <a
             href={guide.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase bg-ink text-cream px-6 py-2.5 hover:bg-ink-light transition-colors"
+            className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white px-6 py-2.5 rounded-[6px] hover:bg-text-mid transition-colors"
           >
             Open {guide.name} Website ↗
           </a>
         </div>
 
-        <div className="space-y-px bg-rule">
+        <div className="space-y-3">
           {guide.steps.map((step, index) => (
-            <div key={index} className="bg-cream p-6">
+            <div key={index} className="bg-bg border border-border rounded-[6px] p-6">
               <div className="flex gap-4">
-                <div className="font-serif text-3xl font-bold text-rule-dark flex-shrink-0 w-8">
+                <div className="font-serif text-3xl font-bold text-border-dark flex-shrink-0 w-8">
                   {['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'][index]}.
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif text-lg font-bold text-ink mb-2">{step.title}</h3>
-                  <p className="font-body text-sm text-ink-light leading-relaxed">{step.instruction}</p>
+                  <h3 className="font-serif text-lg font-bold text-text mb-2">{step.title}</h3>
+                  <p className="font-body text-sm text-text-mid leading-relaxed">{step.instruction}</p>
                   {step.hasCopyBlock && (
-                    <div className="mt-3 bg-paper border border-rule p-3">
-                      <p className="font-mono text-[8px] tracking-[0.1em] uppercase text-ink-faint mb-2">
+                    <div className="mt-3 bg-bg-alt border border-border rounded-[6px] p-3">
+                      <p className="font-mono text-[8px] tracking-[0.1em] uppercase text-text-light mb-2">
                         Tip: Use the complaint text from your filing dashboard
                       </p>
-                      <p className="font-body text-xs text-ink-light">
+                      <p className="font-body text-xs text-text-mid">
                         Your personalized complaint text was generated and can be copied from your complaint dashboard.
                       </p>
                     </div>
@@ -137,22 +137,22 @@ export default function GuidePage({ params }: GuidePageProps) {
           ))}
         </div>
 
-        <div className="mt-8 bg-paper border border-ink p-6">
-          <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-ink-faint mb-4">After You File</p>
+        <div className="mt-8 bg-bg border border-border-dark rounded-[6px] p-6">
+          <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-text-light mb-4">After You File</p>
           <DoubleRule />
           <div className="mt-4 space-y-3">
-            <p className="font-body text-sm text-ink-light">Once you&apos;ve submitted your complaint, mark it as filed and optionally record your confirmation number.</p>
+            <p className="font-body text-sm text-text-mid">Once you&apos;ve submitted your complaint, mark it as filed and optionally record your confirmation number.</p>
             <div className="space-y-2">
-              <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-ink-faint">
+              <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-text-light">
                 Confirmation / Tracking Number (optional)
               </label>
               <div className="flex gap-3">
                 <input
                   type="text"
                   placeholder="Enter confirmation number..."
-                  className="flex-1 border border-rule bg-cream text-ink font-body text-sm px-4 py-2 focus:outline-none focus:border-ink"
+                  className="flex-1 border border-border bg-bg text-text font-body text-sm px-4 py-2 rounded-[6px] focus:outline-none focus:border-bg-dark"
                 />
-                <button className="font-mono text-[11px] tracking-[0.1em] uppercase bg-ink text-cream px-6 py-2 hover:bg-ink-light transition-colors">
+                <button className="font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white px-6 py-2 rounded-[6px] hover:bg-text-mid transition-colors">
                   Save
                 </button>
               </div>
@@ -163,7 +163,7 @@ export default function GuidePage({ params }: GuidePageProps) {
         <div className="mt-6 text-center">
           <Link
             href="/file"
-            className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-faint hover:text-ink transition-colors"
+            className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-light hover:text-text transition-colors"
           >
             ← Back to Filing
           </Link>

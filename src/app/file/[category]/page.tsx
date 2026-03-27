@@ -176,7 +176,7 @@ export default function FilingWizard({ params }: WizardProps) {
   const totalCost = selectedAgencyObjects.length * 0.5
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-bg">
       <Masthead />
       <ProgressBar currentStep={step + 1} />
 
@@ -190,51 +190,51 @@ export default function FilingWizard({ params }: WizardProps) {
               description={category.description}
             />
 
-            <div className="bg-warm border border-rule p-6 mb-6">
-              <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-ink-faint mb-3">
+            <div className="bg-bg-alt border border-border rounded-[6px] p-6 mb-6">
+              <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-text-light mb-3">
                 Why Multiple Agencies?
               </p>
-              <p className="font-body text-sm text-ink-light leading-relaxed">
+              <p className="font-body text-sm text-text-mid leading-relaxed">
                 Filing with multiple agencies creates a stronger record and increases the likelihood of action. Each agency has different enforcement powers — the FTC can levy fines, the CA Attorney General can sue, and the CFPB can mandate refunds. We file all of them from one form.
               </p>
             </div>
 
-            <div className="space-y-px bg-rule">
+            <div className="space-y-2">
               {category.agencies.map((agency) => {
                 const isSelected = data.selectedAgencies.includes(agency.id)
                 return (
-                  <div key={agency.id} className="bg-cream p-4 flex items-center justify-between">
+                  <div key={agency.id} className="bg-bg border border-border rounded-[6px] p-4 flex items-center justify-between">
                     <label className="flex items-center gap-4 cursor-pointer flex-1">
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleAgency(agency.id)}
-                        className="w-4 h-4 border border-rule"
+                        className="w-4 h-4 border border-border accent-text"
                       />
                       <div>
-                        <p className="font-serif text-base font-bold text-ink">{agency.name}</p>
+                        <p className="font-serif text-base font-bold text-text">{agency.name}</p>
                         <span
-                          className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 ${
+                          className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px] ${
                             agency.method === 'guided'
-                              ? 'bg-warm text-ink-light border border-rule'
-                              : 'bg-ink text-cream'
+                              ? 'bg-bg-alt text-text-mid border border-border'
+                              : 'bg-bg-dark text-white'
                           }`}
                         >
                           {agency.method === 'guided' ? 'Guided Filing' : 'We File For You'}
                         </span>
                       </div>
                     </label>
-                    <span className="font-mono text-sm text-ink-faint">$0.50</span>
+                    <span className="font-mono text-sm text-text-light">$0.50</span>
                   </div>
                 )
               })}
             </div>
 
-            <div className="mt-4 p-4 bg-paper border border-rule flex items-center justify-between">
-              <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-faint">
+            <div className="mt-4 p-4 bg-bg-alt border border-border rounded-[6px] flex items-center justify-between">
+              <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-light">
                 Total ({data.selectedAgencies.length} {data.selectedAgencies.length === 1 ? 'agency' : 'agencies'})
               </span>
-              <span className="font-serif text-xl font-bold text-ink">${totalCost.toFixed(2)}</span>
+              <span className="font-serif text-xl font-bold text-text">${totalCost.toFixed(2)}</span>
             </div>
 
             <StepNavigation
@@ -400,7 +400,7 @@ export default function FilingWizard({ params }: WizardProps) {
                     placeholder="Street address or description of location"
                   />
                   <div className="space-y-2">
-                    <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-ink-faint">
+                    <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-text-light">
                       Is This Ongoing?
                     </label>
                     <div className="flex gap-4">
@@ -412,9 +412,9 @@ export default function FilingWizard({ params }: WizardProps) {
                             value={v}
                             checked={data.categoryFields.ongoing === v}
                             onChange={() => updateCategoryField('ongoing', v)}
-                            className="accent-ink"
+                            className="accent-text"
                           />
-                          <span className="font-body text-sm text-ink capitalize">{v}</span>
+                          <span className="font-body text-sm text-text capitalize">{v}</span>
                         </label>
                       ))}
                     </div>
@@ -431,7 +431,7 @@ export default function FilingWizard({ params }: WizardProps) {
                     onChange={(val) => updateCategoryField('barrierTypes', val)}
                   />
                   <div className="space-y-2">
-                    <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-ink-faint">
+                    <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-text-light">
                       Do You Have a Disability Affected By This?
                     </label>
                     <div className="flex gap-4">
@@ -443,9 +443,9 @@ export default function FilingWizard({ params }: WizardProps) {
                             value={v}
                             checked={data.categoryFields.hasDisability === v}
                             onChange={() => updateCategoryField('hasDisability', v)}
-                            className="accent-ink"
+                            className="accent-text"
                           />
-                          <span className="font-body text-sm text-ink capitalize">{v.replace(/-/g, ' ')}</span>
+                          <span className="font-body text-sm text-text capitalize">{v.replace(/-/g, ' ')}</span>
                         </label>
                       ))}
                     </div>
@@ -504,7 +504,7 @@ export default function FilingWizard({ params }: WizardProps) {
               {/* Prior contact */}
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-ink-faint">
+                  <label className="block font-mono text-[9px] tracking-[0.15em] uppercase text-text-light">
                     Did You Contact the Business About This?
                   </label>
                   <div className="flex gap-4">
@@ -518,9 +518,9 @@ export default function FilingWizard({ params }: WizardProps) {
                           name="priorContact"
                           checked={data.priorContact === value}
                           onChange={() => update({ priorContact: value })}
-                          className="accent-ink"
+                          className="accent-text"
                         />
-                        <span className="font-body text-sm text-ink">{label}</span>
+                        <span className="font-body text-sm text-text">{label}</span>
                       </label>
                     ))}
                   </div>
@@ -554,8 +554,8 @@ export default function FilingWizard({ params }: WizardProps) {
               description="Most agencies require your contact information to process a complaint."
             />
 
-            <div className="bg-warm border border-rule p-4 mb-6">
-              <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-faint">
+            <div className="bg-bg-alt border border-border rounded-[6px] p-4 mb-6">
+              <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-light">
                 Your information is required by most agencies and is protected under federal privacy laws. It will only be shared with the agencies you select.
               </p>
             </div>
@@ -660,22 +660,22 @@ export default function FilingWizard({ params }: WizardProps) {
             />
 
             {/* Summary */}
-            <div className="bg-paper border border-rule p-6 mb-6">
-              <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-ink-faint mb-4 pb-2 border-b border-rule">
+            <div className="bg-bg-alt border border-border rounded-[6px] p-6 mb-6">
+              <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-text-light mb-4 pb-2 border-b border-border">
                 Filing Summary
               </p>
-              <div className="space-y-2 text-sm font-body text-ink-light">
+              <div className="space-y-2 text-sm font-body text-text-mid">
                 <div className="flex justify-between">
                   <span>Category:</span>
-                  <span className="font-serif text-ink font-bold">{category.label}</span>
+                  <span className="font-serif text-text font-bold">{category.label}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Against:</span>
-                  <span className="font-serif text-ink font-bold">{data.targetName}</span>
+                  <span className="font-serif text-text font-bold">{data.targetName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Agencies:</span>
-                  <span className="font-serif text-ink font-bold">{selectedAgencyObjects.map(a => a.name).join(', ')}</span>
+                  <span className="font-serif text-text font-bold">{selectedAgencyObjects.map(a => a.name).join(', ')}</span>
                 </div>
               </div>
             </div>
@@ -694,15 +694,15 @@ export default function FilingWizard({ params }: WizardProps) {
                 const wordCount = complaintText.split(/\s+/).length
 
                 return (
-                  <div key={agency.id} className="bg-paper border border-rule">
-                    <div className="flex items-center justify-between p-4 border-b border-rule">
+                  <div key={agency.id} className="bg-bg-alt border border-border rounded-[6px]">
+                    <div className="flex items-center justify-between p-4 border-b border-border">
                       <div className="flex items-center gap-3">
-                        <span className="font-serif text-base font-bold text-ink">{agency.name}</span>
+                        <span className="font-serif text-base font-bold text-text">{agency.name}</span>
                         <span
-                          className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 ${
+                          className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px] ${
                             agency.method === 'guided'
-                              ? 'border border-rule text-ink-faint'
-                              : 'bg-ink text-cream'
+                              ? 'border border-border text-text-light'
+                              : 'bg-bg-dark text-white'
                           }`}
                         >
                           {agency.method === 'guided' ? 'Guided' : 'We File'}
@@ -710,18 +710,18 @@ export default function FilingWizard({ params }: WizardProps) {
                       </div>
                       <button
                         onClick={() => downloadPdf(agency.id)}
-                        className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-light hover:text-ink border border-rule px-3 py-1 transition-colors"
+                        className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-mid hover:text-text border border-border rounded-[6px] px-3 py-1 transition-colors"
                       >
                         Download PDF ↓
                       </button>
                     </div>
                     <div className="p-4">
-                      <pre className="font-body text-xs text-ink-light leading-relaxed whitespace-pre-wrap">
+                      <pre className="font-body text-xs text-text-mid leading-relaxed whitespace-pre-wrap">
                         {isExpanded ? complaintText : `${preview}...`}
                       </pre>
                       <button
                         onClick={() => setExpandedText(isExpanded ? null : agency.id)}
-                        className="mt-2 font-mono text-[9px] tracking-[0.1em] uppercase text-accent hover:text-ink transition-colors"
+                        className="mt-2 font-mono text-[9px] tracking-[0.1em] uppercase text-accent hover:text-text transition-colors"
                       >
                         {isExpanded ? 'Collapse ↑' : `Full text (~${wordCount} words) →`}
                       </button>
@@ -732,26 +732,26 @@ export default function FilingWizard({ params }: WizardProps) {
             </div>
 
             {/* Cost */}
-            <div className="border border-ink p-6 mb-6 bg-paper">
+            <div className="border border-bg-dark rounded-[6px] p-6 mb-6 bg-bg-alt">
               <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-faint">Filing Cost</span>
+                <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-light">Filing Cost</span>
               </div>
               {selectedAgencyObjects.map((a) => (
-                <div key={a.id} className="flex justify-between font-body text-sm text-ink-light py-1 border-b border-rule">
+                <div key={a.id} className="flex justify-between font-body text-sm text-text-mid py-1 border-b border-border">
                   <span>{a.name}</span>
                   <span>$0.50</span>
                 </div>
               ))}
               <div className="flex justify-between mt-3">
-                <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink">Total</span>
-                <span className="font-serif text-xl font-bold text-ink">${totalCost.toFixed(2)}</span>
+                <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text">Total</span>
+                <span className="font-serif text-xl font-bold text-text">${totalCost.toFixed(2)}</span>
               </div>
             </div>
 
             {submitError && (
-              <div className="mb-4 p-4 bg-warm border border-rule">
-                <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-faint mb-1">Submission Error</p>
-                <p className="font-body text-sm text-ink">{submitError}</p>
+              <div className="mb-4 p-4 bg-accent-bg border border-accent rounded-[6px]">
+                <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-accent mb-1">Submission Error</p>
+                <p className="font-body text-sm text-text">{submitError}</p>
               </div>
             )}
 
@@ -769,12 +769,12 @@ export default function FilingWizard({ params }: WizardProps) {
         {step === 5 && (
           <div className="py-12">
             <div className="text-center mb-8">
-              <div className="font-serif text-6xl text-rule-dark mb-6">✓</div>
+              <div className="font-serif text-6xl text-border-dark mb-6">✓</div>
               <DoubleRule />
-              <h2 className="font-serif text-3xl font-bold text-ink mt-6 mb-3">
+              <h2 className="font-serif text-3xl font-bold text-text mt-6 mb-3">
                 Complaint Submitted
               </h2>
-              <p className="font-body text-base text-ink-light">
+              <p className="font-body text-base text-text-mid">
                 {submissionResults.filter((r) => r.method !== 'guided').length > 0 && (
                   <>
                     {submissionResults.filter((r) => r.method !== 'guided' && r.success).length} auto-filed,{' '}
@@ -784,7 +784,7 @@ export default function FilingWizard({ params }: WizardProps) {
                   <>{submissionResults.filter((r) => r.method === 'guided').length} require self-filing via guided walkthrough.</>
                 )}
               </p>
-              <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-faint mt-2">
+              <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-light mt-2">
                 A receipt has been sent to {data.email}
               </p>
             </div>
@@ -796,20 +796,20 @@ export default function FilingWizard({ params }: WizardProps) {
                 const isAuto = result.method !== 'guided'
 
                 return (
-                  <div key={result.agency} className="bg-paper border border-rule p-4">
+                  <div key={result.agency} className="bg-bg-alt border border-border rounded-[6px] p-4">
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div className="flex items-center gap-2">
                         <span className={`font-mono text-[9px] ${result.success || !isAuto ? 'text-accent' : 'text-red-600'}`}>
                           {result.success || !isAuto ? '✓' : '✗'}
                         </span>
-                        <span className="font-serif text-sm font-bold text-ink">{agencyName}</span>
+                        <span className="font-serif text-sm font-bold text-text">{agencyName}</span>
                       </div>
                       <span
-                        className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 ${
+                        className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px] ${
                           result.method === 'guided'
-                            ? 'border border-rule text-ink-faint'
+                            ? 'border border-border text-text-light'
                             : result.success
-                            ? 'bg-ink text-cream'
+                            ? 'bg-bg-dark text-white'
                             : 'bg-red-100 text-red-700 border border-red-300'
                         }`}
                       >
@@ -822,24 +822,24 @@ export default function FilingWizard({ params }: WizardProps) {
                     </div>
 
                     {result.method === 'auto_email' && result.success && (
-                      <p className="font-mono text-[8px] text-ink-faint pl-4">
+                      <p className="font-mono text-[8px] text-text-light pl-4">
                         Sent to ada.complaint@usdoj.gov
                         {result.confirmationId && <> · ID: {result.confirmationId}</>}
                       </p>
                     )}
 
                     {result.method === 'auto_fax' && result.success && (
-                      <p className="font-mono text-[8px] text-ink-faint pl-4">
+                      <p className="font-mono text-[8px] text-text-light pl-4">
                         Fax queued
                         {result.confirmationId && <> · Fax ID: {result.confirmationId}</>}
                       </p>
                     )}
 
                     {result.method === 'guided' && (
-                      <p className="font-mono text-[8px] text-ink-faint pl-4">
+                      <p className="font-mono text-[8px] text-text-light pl-4">
                         <Link
                           href={`/guide/${result.agency}`}
-                          className="underline hover:text-ink transition-colors"
+                          className="underline hover:text-text transition-colors"
                         >
                           Start guided filing →
                         </Link>
@@ -851,7 +851,7 @@ export default function FilingWizard({ params }: WizardProps) {
                     )}
 
                     {result.pdfHash && (
-                      <p className="font-mono text-[7px] text-ink-faint pl-4 mt-1 break-all">
+                      <p className="font-mono text-[7px] text-text-light pl-4 mt-1 break-all">
                         Evidence Hash: sha256:{result.pdfHash}
                       </p>
                     )}
@@ -863,7 +863,7 @@ export default function FilingWizard({ params }: WizardProps) {
             <div className="text-center">
               <Link
                 href="/file"
-                className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase border border-ink text-ink px-8 py-3 hover:bg-ink hover:text-cream transition-colors"
+                className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase border border-bg-dark text-text px-8 py-3 rounded-[6px] hover:bg-bg-dark hover:text-white transition-colors"
               >
                 File Another Complaint
               </Link>

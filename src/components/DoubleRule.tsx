@@ -1,3 +1,3 @@
 export function DoubleRule({ className = '' }: { className?: string }) {
-  return <div className={`border-t-[3px] border-double border-ink my-4 ${className}`} />
+  return <div className={`border-t-2 border-bg-dark my-4 ${className}`} />
 }

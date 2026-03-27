@@ -6,7 +6,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({ currentStep }: ProgressBarProps) {
   return (
-    <div className="border-b border-rule bg-warm">
+    <div className="border-b border-border bg-bg-alt">
       <div className="max-w-3xl mx-auto px-6 py-3">
         <div className="flex items-center gap-0">
           {STEPS.map((label, index) => {
@@ -17,26 +17,26 @@ export function ProgressBar({ currentStep }: ProgressBarProps) {
               <div key={label} className="flex items-center flex-1">
                 <div className="flex flex-col items-center flex-1">
                   <div
-                    className={`w-5 h-5 flex items-center justify-center font-mono text-[8px] border transition-colors ${
+                    className={`w-5 h-5 flex items-center justify-center font-mono text-[8px] border rounded transition-colors ${
                       isDone
-                        ? 'bg-ink border-ink text-cream'
+                        ? 'bg-bg-dark border-bg-dark text-white'
                         : isActive
-                        ? 'bg-cream border-ink text-ink'
-                        : 'bg-cream border-rule text-ink-faint'
+                        ? 'bg-bg border-bg-dark text-text'
+                        : 'bg-bg border-border text-text-light'
                     }`}
                   >
                     {isDone ? '✓' : index + 1}
                   </div>
                   <span
                     className={`font-mono text-[7px] tracking-[0.05em] uppercase mt-1 ${
-                      isActive ? 'text-ink' : isDone ? 'text-ink-light' : 'text-ink-faint'
+                      isActive ? 'text-text' : isDone ? 'text-text-mid' : 'text-text-light'
                     }`}
                   >
                     {label}
                   </span>
                 </div>
                 {index < STEPS.length - 1 && (
-                  <div className={`h-px flex-1 mb-3 ${isDone ? 'bg-ink' : 'bg-rule'}`} />
+                  <div className={`h-px flex-1 mb-3 ${isDone ? 'bg-bg-dark' : 'bg-border'}`} />
                 )}
               </div>
             )

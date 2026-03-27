@@ -1,23 +1,22 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Source_Serif_4, IBM_Plex_Mono } from 'next/font/google'
+import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-fraunces',
   display: 'swap',
 })
 
-const sourceSerif = Source_Serif_4({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-source-serif',
+  variable: '--font-inter',
   display: 'swap',
 })
 
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ['400', '500', '600'],
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-ibm-mono',
+  variable: '--font-jetbrains',
   display: 'swap',
 })
 
@@ -32,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}>
-      <body className="font-body bg-cream text-ink antialiased">
+    <html lang="en" className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="font-body bg-bg text-text antialiased">
         {children}
       </body>
     </html>
