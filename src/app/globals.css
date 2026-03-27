@@ -87,8 +87,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-weight: 450;
   }
   html {
     @apply font-sans;
+  }
+  p {
+    font-weight: 500;
   }
 }
