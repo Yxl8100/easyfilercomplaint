@@ -31,7 +31,7 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 
 ### Active
 
-- [ ] Complaint PDF generation (formal government-style document)
+- ✓ Complaint PDF generation (formal government-style document) — Validated in Phase 03 (2026-04-01)
 - [ ] Phaxio fax delivery to CA AG
 - [ ] Filing pipeline orchestrator (PDF → fax → email in sequence)
 - [ ] Filing receipt confirmation email with PDF attachment
@@ -124,4 +124,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 — Milestone v1.1 started: Live Filing Pipeline (PDF generation, Phaxio fax, receipt email)*
+*Last updated: 2026-04-01 — Phase 03 complete: complaint PDF generation with Liberation Serif fonts + Vercel Blob storage live*
