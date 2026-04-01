@@ -32,6 +32,10 @@ vi.mock('axios', () => ({
   },
 }))
 
+vi.mock('@/lib/email-receipt', () => ({
+  sendFilingReceiptEmail: vi.fn(),
+}))
+
 import { prisma } from '@/lib/prisma'
 import { generateComplaintPdf } from '@/lib/generate-complaint-pdf'
 import { storeComplaintPdf } from '@/lib/store-complaint-pdf'
@@ -39,6 +43,8 @@ import { sendFax } from '@/lib/phaxio'
 import { getAgencyFaxNumber } from '@/lib/agency-directory'
 import axios from 'axios'
 import { executeFilingPipeline } from '@/lib/filing-pipeline'
+import { sendFilingReceiptEmail } from '@/lib/email-receipt'
+const mockSendFilingReceiptEmail = sendFilingReceiptEmail as any
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mockPrismaFiling = prisma.filing as any
@@ -84,6 +90,7 @@ beforeEach(() => {
   mockSendFax.mockResolvedValue({ success: true, message: 'Success', data: { id: 99999 } })
   mockGetAgencyFaxNumber.mockReturnValue('+19163235341')
   mockAxios.get.mockResolvedValue({ data: Buffer.from([4, 5, 6]) })
+  mockSendFilingReceiptEmail.mockResolvedValue(undefined)
 })
 
 describe('executeFilingPipeline', () => {
@@ -155,9 +162,8 @@ describe('executeFilingPipeline', () => {
     expect(updateCalls).toContain('failed')
   })
 
-  it('Test 5 (fax failure): sendFax throws -> Filing.status set to failed, email stub still runs', async () => {
+  it('Test 5 (fax failure): sendFax throws -> Filing.status set to failed, receipt email still sent', async () => {
     mockSendFax.mockRejectedValue(new Error('Fax delivery failed'))
-    const consoleSpy = vi.spyOn(console, 'log')
 
     await executeFilingPipeline('filing-123')
 
@@ -165,12 +171,12 @@ describe('executeFilingPipeline', () => {
     const updateCalls = mockPrismaFiling.update.mock.calls.map((call: any[]) => call[0].data.status)
     expect(updateCalls).toContain('failed')
 
-    // Email stub log should appear regardless of fax failure
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const logCalls = consoleSpy.mock.calls.map((call: any[]) => String(call[0]))
-    expect(logCalls.some((log: string) => log.includes('Receipt email stub'))).toBe(true)
-
-    consoleSpy.mockRestore()
+    // Email is sent regardless of fax failure (PIPE-05)
+    expect(mockSendFilingReceiptEmail).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'filing-123' }),
+      expect.any(Uint8Array),
+      true // faxFailed
+    )
   })
 
   it('Test 6 (evidence): When evidenceFileUrl is set, sendFax receives 2 files (complaint + evidence)', async () => {
@@ -240,5 +246,27 @@ describe('executeFilingPipeline', () => {
       filingWithEvidence.evidenceFileUrl,
       { responseType: 'arraybuffer' }
     )
+  })
+
+  it('Test 10 (EMAIL-01 pipeline integration): sendFilingReceiptEmail called with filing, pdfBytes, faxFailed=false on success', async () => {
+    await executeFilingPipeline('filing-123')
+
+    expect(mockSendFilingReceiptEmail).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'filing-123' }),
+      expect.any(Uint8Array),
+      false // faxFailed
+    )
+  })
+
+  it('Test 11 (email non-fatal): sendFilingReceiptEmail throws -> pipeline does NOT throw, filing status unchanged', async () => {
+    mockSendFilingReceiptEmail.mockRejectedValue(new Error('Resend API down'))
+
+    await executeFilingPipeline('filing-123')
+
+    // Pipeline completes without throwing
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateCalls = mockPrismaFiling.update.mock.calls.map((call: any[]) => call[0].data.status)
+    // Status should still reach 'filed' from successful fax
+    expect(updateCalls).toContain('filed')
   })
 })

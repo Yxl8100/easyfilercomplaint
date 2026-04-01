@@ -4,6 +4,7 @@ import { generateComplaintPdf, type FilerInfo } from '@/lib/generate-complaint-p
 import { storeComplaintPdf } from '@/lib/store-complaint-pdf'
 import { sendFax, type FaxFile } from '@/lib/phaxio'
 import { getAgencyFaxNumber } from '@/lib/agency-directory'
+import { sendFilingReceiptEmail } from '@/lib/email-receipt'
 
 /**
  * Orchestrates the full filing lifecycle after payment.
@@ -97,10 +98,9 @@ export async function executeFilingPipeline(filingId: string): Promise<void> {
       })
     }
 
-    // Step 4: Send receipt email (Phase 5 stub — PIPE-05: runs regardless of fax outcome)
+    // Step 4: Send receipt email (EMAIL-01 — PIPE-05: runs regardless of fax outcome)
     try {
-      console.log(`[pipeline] Receipt email stub for ${filingId} (faxFailed=${faxFailed}) — Phase 5 will implement`)
-      // Phase 5 will replace this with: await sendFilingReceiptEmail(filing, pdfBytes, faxFailed)
+      await sendFilingReceiptEmail(filing, pdfBytes, faxFailed)
     } catch (emailErr) {
       console.error(`[pipeline] Email failed for ${filingId}:`, emailErr)
       // Email failure is non-fatal — filing is already filed/failed from fax step
