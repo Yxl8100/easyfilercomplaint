@@ -20,9 +20,9 @@
 
 - [x] **PAY-01**: Stripe Checkout Session created for $1.99 per filing
 - [ ] **PAY-02**: POST /api/checkout endpoint accepts filingId, returns Stripe session URL
-- [ ] **PAY-03**: Stripe webhook handler at /api/webhooks/stripe verifies signature
-- [ ] **PAY-04**: On checkout.session.completed: Filing updated with paymentStatus=paid, filingReceiptId generated
-- [ ] **PAY-05**: On checkout.session.expired: Filing reset to draft status (allows retry)
+- [x] **PAY-03**: Stripe webhook handler at /api/webhooks/stripe verifies signature
+- [x] **PAY-04**: On checkout.session.completed: Filing updated with paymentStatus=paid, filingReceiptId generated
+- [x] **PAY-05**: On checkout.session.expired: Filing reset to draft status (allows retry)
 - [ ] **PAY-06**: Filing wizard final step redirects to Stripe Checkout URL
 - [ ] **PAY-07**: Success page at /filing/[id]/success shows receipt ID, filing details, PDF download link
 - [ ] **PAY-08**: Success page shows account creation CTA for guest filers
