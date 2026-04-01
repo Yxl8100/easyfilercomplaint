@@ -11,7 +11,7 @@
 - [x] **Phase 1: Schema & Data Model** - Extend Prisma schema to support full filing lifecycle
 - [x] **Phase 2: Stripe Payment Integration** - Consumer pays $1.99 and Filing record is updated on confirmation
 - [x] **Phase 3: Complaint PDF Generation** - Generate formal government-style complaint letter PDF with embedded fonts (completed 2026-04-01)
-- [ ] **Phase 4: Phaxio Fax Integration + Filing Pipeline** - Deliver PDF to CA AG via fax and wire full pipeline orchestrator
+- [x] **Phase 4: Phaxio Fax Integration + Filing Pipeline** - Deliver PDF to CA AG via fax and wire full pipeline orchestrator (completed 2026-04-01)
 - [ ] **Phase 5: Filing Receipt Email** - Send consumer confirmation email with complaint PDF attached
 - [ ] **Phase 6: Guest-to-Account Conversion** - Post-filing account creation with filing history
 - [ ] **Phase 7: Landing Page & Legal Pages** - Consumer-facing copy and required legal pages
@@ -73,7 +73,7 @@ Plans:
 Plans:
 - [x] 04-01-PLAN.md — Agency directory, phaxio.ts rewrite (axios), filerInfo schema + checkout storage
 - [x] 04-02-PLAN.md — Phaxio webhook handler with HMAC-SHA1 signature verification
-- [ ] 04-03-PLAN.md — Filing pipeline orchestrator + Stripe webhook wiring
+- [x] 04-03-PLAN.md — Filing pipeline orchestrator + Stripe webhook wiring
 - [x] 04-04-PLAN.md — Cron job for fax status polling + vercel.json
 **UI hint**: no
 
@@ -133,7 +133,7 @@ Plans:
 | 1. Schema & Data Model | 2/2 | Complete | 2026-04-01 |
 | 2. Stripe Payment Integration | 5/5 | Complete | 2026-04-01 |
 | 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
-| 4. Phaxio Fax Integration + Filing Pipeline | 1/4 | In Progress|  |
+| 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
 | 5. Filing Receipt Email | 0/? | Not started | - |
 | 6. Guest-to-Account Conversion | 0/? | Not started | - |
 | 7. Landing Page & Legal Pages | 0/? | Not started | - |
@@ -174,5 +174,5 @@ CRON_SECRET=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Last updated: 2026-04-01 — Phase 4 planned: 4 plans in 2 waves*
+*Last updated: 2026-04-01 — Phase 4 complete: Phaxio integration + filing pipeline (4/4 plans)*
 *Milestone: v1 -- 8 phases, 61 requirements*
