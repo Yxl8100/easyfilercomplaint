@@ -12,7 +12,7 @@
 - [x] **Phase 2: Stripe Payment Integration** - Consumer pays $1.99 and Filing record is updated on confirmation
 - [x] **Phase 3: Complaint PDF Generation** - Generate formal government-style complaint letter PDF with embedded fonts (completed 2026-04-01)
 - [x] **Phase 4: Phaxio Fax Integration + Filing Pipeline** - Deliver PDF to CA AG via fax and wire full pipeline orchestrator (completed 2026-04-01)
-- [ ] **Phase 5: Filing Receipt Email** - Send consumer confirmation email with complaint PDF attached
+- [x] **Phase 5: Filing Receipt Email** - Send consumer confirmation email with complaint PDF attached (completed 2026-04-01)
 - [ ] **Phase 6: Guest-to-Account Conversion** - Post-filing account creation with filing history
 - [ ] **Phase 7: Landing Page & Legal Pages** - Consumer-facing copy and required legal pages
 - [ ] **Phase 8: Filing Wizard UX Adjustments** - Wizard polish: labels, evidence upload, agency selection
@@ -134,7 +134,7 @@ Plans:
 | 2. Stripe Payment Integration | 5/5 | Complete | 2026-04-01 |
 | 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
 | 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
-| 5. Filing Receipt Email | 0/? | Not started | - |
+| 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
 | 6. Guest-to-Account Conversion | 0/? | Not started | - |
 | 7. Landing Page & Legal Pages | 0/? | Not started | - |
 | 8. Filing Wizard UX Adjustments | 0/? | Not started | - |

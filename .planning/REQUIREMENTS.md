@@ -60,12 +60,12 @@
 
 ### Receipt Email
 
-- [ ] **EMAIL-01**: sendFilingReceiptEmail() sends confirmation email via Resend
-- [ ] **EMAIL-02**: Email sent from noreply@easyfilercomplaint.com (Resend-verified domain)
-- [ ] **EMAIL-03**: Email includes filing ID, business name, agency, date filed, amount paid
-- [ ] **EMAIL-04**: Complaint PDF attached as EFC_Filing_{filingReceiptId}.pdf
-- [ ] **EMAIL-05**: Email contains no references to DPW, PV Law, APFC, lawsuits, or attorneys
-- [ ] **EMAIL-06**: Filing.receiptEmailSentAt updated after successful send
+- [x] **EMAIL-01**: sendFilingReceiptEmail() sends confirmation email via Resend
+- [x] **EMAIL-02**: Email sent from noreply@easyfilercomplaint.com (Resend-verified domain)
+- [x] **EMAIL-03**: Email includes filing ID, business name, agency, date filed, amount paid
+- [x] **EMAIL-04**: Complaint PDF attached as EFC_Filing_{filingReceiptId}.pdf
+- [x] **EMAIL-05**: Email contains no references to DPW, PV Law, APFC, lawsuits, or attorneys
+- [x] **EMAIL-06**: Filing.receiptEmailSentAt updated after successful send
 
 ### Authentication & Accounts
 

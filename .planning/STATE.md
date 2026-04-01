@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-04-01T19:30:05.137Z"
+status: verifying
+last_updated: "2026-04-01T19:47:48.860Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 8
-  completed_phases: 4
-  total_plans: 13
-  completed_plans: 13
+  completed_phases: 5
+  total_plans: 14
+  completed_plans: 14
 ---
 
 # State: EasyFilerComplaint
@@ -19,26 +19,26 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 04 — phaxio-fax-integration-filing-pipeline
+**Current focus:** Phase 05 — filing-receipt-email — COMPLETE
 
 ## Current Position
 
-Phase: 5
-Plan: Not started
-Status: Phase complete — ready for Phase 05
-Last activity: 2026-04-01
+Phase: 05 (filing-receipt-email) — COMPLETE
+Plan: 1 of 1
+Status: Phase 05 complete — all plans done, 99/99 tests passing
+Last activity: 2026-04-01 -- Phase 05 Plan 01 complete
 
 ```
-v1.1 Progress: [█████████░] 92% (13/13 plans complete)
+v1.1 Progress: [██████████] 100% (14/14 plans complete)
 ```
 
 ## Phase Status
 
 | Phase | Name | Plans | Status |
 |-------|------|-------|--------|
-| 3 | Complaint PDF Generation | 0/? | Not started |
-| 4 | Phaxio Fax Integration + Filing Pipeline | 0/? | Not started |
-| 5 | Filing Receipt Email | 0/? | Not started |
+| 3 | Complaint PDF Generation | 2/2 | Complete |
+| 4 | Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete |
+| 5 | Filing Receipt Email | 1/1 | Complete |
 
 ## Milestone Context (v1.0 Complete)
 
@@ -89,6 +89,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | Vercel cron schedule defaults to 0 0 * * * (once daily, Hobby plan safe); Pro upgrade path documented in route.ts comment | Phase 04, Plan 04 |
 | 2026-04-01 | Per-filing try/catch in cron handler — one Phaxio API failure does not block other filings in the same cron run | Phase 04, Plan 04 |
 | 2026-04-01 | Skip prisma.filing.update when faxStatus has not changed — avoids unnecessary writes on every cron tick | Phase 04, Plan 04 |
+| 2026-04-01 | vi.hoisted() for mockSend in Resend test — vi.fn() outside vi.mock factory is unavailable at mock registration time | Phase 05, Plan 01 |
+| 2026-04-01 | function constructor syntax in vi.mock Resend factory — arrow function cannot be used with new keyword | Phase 05, Plan 01 |
+| 2026-04-01 | EMAIL-05 attorney prohibited check strips Attorney General (government office title) — prohibition targets law-firm/legal-counsel references only | Phase 05, Plan 01 |
 
 ## Critical Notes
 
@@ -129,4 +132,13 @@ Phases 1-2 complete as of 2026-04-01:
 - Phase 04 is COMPLETE — all 4 plans done: agency-directory, phaxio rewrite, webhook handler, filing pipeline, cron poller
 
 ---
-*Last updated: 2026-04-01 — Phase 04 Plan 04 complete: cron fax status poller + vercel.json*
+- sendFilingReceiptEmail(filing, pdfBytes, faxFailed) is COMPLETE — sends branded HTML email via Resend from noreply@easyfilercomplaint.com with complaint PDF attached
+- buildReceiptEmailHtml(params) is COMPLETE — pure inline-CSS HTML with receipt ID, business name, CA AG, date, amount, optional fax-failure note (EMAIL-05 compliant)
+- Filing.receiptEmailSentAt written to DB after successful Resend call (EMAIL-06)
+- executeFilingPipeline Step 4 stub replaced — email failure remains non-fatal (PIPE-05 maintained)
+- Phase 05 is COMPLETE — 1 plan done: filing receipt email via Resend
+- Full v1.1 pipeline is now live: PDF generation → Blob storage → fax → receipt email
+- 99/99 tests passing as of Phase 05 completion
+
+---
+*Last updated: 2026-04-01 — Phase 05 Plan 01 complete: filing receipt email via Resend wired into pipeline*
