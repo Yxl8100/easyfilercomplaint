@@ -4,6 +4,7 @@ import { fdaViolationsTemplates } from './fda-violations'
 import { environmentalTemplates } from './environmental'
 import { cityCodeTemplates } from './city-code'
 import { accessibilityTemplates } from './accessibility'
+import { videoSharingTemplates } from './video-sharing'
 
 const templateMap: Record<string, Record<string, string>> = {
   'data-privacy': dataPrivacyTemplates,
@@ -12,6 +13,7 @@ const templateMap: Record<string, Record<string, string>> = {
   environmental: environmentalTemplates,
   'city-code': cityCodeTemplates,
   accessibility: accessibilityTemplates,
+  'video-sharing': videoSharingTemplates,
 }
 
 export function getTemplate(category: string, agency: string): string {
