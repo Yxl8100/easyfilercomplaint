@@ -1,5 +1,86 @@
 import { describe, it, expect } from 'vitest'
+import { inflateSync } from 'zlib'
 import { generateComplaintPdf } from '../generate-complaint-pdf'
+
+// Utility: extract searchable text from a PDF for test assertions.
+// Only extracts content from:
+// 1. Uncompressed Info dictionary literal strings (Subject, Keywords, Description, etc.)
+// 2. Decompressed FlateDecode content streams (with PDF hex string decoding)
+// Does NOT include raw binary font data to avoid false positives.
+function extractPdfText(bytes: Uint8Array): string {
+  const buf = Buffer.from(bytes)
+  const parts: string[] = []
+
+  // Extract literal strings from uncompressed PDF header section.
+  // The Info dictionary (Subject, Keywords, Description) appears before
+  // any compressed stream data. Grab everything up to the first stream.
+  const rawLatin1 = buf.toString('latin1')
+  const firstStreamIdx = rawLatin1.indexOf('\nstream\n') === -1
+    ? rawLatin1.indexOf('\r\nstream\r\n')
+    : rawLatin1.indexOf('\nstream\n')
+  const headerSection = firstStreamIdx > 0
+    ? rawLatin1.slice(0, firstStreamIdx)
+    : rawLatin1.slice(0, 8192)
+  // Include the header section text as-is — literal PDF strings (X X) are readable here
+  parts.push(headerSection)
+
+  // Decompress and decode FlateDecode content streams (page content, not fonts)
+  let idx = 0
+  while (true) {
+    const streamPos = buf.indexOf('stream', idx)
+    if (streamPos < 0) break
+
+    const afterStream = streamPos + 6
+    let dataStart: number
+    if (buf[afterStream] === 13 && buf[afterStream + 1] === 10) {
+      dataStart = afterStream + 2
+    } else if (buf[afterStream] === 10) {
+      dataStart = afterStream + 1
+    } else {
+      idx = streamPos + 1
+      continue
+    }
+
+    const endPos = buf.indexOf(Buffer.from('endstream'), dataStart)
+    if (endPos < 0) {
+      idx = streamPos + 1
+      continue
+    }
+
+    let streamEnd = endPos
+    if (buf[endPos - 2] === 13 && buf[endPos - 1] === 10) streamEnd = endPos - 2
+    else if (buf[endPos - 1] === 10) streamEnd = endPos - 1
+
+    const chunk = buf.slice(dataStart, streamEnd)
+    // Only process small-to-medium streams (content streams, not font data)
+    // Font streams are very large (100KB+); skip them to avoid false positives in binary data.
+    if (chunk.length > 50000) {
+      idx = endPos + 9
+      continue
+    }
+
+    try {
+      const decompressed = inflateSync(chunk)
+      const streamText = decompressed.toString('latin1')
+      // Decode PDF hex strings <HEXHEX> -> text
+      const decoded = streamText.replace(/<([0-9A-Fa-f]+)>/g, (_match, hex) => {
+        const hexStr = hex as string
+        let result = ''
+        for (let i = 0; i < hexStr.length; i += 2) {
+          result += String.fromCharCode(parseInt(hexStr.slice(i, i + 2), 16))
+        }
+        return result
+      })
+      parts.push(decoded)
+    } catch {
+      // Not decodable — skip
+    }
+
+    idx = endPos + 9
+  }
+
+  return parts.join('\n')
+}
 
 // Mock Filing fixture (Prisma Filing model fields ONLY -- no personal info)
 const mockFiling = {
@@ -97,7 +178,7 @@ describe('generateComplaintPdf', () => {
 
   it('PDF-02: PDF bytes contain required section markers', async () => {
     const bytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
-    const text = Buffer.from(bytes).toString('latin1')
+    const text = extractPdfText(bytes)
     expect(text).toContain('PRIVACY COMPLAINT')
     expect(text).toContain('Re:')
     expect(text).toContain('Respectfully submitted')
@@ -107,38 +188,39 @@ describe('generateComplaintPdf', () => {
 
   it('PDF-03 variant 1: privacy_tracking PDF bytes contain CCPA reference', async () => {
     const bytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
-    const text = Buffer.from(bytes).toString('latin1')
+    const text = extractPdfText(bytes)
     const hasCCPA = text.includes('CCPA') || text.includes('California Consumer Privacy Act')
     expect(hasCCPA).toBe(true)
   })
 
   it('PDF-03 variant 2: accessibility PDF bytes contain Unruh or ADA reference', async () => {
     const bytes2 = await generateComplaintPdf(mockFilingAccessibility, mockFilerInfo)
-    const text2 = Buffer.from(bytes2).toString('latin1')
+    const text2 = extractPdfText(bytes2)
     const hasADA = text2.includes('Unruh') || text2.includes('ADA')
     expect(hasADA).toBe(true)
   })
 
   it('PDF-03 variant 3: video_sharing PDF bytes contain video reference', async () => {
     const bytes3 = await generateComplaintPdf(mockFilingVideoSharing, mockFilerInfo)
-    const text3 = Buffer.from(bytes3).toString('latin1')
+    const text3 = extractPdfText(bytes3)
     expect(text3).toContain('video')
   })
 
   it('PDF-07: PDF bytes do NOT contain StandardFonts (no Times-Roman or Helvetica)', async () => {
     const bytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
-    const text = Buffer.from(bytes).toString('latin1')
-    expect(text).not.toContain('Times-Roman')
-    expect(text).not.toContain('Helvetica')
+    // Check the raw PDF structure for font references (these are uncompressed dictionary entries)
+    const rawText = Buffer.from(bytes).toString('latin1')
+    expect(rawText).not.toContain('Times-Roman')
+    expect(rawText).not.toContain('Helvetica')
   })
 
   it('PDF-06: PDF bytes contain zero occurrences of prohibited strings', async () => {
     const bytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
-    const text = Buffer.from(bytes).toString('latin1')
+    const text = extractPdfText(bytes)
 
     for (const prohibited of PROHIBITED) {
       if (prohibited === 'IV') {
-        // Use word-boundary check for IV to avoid false positives in binary data
+        // Use word-boundary check for IV to avoid false positives
         expect(text).not.toMatch(/\bIV\b/)
       } else {
         expect(text).not.toContain(prohibited)
