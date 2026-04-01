@@ -35,6 +35,7 @@
 - [ ] **PDF-04**: Generated PDF stored in Vercel Blob (or DB fallback if BLOB_READ_WRITE_TOKEN not set)
 - [ ] **PDF-05**: Filing.complaintPdfUrl updated after PDF generation
 - [ ] **PDF-06**: PDF contains zero references to DPW, PV Law, APFC, ComplianceSweep, IV, lawsuits, or attorneys
+- [ ] **PDF-07**: PDF uses @pdf-lib/fontkit with an embedded font (not Standard Fonts) for consistent rendering on government fax machines
 
 ### Fax Delivery
 
@@ -45,6 +46,8 @@
 - [ ] **FAX-05**: Cron job at /api/cron/check-fax-status polls Phaxio every 15 minutes as fallback
 - [ ] **FAX-06**: vercel.json includes cron schedule for fax status polling
 - [ ] **FAX-07**: Evidence file attached to fax alongside complaint PDF (if uploaded)
+- [ ] **FAX-08**: Phaxio fax calls use axios or node-fetch (not native fetch) to avoid Node.js 18–23.6 multipart CRLF bug
+- [ ] **FAX-09**: Phaxio webhook handler verifies HMAC-SHA1 signature using PHAXIO_CALLBACK_TOKEN
 
 ### Filing Pipeline
 
@@ -53,6 +56,7 @@
 - [ ] **PIPE-03**: Pipeline updates Filing status through all lifecycle states
 - [ ] **PIPE-04**: PDF generation failure sets status=failed and logs error
 - [ ] **PIPE-05**: Fax failure sets status=failed but still sends receipt email noting the issue
+- [ ] **PIPE-06**: Stripe webhook route exports maxDuration = 60; pipeline entry has idempotency guard (status !== 'paid' → skip)
 
 ### Receipt Email
 
@@ -132,8 +136,8 @@
 |-------------|-------|--------|
 | SCHEMA-01 to SCHEMA-08 | Phase 1 | Pending |
 | PAY-01 to PAY-08 | Phase 2 | Pending |
-| PDF-01 to PDF-06 | Phase 3 | Pending |
-| FAX-01 to FAX-07, PIPE-01 to PIPE-05 | Phase 4 | Pending |
+| PDF-01 to PDF-07 | Phase 3 | Pending |
+| FAX-01 to FAX-09, PIPE-01 to PIPE-06 | Phase 4 | Pending |
 | EMAIL-01 to EMAIL-06 | Phase 5 | Pending |
 | AUTH-01 to AUTH-07 | Phase 6 | Pending |
 | MKTG-01 to MKTG-07 | Phase 7 | Pending |
@@ -141,9 +145,11 @@
 
 **Coverage:**
 - v1 requirements: 57 total
-- Mapped to phases: 57
+- v1.1 additions (research-derived): 4 (PDF-07, FAX-08, FAX-09, PIPE-06)
+- Total: 61
+- Mapped to phases: 61
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-03-31 after initial definition*
+*Last updated: 2026-04-01 — v1.1 milestone: added PDF-07, FAX-08, FAX-09, PIPE-06 from research*
