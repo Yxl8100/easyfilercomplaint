@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-04-01T19:07:30.241Z"
+last_updated: "2026-04-01T19:09:26.557Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 8
   completed_phases: 3
   total_plans: 13
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # State: EasyFilerComplaint
@@ -24,9 +24,9 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 04 (phaxio-fax-integration-filing-pipeline) — EXECUTING
-Plan: 2 of 4 (completed)
-Status: Executing Phase 04
-Last activity: 2026-04-01 — Phase 04 Plan 02 complete: Phaxio webhook handler with HMAC-SHA1 verification
+Plan: 3 of 4 (completed)
+Status: Ready to execute
+Last activity: 2026-04-01
 
 ```
 v1.1 Progress: [███░░░░░░░] 1/3 phases complete
@@ -77,6 +77,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | storeComplaintPdf takes filingId and filingReceiptId as separate strings (not full Filing object) for minimal interface matching Phase 4 pipeline call signature | Phase 03, Plan 02 |
 | 2026-04-01 | access: 'private' on all Vercel Blob uploads — complaint PDFs contain PII per RESEARCH.md Pitfall 5 | Phase 03, Plan 02 |
 | 2026-04-01 | Status lifecycle transitions (generating/complete) deferred to PIPE-03 in Phase 4 — storeComplaintPdf is a pure storage utility | Phase 03, Plan 02 |
+| 2026-04-01 | axios + form-data instead of native fetch for Phaxio — avoids Node.js 18-23.6 multipart CRLF bug (FAX-08) | Phase 04, Plan 01 |
+| 2026-04-01 | sendFax takes FaxFile[] array — enables multi-file evidence attachments in single fax send (FAX-07) | Phase 04, Plan 01 |
+| 2026-04-01 | filerInfo Json? stored at checkout time — filing pipeline retrieves filer PII from Filing without User join | Phase 04, Plan 01 |
 | 2026-04-01 | Used crypto.timingSafeEqual wrapped in try/catch to handle HMAC length-mismatch edge case without throwing | Phase 04, Plan 02 |
 | 2026-04-01 | verifyPhaxioSignature() extracted as standalone utility for testability — webhook route imports it | Phase 04, Plan 02 |
 | 2026-04-01 | NEXT_PUBLIC_APP_URL used to construct callbackUrl — webhook URL must match what Phaxio was configured with | Phase 04, Plan 02 |
@@ -111,4 +114,9 @@ Phases 1-2 complete as of 2026-04-01:
 - Phaxio webhook at /api/webhooks/phaxio is COMPLETE — parses multipart, verifies HMAC before DB writes, updates Filing fax fields
 
 ---
-*Last updated: 2026-04-01 — Phase 04 Plan 02 complete: Phaxio webhook handler with HMAC-SHA1 verification implemented*
+- agency-directory.ts is COMPLETE — getAgencyFaxNumber('ca_ag') returns '+19163235341' (E.164, placeholder — verify before go-live)
+- phaxio.ts rewritten with axios+form-data — sendFax(toNumber, files: FaxFile[]) supports multi-file attachments, no native fetch
+- Filing.filerInfo Json? column added to schema — stores filer PII at checkout for pipeline access
+
+---
+*Last updated: 2026-04-01 — Phase 04 Plan 01 complete: agency-directory, phaxio axios rewrite, filerInfo schema*

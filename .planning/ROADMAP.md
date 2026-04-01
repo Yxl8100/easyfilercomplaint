@@ -71,7 +71,7 @@ Plans:
   5. Vercel cron job polls Phaxio fax status every 15 minutes as a fallback (note: requires Vercel Pro; on Hobby use hourly fallback schedule 0 */1 * * *)
 **Plans**: 4 plans
 Plans:
-- [ ] 04-01-PLAN.md — Agency directory, phaxio.ts rewrite (axios), filerInfo schema + checkout storage
+- [x] 04-01-PLAN.md — Agency directory, phaxio.ts rewrite (axios), filerInfo schema + checkout storage
 - [x] 04-02-PLAN.md — Phaxio webhook handler with HMAC-SHA1 signature verification
 - [ ] 04-03-PLAN.md — Filing pipeline orchestrator + Stripe webhook wiring
 - [ ] 04-04-PLAN.md — Cron job for fax status polling + vercel.json
