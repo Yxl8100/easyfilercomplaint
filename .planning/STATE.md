@@ -83,6 +83,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | Used crypto.timingSafeEqual wrapped in try/catch to handle HMAC length-mismatch edge case without throwing | Phase 04, Plan 02 |
 | 2026-04-01 | verifyPhaxioSignature() extracted as standalone utility for testability — webhook route imports it | Phase 04, Plan 02 |
 | 2026-04-01 | NEXT_PUBLIC_APP_URL used to construct callbackUrl — webhook URL must match what Phaxio was configured with | Phase 04, Plan 02 |
+| 2026-04-01 | Direct pipeline call from Stripe webhook — no queue needed at this volume (PIPE-02) | Phase 04, Plan 03 |
+| 2026-04-01 | Fax failure isolated in try/catch so email stub always runs regardless of fax outcome (PIPE-05) | Phase 04, Plan 03 |
+| 2026-04-01 | Idempotency guard updated: skip if status != pending_payment/draft — prevents re-run after pipeline starts | Phase 04, Plan 03 |
 | 2026-04-01 | Vercel cron schedule defaults to 0 0 * * * (once daily, Hobby plan safe); Pro upgrade path documented in route.ts comment | Phase 04, Plan 04 |
 | 2026-04-01 | Per-filing try/catch in cron handler — one Phaxio API failure does not block other filings in the same cron run | Phase 04, Plan 04 |
 | 2026-04-01 | Skip prisma.filing.update when faxStatus has not changed — avoids unnecessary writes on every cron tick | Phase 04, Plan 04 |
