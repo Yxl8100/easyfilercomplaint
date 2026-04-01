@@ -22,12 +22,15 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 
 ### Active
 
-- [ ] Stripe $1.99 checkout integration
-- [ ] Stripe webhook handler (payment confirmation → pipeline trigger)
 - [ ] Complaint PDF generation (formal government-style document)
 - [ ] Phaxio fax delivery to CA AG
 - [ ] Filing pipeline orchestrator (PDF → fax → email in sequence)
 - [ ] Filing receipt confirmation email with PDF attachment
+
+### Validated
+
+- ✓ Stripe $1.99 checkout integration — validated in Phase 02 (2026-04-01)
+- ✓ Stripe webhook handler (payment confirmation → pipeline trigger) — validated in Phase 02 (2026-04-01)
 - [x] Prisma schema: Filing model with Stripe + Phaxio + receipt fields — Validated in Phase 01: schema-and-data-model
 - [ ] Guest-to-account conversion flow (post-filing)
 - [ ] Filing history page (/account/filings)
