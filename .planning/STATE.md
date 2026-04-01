@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 ## Current Status
 
 **Milestone:** v1 — Stripe + Phaxio Live Filing Pipeline
-**Active phase:** 02 — stripe-payment-integration (In progress — 5/5 plans done)
-**Last action:** Completed 02-05-PLAN.md (Success page — receipt display, conditional PDF link, guest account CTA) — 2026-04-01
-**Last session stopped at:** Completed 02-stripe-payment-integration/02-05-PLAN.md
+**Active phase:** 02 — stripe-payment-integration (Complete — 5/5 plans done)
+**Last action:** Completed 02-04-PLAN.md (Wizard step 4 wired to /api/checkout + Stripe redirect + Review & Pay UI) — 2026-04-01
+**Last session stopped at:** Completed 02-stripe-payment-integration/02-04-PLAN.md
 
 ## Phase Status
 
@@ -62,6 +62,8 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 | 2026-04-01 | paymentAmount stored as string '1.99' — Prisma accepts string for Decimal fields without importing Decimal class | Phase 02, Plan 03 |
 | 2026-04-01 | Called server component directly in tests (JSON.stringify result) — avoids React DOM testing complexity for server components | Phase 02, Plan 05 |
 | 2026-04-01 | Added @vitejs/plugin-react to vitest so TSX files can be transformed — tsconfig jsx:preserve is required for Next.js but breaks vitest without plugin | Phase 02, Plan 05 |
+| 2026-04-01 | Used window.location.href for Stripe redirect — Next.js router.push cannot navigate to external domains (checkout.stripe.com) | Phase 02, Plan 04 |
+| 2026-04-01 | Removed SubmissionResult import and submissionResults state — no longer used after replacing /api/submit with /api/checkout; step 5 retained as static UI | Phase 02, Plan 04 |
 
 ## Notes
 
@@ -71,4 +73,4 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 - Stripe must be in test mode until full end-to-end flow is verified
 
 ---
-*Last updated: 2026-04-01 after 02-05-PLAN.md completion*
+*Last updated: 2026-04-01 after 02-04-PLAN.md completion (all 5/5 Phase 02 plans complete)*
