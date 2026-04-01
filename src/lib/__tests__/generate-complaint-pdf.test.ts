@@ -1,6 +1,21 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { inflateSync } from 'zlib'
 import { generateComplaintPdf } from '../generate-complaint-pdf'
+import { storeComplaintPdf } from '../store-complaint-pdf'
+
+// Mock @vercel/blob
+vi.mock('@vercel/blob', () => ({
+  put: vi.fn().mockResolvedValue({ url: 'https://blob.vercel-storage.com/complaints/test-id/EFC_TEST.pdf' }),
+}))
+
+// Mock prisma
+vi.mock('@/lib/prisma', () => ({
+  prisma: {
+    filing: {
+      update: vi.fn().mockResolvedValue({}),
+    },
+  },
+}))
 
 // Utility: extract searchable text from a PDF for test assertions.
 // Only extracts content from:
@@ -168,6 +183,96 @@ const PROHIBITED = [
   'attorney',
   'law firm',
 ]
+
+describe('storeComplaintPdf', () => {
+  const originalToken = process.env.BLOB_READ_WRITE_TOKEN
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    if (originalToken === undefined) {
+      delete process.env.BLOB_READ_WRITE_TOKEN
+    } else {
+      process.env.BLOB_READ_WRITE_TOKEN = originalToken
+    }
+  })
+
+  it('PDF-04 fallback: returns null and logs warning when BLOB_READ_WRITE_TOKEN is not set', async () => {
+    delete process.env.BLOB_READ_WRITE_TOKEN
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const pdfBytes = new Uint8Array([1, 2, 3])
+    const result = await storeComplaintPdf('test-filing-id', 'EFC-20260115-ABCDE', pdfBytes)
+    expect(result).toBeNull()
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('BLOB_READ_WRITE_TOKEN'))
+    consoleSpy.mockRestore()
+  })
+
+  it('PDF-04: calls put() with correct path and access: private when token is set', async () => {
+    process.env.BLOB_READ_WRITE_TOKEN = 'test-token'
+    const { put } = await import('@vercel/blob')
+    const pdfBytes = new Uint8Array([1, 2, 3])
+    await storeComplaintPdf('filing-abc', 'EFC-20260115-ABCDE', pdfBytes)
+    expect(put).toHaveBeenCalledWith(
+      'complaints/filing-abc/EFC_EFC-20260115-ABCDE.pdf',
+      expect.any(Buffer),
+      expect.objectContaining({
+        access: 'private',
+        contentType: 'application/pdf',
+      })
+    )
+  })
+
+  it('PDF-05: updates Filing.complaintPdfUrl with the blob URL after successful put()', async () => {
+    process.env.BLOB_READ_WRITE_TOKEN = 'test-token'
+    const { prisma } = await import('@/lib/prisma')
+    const pdfBytes = new Uint8Array([1, 2, 3])
+    const url = await storeComplaintPdf('filing-abc', 'EFC-20260115-ABCDE', pdfBytes)
+    expect(url).toBe('https://blob.vercel-storage.com/complaints/test-id/EFC_TEST.pdf')
+    expect(prisma.filing.update).toHaveBeenCalledWith({
+      where: { id: 'filing-abc' },
+      data: { complaintPdfUrl: 'https://blob.vercel-storage.com/complaints/test-id/EFC_TEST.pdf' },
+    })
+  })
+})
+
+describe('generate-to-store integration', () => {
+  const originalToken = process.env.BLOB_READ_WRITE_TOKEN
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    process.env.BLOB_READ_WRITE_TOKEN = 'test-token'
+  })
+
+  afterEach(() => {
+    if (originalToken === undefined) {
+      delete process.env.BLOB_READ_WRITE_TOKEN
+    } else {
+      process.env.BLOB_READ_WRITE_TOKEN = originalToken
+    }
+  })
+
+  it('generateComplaintPdf output feeds directly into storeComplaintPdf (ROADMAP SC#3)', async () => {
+    const pdfBytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
+    expect(pdfBytes).toBeInstanceOf(Uint8Array)
+    expect(pdfBytes.length).toBeGreaterThan(0)
+
+    const url = await storeComplaintPdf(
+      mockFiling.id,
+      mockFiling.filingReceiptId!,
+      pdfBytes
+    )
+    expect(url).toBe('https://blob.vercel-storage.com/complaints/test-id/EFC_TEST.pdf')
+
+    const { put } = await import('@vercel/blob')
+    expect(put).toHaveBeenCalledWith(
+      expect.stringContaining('complaints/'),
+      expect.any(Buffer),
+      expect.objectContaining({ access: 'private' })
+    )
+  })
+})
 
 describe('generateComplaintPdf', () => {
   it('PDF-01: returns a non-empty Uint8Array for a privacy_tracking (data-privacy) filing', async () => {
