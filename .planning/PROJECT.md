@@ -34,7 +34,7 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - ✓ Complaint PDF generation (formal government-style document) — Validated in Phase 03 (2026-04-01)
 - ✓ Phaxio fax delivery to CA AG — Validated in Phase 04 (2026-04-01)
 - ✓ Filing pipeline orchestrator (PDF → store → fax → email stub) — Validated in Phase 04 (2026-04-01)
-- [ ] Filing receipt confirmation email with PDF attachment (Phase 5)
+- ✓ Filing receipt confirmation email with PDF attachment — Validated in Phase 05 (2026-04-01)
 
 ### Validated
 
@@ -70,7 +70,6 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - Basic Prisma schema (may need extension for Stripe/Phaxio fields)
 
 **What's NOT live:**
-- Receipt email with PDF attachment (Phase 5 — Resend)
 - Guest-to-account conversion
 - Full wizard UX polish
 
@@ -123,4 +122,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 — Phase 04 complete: Phaxio fax delivery + executeFilingPipeline() live; email stub ready for Phase 05*
+*Last updated: 2026-04-01 — Phase 05 complete: Resend receipt email with PDF attachment live; full filing pipeline (PDF → store → fax → email) is end-to-end functional*
