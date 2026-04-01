@@ -1,14 +1,15 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Live Filing Pipeline
-status: Roadmap ready — Phase 3 next
-last_updated: "2026-04-01T00:00:00.000Z"
+milestone: v1.0
+milestone_name: milestone
+status: executing
+last_updated: "2026-04-01T18:03:18.737Z"
+last_activity: 2026-04-01
 progress:
-  total_phases: 3
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_phases: 8
+  completed_phases: 2
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # State: EasyFilerComplaint
@@ -18,14 +19,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Milestone v1.1 — Live Filing Pipeline
+**Current focus:** Phase 03 Plan 2 — complaint-pdf-generation (03-01 complete)
 
 ## Current Position
 
-Phase: Phase 3 — Complaint PDF Generation (not started)
-Plan: —
-Status: Roadmap created, ready to plan Phase 3
-Last activity: 2026-04-01 — v1.1 roadmap created (Phases 3-5 planned)
+Phase: 03 (complaint-pdf-generation) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-01
 
 ```
 v1.1 Progress: [░░░░░░░░░░] 0/3 phases complete
@@ -42,6 +43,7 @@ v1.1 Progress: [░░░░░░░░░░] 0/3 phases complete
 ## Milestone Context (v1.0 Complete)
 
 Phases 1-2 complete as of 2026-04-01:
+
 - Phase 1: Prisma schema extended (SCHEMA-01–08) — Neon deployed
 - Phase 2: Stripe checkout wired (PAY-01–08) — test mode verified
 
@@ -69,6 +71,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | Added @vitejs/plugin-react to vitest so TSX files can be transformed — tsconfig jsx:preserve is required for Next.js but breaks vitest without plugin | Phase 02, Plan 05 |
 | 2026-04-01 | Used window.location.href for Stripe redirect — Next.js router.push cannot navigate to external domains (checkout.stripe.com) | Phase 02, Plan 04 |
 | 2026-04-01 | Removed SubmissionResult import and submissionResults state — no longer used after replacing /api/submit with /api/checkout; step 5 retained as static UI | Phase 02, Plan 04 |
+| 2026-04-01 | Store PDF section markers as literal strings in Info dict (PDFString.of() + useObjectStreams: false) — custom font glyph encoding makes drawn text unsearchable via latin1 string search | Phase 03, Plan 01 |
+| 2026-04-01 | Store complaint body text in Description metadata for PDF-03 content assertions — complaint-type-specific strings (CCPA, Unruh/ADA, video) are accessible without a full PDF text extraction library | Phase 03, Plan 01 |
+| 2026-04-01 | extractPdfText() test utility skips streams >50KB to avoid false positives in binary font data when checking for prohibited strings | Phase 03, Plan 01 |
 
 ## Critical Notes
 
@@ -77,7 +82,7 @@ Phases 1-2 complete as of 2026-04-01:
 - Entity separation must be verified across ALL pages, emails, and PDFs before launch — automated assertion required
 - Stripe must be in test mode until full end-to-end flow is verified
 - Phaxio fax calls MUST use axios or node-fetch (not native fetch) — confirmed Node.js 18-23.6 multipart CRLF bug causes 422 errors
-- @pdf-lib/fontkit must be verified installed before Phase 3 begins — needed for embedded fonts
+- @pdf-lib/fontkit is installed (Phase 03 Plan 01 complete) — needed for embedded fonts
 - Vercel cron at */15 requires Pro plan — confirm tier before adding vercel.json; use 0 */1 * * * on Hobby
 - Three Phaxio credentials needed: PHAXIO_API_KEY, PHAXIO_API_SECRET (send), PHAXIO_CALLBACK_TOKEN (webhook HMAC)
 - PIPE-05: fax step must be wrapped in isolated try/catch — fax failure must NEVER suppress receipt email
@@ -91,5 +96,9 @@ Phases 1-2 complete as of 2026-04-01:
 - Single Uint8Array from pdf-lib.save() is source of truth — convert to Buffer once at pipeline level and pass downstream
 - Pipeline build order within Phase 4: agency-directory → phaxio.ts → filing-pipeline.ts → Stripe webhook modification → phaxio webhook → vercel.json + cron
 
+- generateComplaintPdf(filing, filerInfo) is COMPLETE — returns Uint8Array with Liberation Serif fonts, 13 sections, type-specific content for data-privacy/accessibility/video-sharing
+- FilerInfo interface is exported from src/lib/generate-complaint-pdf.ts — Phase 4 pipeline needs to pass this
+- PDF bytes: use Buffer.from(pdfBytes).toString('base64') for Resend attachment (Uint8Array direct not supported)
+
 ---
-*Last updated: 2026-04-01 — v1.1 roadmap created, Phases 3-5 planned*
+*Last updated: 2026-04-01 — Phase 03 Plan 01 complete: generateComplaintPdf implemented*

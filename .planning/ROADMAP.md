@@ -55,7 +55,7 @@
   5. PDF renders consistently because it uses an embedded font via @pdf-lib/fontkit (not Standard Fonts)
 **Plans**: 2 plans
 Plans:
-- [ ] 03-01-PLAN.md — PDF generation core: deps, fonts, video-sharing template, generateComplaintPdf() with 13 sections
+- [x] 03-01-PLAN.md — PDF generation core: deps, fonts, video-sharing template, generateComplaintPdf() with 13 sections
 - [ ] 03-02-PLAN.md — Vercel Blob storage + Filing.complaintPdfUrl update
 **UI hint**: no
 
@@ -127,7 +127,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Schema & Data Model | 2/2 | Complete | 2026-04-01 |
 | 2. Stripe Payment Integration | 5/5 | Complete | 2026-04-01 |
-| 3. Complaint PDF Generation | 0/2 | In progress | - |
+| 3. Complaint PDF Generation | 1/2 | In Progress|  |
 | 4. Phaxio Fax Integration + Filing Pipeline | 0/? | Not started | - |
 | 5. Filing Receipt Email | 0/? | Not started | - |
 | 6. Guest-to-Account Conversion | 0/? | Not started | - |
