@@ -24,8 +24,8 @@
 - [x] **PAY-04**: On checkout.session.completed: Filing updated with paymentStatus=paid, filingReceiptId generated
 - [x] **PAY-05**: On checkout.session.expired: Filing reset to draft status (allows retry)
 - [ ] **PAY-06**: Filing wizard final step redirects to Stripe Checkout URL
-- [ ] **PAY-07**: Success page at /filing/[id]/success shows receipt ID, filing details, PDF download link
-- [ ] **PAY-08**: Success page shows account creation CTA for guest filers
+- [x] **PAY-07**: Success page at /filing/[id]/success shows receipt ID, filing details, PDF download link
+- [x] **PAY-08**: Success page shows account creation CTA for guest filers
 
 ### Complaint PDF
 
