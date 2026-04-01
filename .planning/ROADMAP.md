@@ -33,7 +33,7 @@ Plans:
 **Plans:** 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Stripe client singleton (src/lib/stripe.ts, lazy-init, STRIPE_SECRET_KEY guard)
+- [x] 02-01-PLAN.md — Stripe client singleton (src/lib/stripe.ts, lazy-init, STRIPE_SECRET_KEY guard)
 - [ ] 02-02-PLAN.md — POST /api/checkout endpoint (creates Filing + Stripe session, returns URL)
 - [ ] 02-03-PLAN.md — POST /api/webhooks/stripe (signature verify, paid/draft lifecycle updates, idempotency)
 - [ ] 02-04-PLAN.md — Wire wizard final step to /api/checkout + Stripe redirect + Review & Pay UI

@@ -18,7 +18,7 @@
 
 ### Payments
 
-- [ ] **PAY-01**: Stripe Checkout Session created for $1.99 per filing
+- [x] **PAY-01**: Stripe Checkout Session created for $1.99 per filing
 - [ ] **PAY-02**: POST /api/checkout endpoint accepts filingId, returns Stripe session URL
 - [ ] **PAY-03**: Stripe webhook handler at /api/webhooks/stripe verifies signature
 - [ ] **PAY-04**: On checkout.session.completed: Filing updated with paymentStatus=paid, filingReceiptId generated
