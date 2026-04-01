@@ -72,7 +72,7 @@ Plans:
 **Plans**: 4 plans
 Plans:
 - [ ] 04-01-PLAN.md — Agency directory, phaxio.ts rewrite (axios), filerInfo schema + checkout storage
-- [ ] 04-02-PLAN.md — Phaxio webhook handler with HMAC-SHA1 signature verification
+- [x] 04-02-PLAN.md — Phaxio webhook handler with HMAC-SHA1 signature verification
 - [ ] 04-03-PLAN.md — Filing pipeline orchestrator + Stripe webhook wiring
 - [ ] 04-04-PLAN.md — Cron job for fax status polling + vercel.json
 **UI hint**: no
@@ -133,7 +133,7 @@ Plans:
 | 1. Schema & Data Model | 2/2 | Complete | 2026-04-01 |
 | 2. Stripe Payment Integration | 5/5 | Complete | 2026-04-01 |
 | 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
-| 4. Phaxio Fax Integration + Filing Pipeline | 0/4 | Planned | - |
+| 4. Phaxio Fax Integration + Filing Pipeline | 1/4 | In Progress|  |
 | 5. Filing Receipt Email | 0/? | Not started | - |
 | 6. Guest-to-Account Conversion | 0/? | Not started | - |
 | 7. Landing Page & Legal Pages | 0/? | Not started | - |

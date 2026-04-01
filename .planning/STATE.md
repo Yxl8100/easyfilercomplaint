@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-04-01T18:20:51.596Z"
+status: executing
+last_updated: "2026-04-01T19:07:30.241Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 8
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 13
+  completed_plans: 10
 ---
 
 # State: EasyFilerComplaint
@@ -19,14 +19,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 03 COMPLETE — complaint-pdf-generation (both plans complete)
+**Current focus:** Phase 04 — phaxio-fax-integration-filing-pipeline
 
 ## Current Position
 
-Phase: 4
-Plan: Not started
-Status: Phase 03 fully complete — ready for Phase 04
-Last activity: 2026-04-01
+Phase: 04 (phaxio-fax-integration-filing-pipeline) — EXECUTING
+Plan: 2 of 4 (completed)
+Status: Executing Phase 04
+Last activity: 2026-04-01 — Phase 04 Plan 02 complete: Phaxio webhook handler with HMAC-SHA1 verification
 
 ```
 v1.1 Progress: [███░░░░░░░] 1/3 phases complete
@@ -77,6 +77,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | storeComplaintPdf takes filingId and filingReceiptId as separate strings (not full Filing object) for minimal interface matching Phase 4 pipeline call signature | Phase 03, Plan 02 |
 | 2026-04-01 | access: 'private' on all Vercel Blob uploads — complaint PDFs contain PII per RESEARCH.md Pitfall 5 | Phase 03, Plan 02 |
 | 2026-04-01 | Status lifecycle transitions (generating/complete) deferred to PIPE-03 in Phase 4 — storeComplaintPdf is a pure storage utility | Phase 03, Plan 02 |
+| 2026-04-01 | Used crypto.timingSafeEqual wrapped in try/catch to handle HMAC length-mismatch edge case without throwing | Phase 04, Plan 02 |
+| 2026-04-01 | verifyPhaxioSignature() extracted as standalone utility for testability — webhook route imports it | Phase 04, Plan 02 |
+| 2026-04-01 | NEXT_PUBLIC_APP_URL used to construct callbackUrl — webhook URL must match what Phaxio was configured with | Phase 04, Plan 02 |
 
 ## Critical Notes
 
@@ -104,6 +107,8 @@ Phases 1-2 complete as of 2026-04-01:
 - PDF bytes: use Buffer.from(pdfBytes).toString('base64') for Resend attachment (Uint8Array direct not supported)
 - storeComplaintPdf(filingId, filingReceiptId, pdfBytes) is COMPLETE — uploads to Vercel Blob, updates Filing.complaintPdfUrl, returns null gracefully when BLOB_READ_WRITE_TOKEN absent
 - ROADMAP SC#3 verified: generate-to-store integration chain test passes end-to-end
+- verifyPhaxioSignature(callbackUrl, postFields, callbackToken, receivedSig, fileSha1Digests?) is COMPLETE — HMAC-SHA1 with sorted params + optional file digests
+- Phaxio webhook at /api/webhooks/phaxio is COMPLETE — parses multipart, verifies HMAC before DB writes, updates Filing fax fields
 
 ---
-*Last updated: 2026-04-01 — Phase 03 Plan 02 complete: storeComplaintPdf implemented, Phase 03 fully done*
+*Last updated: 2026-04-01 — Phase 04 Plan 02 complete: Phaxio webhook handler with HMAC-SHA1 verification implemented*

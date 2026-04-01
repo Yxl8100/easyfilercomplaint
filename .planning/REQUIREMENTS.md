@@ -42,12 +42,12 @@
 - [ ] **FAX-01**: sendFax() sends complaint PDF to agency fax number via Phaxio API
 - [ ] **FAX-02**: Agency directory maps agency codes to fax numbers (ca_ag only at launch)
 - [ ] **FAX-03**: Filing.faxId and faxStatus updated after fax send
-- [ ] **FAX-04**: Phaxio webhook at /api/webhooks/phaxio updates fax status on delivery
+- [x] **FAX-04**: Phaxio webhook at /api/webhooks/phaxio updates fax status on delivery
 - [ ] **FAX-05**: Cron job at /api/cron/check-fax-status polls Phaxio every 15 minutes as fallback
 - [ ] **FAX-06**: vercel.json includes cron schedule for fax status polling
 - [ ] **FAX-07**: Evidence file attached to fax alongside complaint PDF (if uploaded)
 - [ ] **FAX-08**: Phaxio fax calls use axios or node-fetch (not native fetch) to avoid Node.js 18–23.6 multipart CRLF bug
-- [ ] **FAX-09**: Phaxio webhook handler verifies HMAC-SHA1 signature using PHAXIO_CALLBACK_TOKEN
+- [x] **FAX-09**: Phaxio webhook handler verifies HMAC-SHA1 signature using PHAXIO_CALLBACK_TOKEN
 
 ### Filing Pipeline
 
