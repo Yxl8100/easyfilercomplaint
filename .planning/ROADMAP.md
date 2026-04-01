@@ -12,13 +12,11 @@
 
 **Why first:** All subsequent phases write to the Filing record. The schema must be finalized before any pipeline code is written.
 
-### Plans
+**Plans:** 2 plans
 
-1. **Audit existing schema** — Read prisma/schema.prisma and identify what's already there vs. what's missing
-2. **Extend Filing model** — Add Stripe fields, Phaxio fields, filingReceiptId, evidenceFile fields, lifecycle status field
-3. **Add/verify User model** — Ensure User model exists with passwordHash for v1 auth
-4. **Create filing receipt ID utility** — src/lib/filing-receipt-id.ts (EFC-YYYYMMDD-XXXXX generator)
-5. **Push schema to Neon** — `npx prisma db push && npx prisma generate`
+Plans:
+- [ ] 01-01-PLAN.md — Extend Filing model + User passwordHash + FilingStatus enum + push to Neon
+- [ ] 01-02-PLAN.md — Filing receipt ID generator utility (TDD) + vitest setup
 
 **Requirements covered:** SCHEMA-01 through SCHEMA-08
 
@@ -173,7 +171,7 @@
 Before enabling `EFC_LIVE_SUBMIT` or switching Stripe to live mode:
 
 - [ ] Verify CA AG fax number against oag.ca.gov
-- [ ] Test full flow in Stripe test mode: wizard → checkout → webhook → PDF → fax → email
+- [ ] Test full flow in Stripe test mode: wizard -> checkout -> webhook -> PDF -> fax -> email
 - [ ] Verify Stripe webhook URL uses www. prefix
 - [ ] Verify easyfilercomplaint.com domain verified in Resend
 - [ ] Phaxio account funded and tested
@@ -199,4 +197,4 @@ BLOB_READ_WRITE_TOKEN=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Milestone: v1 — 8 phases, ~57 requirements*
+*Milestone: v1 -- 8 phases, ~57 requirements*
