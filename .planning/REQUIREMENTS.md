@@ -14,7 +14,7 @@
 - [x] **SCHEMA-05**: Filing model supports optional userId for account linkage (guest filings have no userId)
 - [x] **SCHEMA-06**: Filing model has evidence file fields (evidenceFileUrl, evidenceFileName)
 - [x] **SCHEMA-07**: User model exists with passwordHash for account creation
-- [ ] **SCHEMA-08**: Filing receipt ID generator utility (src/lib/filing-receipt-id.ts)
+- [x] **SCHEMA-08**: Filing receipt ID generator utility (src/lib/filing-receipt-id.ts)
 
 ### Payments
 
