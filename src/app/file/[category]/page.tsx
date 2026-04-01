@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { getCategoryById } from '@/lib/categories'
 import { FilingData, defaultFilingData } from '@/lib/filing-state'
 import { generateComplaintText } from '@/lib/complaint-generator'
-import type { SubmissionResult } from '@/lib/submit-complaint'
 import { Masthead } from '@/components/Masthead'
 import { Footer } from '@/components/Footer'
 import { DoubleRule } from '@/components/DoubleRule'
@@ -102,7 +101,6 @@ export default function FilingWizard({ params }: WizardProps) {
   const [expandedText, setExpandedText] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  const [submissionResults, setSubmissionResults] = useState<SubmissionResult[]>([])
 
   const update = useCallback((patch: Partial<FilingData>) => {
     setData((prev) => ({ ...prev, ...patch }))
@@ -146,24 +144,19 @@ export default function FilingWizard({ params }: WizardProps) {
   const handleSubmit = async () => {
     setIsSubmitting(true)
     setSubmitError(null)
-
     try {
-      const response = await fetch('/api/submit', {
+      const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-
       const result = await response.json()
-
       if (!response.ok) {
-        throw new Error(result.error || 'Submission failed')
+        throw new Error(result.error || 'We could not start the payment process. Please try again or contact support.')
       }
-
-      setSubmissionResults(result.results)
-      setStep(5)
+      window.location.href = result.url
     } catch (err: unknown) {
-      setSubmitError(err instanceof Error ? err.message : 'Unknown error')
+      setSubmitError(err instanceof Error ? err.message : 'We could not start the payment process. Please try again or contact support.')
     } finally {
       setIsSubmitting(false)
     }
@@ -655,8 +648,8 @@ export default function FilingWizard({ params }: WizardProps) {
           <div>
             <StepHeader
               step={5}
-              title="Review Your Complaint"
-              description="Review the complaint text that will be sent to each agency."
+              title="Review & Pay"
+              description="Your complaint is ready. Complete payment to file."
             />
 
             {/* Summary */}
@@ -678,6 +671,14 @@ export default function FilingWizard({ params }: WizardProps) {
                   <span className="font-serif text-text font-bold">{selectedAgencyObjects.map(a => a.name).join(', ')}</span>
                 </div>
               </div>
+            </div>
+
+            {/* Attestation */}
+            <div className="bg-bg-alt border border-border rounded-[6px] p-4 mb-6">
+              <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-text-light mb-2">Attestation</p>
+              <p className="font-body text-sm text-text-mid leading-relaxed">
+                I certify that the information in this complaint is true and accurate to the best of my knowledge.
+              </p>
             </div>
 
             {/* Agency complaint previews */}
@@ -736,21 +737,19 @@ export default function FilingWizard({ params }: WizardProps) {
               <div className="flex items-center justify-between mb-3">
                 <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-light">Filing Cost</span>
               </div>
-              {selectedAgencyObjects.map((a) => (
-                <div key={a.id} className="flex justify-between font-body text-sm text-text-mid py-1 border-b border-border">
-                  <span>{a.name}</span>
-                  <span>$0.50</span>
-                </div>
-              ))}
+              <div className="flex justify-between font-body text-sm text-text-mid py-1 border-b border-border">
+                <span>Privacy Complaint Filing</span>
+                <span>$1.99</span>
+              </div>
               <div className="flex justify-between mt-3">
                 <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text">Total</span>
-                <span className="font-serif text-xl font-bold text-text">${totalCost.toFixed(2)}</span>
+                <span className="font-serif text-xl font-bold text-text">$1.99</span>
               </div>
             </div>
 
             {submitError && (
               <div className="mb-4 p-4 bg-accent-bg border border-accent rounded-[6px]">
-                <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-accent mb-1">Submission Error</p>
+                <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-accent mb-1">Payment Error</p>
                 <p className="font-body text-sm text-text">{submitError}</p>
               </div>
             )}
@@ -758,14 +757,14 @@ export default function FilingWizard({ params }: WizardProps) {
             <StepNavigation
               onBack={() => setStep(3)}
               onContinue={handleSubmit}
-              continueLabel={isSubmitting ? 'Submitting...' : `Submit All — $${totalCost.toFixed(2)} →`}
+              continueLabel={isSubmitting ? 'Redirecting to Stripe...' : 'Pay & File — $1.99 →'}
               continueDisabled={isSubmitting}
               isLast
             />
           </div>
         )}
 
-        {/* Step 5: Confirmation */}
+        {/* Step 5: Confirmation (reached via Stripe webhook redirect, not directly from wizard) */}
         {step === 5 && (
           <div className="py-12">
             <div className="text-center mb-8">
@@ -774,90 +773,9 @@ export default function FilingWizard({ params }: WizardProps) {
               <h2 className="font-serif text-3xl font-bold text-text mt-6 mb-3">
                 Complaint Submitted
               </h2>
-              <p className="font-body text-base text-text-mid">
-                {submissionResults.filter((r) => r.method !== 'guided').length > 0 && (
-                  <>
-                    {submissionResults.filter((r) => r.method !== 'guided' && r.success).length} auto-filed,{' '}
-                  </>
-                )}
-                {submissionResults.filter((r) => r.method === 'guided').length > 0 && (
-                  <>{submissionResults.filter((r) => r.method === 'guided').length} require self-filing via guided walkthrough.</>
-                )}
-              </p>
               <p className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-light mt-2">
                 A receipt has been sent to {data.email}
               </p>
-            </div>
-
-            <div className="space-y-3 mb-8">
-              {submissionResults.map((result) => {
-                const agency = category.agencies.find((a) => a.id === result.agency)
-                const agencyName = agency?.name || result.agency
-                const isAuto = result.method !== 'guided'
-
-                return (
-                  <div key={result.agency} className="bg-bg-alt border border-border rounded-[6px] p-4">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className={`font-mono text-[9px] ${result.success || !isAuto ? 'text-accent' : 'text-red-600'}`}>
-                          {result.success || !isAuto ? '✓' : '✗'}
-                        </span>
-                        <span className="font-serif text-sm font-bold text-text">{agencyName}</span>
-                      </div>
-                      <span
-                        className={`font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px] ${
-                          result.method === 'guided'
-                            ? 'border border-border text-text-light'
-                            : result.success
-                            ? 'bg-bg-dark text-white'
-                            : 'bg-red-100 text-red-700 border border-red-300'
-                        }`}
-                      >
-                        {result.method === 'guided'
-                          ? 'Self-Filing Required'
-                          : result.method === 'auto_email'
-                          ? result.success ? 'Emailed' : 'Email Failed'
-                          : result.success ? 'Faxed' : 'Fax Failed'}
-                      </span>
-                    </div>
-
-                    {result.method === 'auto_email' && result.success && (
-                      <p className="font-mono text-[8px] text-text-light pl-4">
-                        Sent to ada.complaint@usdoj.gov
-                        {result.confirmationId && <> · ID: {result.confirmationId}</>}
-                      </p>
-                    )}
-
-                    {result.method === 'auto_fax' && result.success && (
-                      <p className="font-mono text-[8px] text-text-light pl-4">
-                        Fax queued
-                        {result.confirmationId && <> · Fax ID: {result.confirmationId}</>}
-                      </p>
-                    )}
-
-                    {result.method === 'guided' && (
-                      <p className="font-mono text-[8px] text-text-light pl-4">
-                        <Link
-                          href={`/guide/${result.agency}`}
-                          className="underline hover:text-text transition-colors"
-                        >
-                          Start guided filing →
-                        </Link>
-                      </p>
-                    )}
-
-                    {result.error && (
-                      <p className="font-mono text-[8px] text-red-600 pl-4 mt-1">{result.error}</p>
-                    )}
-
-                    {result.pdfHash && (
-                      <p className="font-mono text-[7px] text-text-light pl-4 mt-1 break-all">
-                        Evidence Hash: sha256:{result.pdfHash}
-                      </p>
-                    )}
-                  </div>
-                )
-              })}
             </div>
 
             <div className="text-center">
