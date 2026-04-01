@@ -60,11 +60,14 @@ All sizes and weights match the existing codebase patterns exactly. Source: `src
 | Display | font-serif (Fraunces) | 28px (text-3xl ≈ 30px) | 700 (bold) | 1.2 | normal | Page title on success page ("Complaint Filed") |
 | Heading | font-serif (Fraunces) | 16px (text-base) | 700 (bold) | 1.3 | normal | Card headings, receipt ID label, agency name |
 | Body | font-body (Inter) | 14px (text-sm) | 500 | 1.5 | normal | Paragraph text, descriptions, detail rows |
-| Label | font-mono (JetBrains) | 9px (text-[9px]) | 400 | 1.4 | 0.15em uppercase | ALL form labels, section subheadings, badge text |
+| Label | font-mono (JetBrains) | 9px (text-[9px]) | 500 | 1.4 | 0.15em uppercase | ALL form labels, section subheadings, badge text |
+
+Declared weights: 500 (body text, labels) and 700 (headings, display). Two weights only.
 
 Notes:
 - Mono labels use `tracking-[0.15em] uppercase` always — never deviate
 - Body text weight is 500 (set globally in globals.css: `p { font-weight: 500 }`)
+- Label weight is 500 — aligns with the global `p { font-weight: 500 }` project rule
 - Secondary body text (table rows, descriptions): use `text-text-mid` not `text-text`
 
 ---
