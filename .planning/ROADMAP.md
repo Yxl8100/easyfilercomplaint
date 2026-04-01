@@ -12,10 +12,10 @@
 
 **Why first:** All subsequent phases write to the Filing record. The schema must be finalized before any pipeline code is written.
 
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
-- [ ] 01-01-PLAN.md — Extend Filing model + User passwordHash + FilingStatus enum + push to Neon
+- [x] 01-01-PLAN.md — Extend Filing model + User passwordHash + FilingStatus enum + push to Neon
 - [ ] 01-02-PLAN.md — Filing receipt ID generator utility (TDD) + vitest setup
 
 **Requirements covered:** SCHEMA-01 through SCHEMA-08

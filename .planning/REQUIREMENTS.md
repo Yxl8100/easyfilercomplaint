@@ -7,13 +7,13 @@
 
 ### Schema & Data Model
 
-- [ ] **SCHEMA-01**: Filing model has all Stripe fields (stripeSessionId, stripePaymentId, paymentStatus, paymentAmount, paidAt)
-- [ ] **SCHEMA-02**: Filing model has all Phaxio fields (faxId, faxStatus, faxSentAt, faxCompletedAt, faxPages)
-- [ ] **SCHEMA-03**: Filing model has filingReceiptId (EFC-YYYYMMDD-XXXXX format, unique)
-- [ ] **SCHEMA-04**: Filing model has lifecycle status field with all states (draft → pending_payment → paid → generating → filing → filed → failed)
-- [ ] **SCHEMA-05**: Filing model supports optional userId for account linkage (guest filings have no userId)
-- [ ] **SCHEMA-06**: Filing model has evidence file fields (evidenceFileUrl, evidenceFileName)
-- [ ] **SCHEMA-07**: User model exists with passwordHash for account creation
+- [x] **SCHEMA-01**: Filing model has all Stripe fields (stripeSessionId, stripePaymentId, paymentStatus, paymentAmount, paidAt)
+- [x] **SCHEMA-02**: Filing model has all Phaxio fields (faxId, faxStatus, faxSentAt, faxCompletedAt, faxPages)
+- [x] **SCHEMA-03**: Filing model has filingReceiptId (EFC-YYYYMMDD-XXXXX format, unique)
+- [x] **SCHEMA-04**: Filing model has lifecycle status field with all states (draft → pending_payment → paid → generating → filing → filed → failed)
+- [x] **SCHEMA-05**: Filing model supports optional userId for account linkage (guest filings have no userId)
+- [x] **SCHEMA-06**: Filing model has evidence file fields (evidenceFileUrl, evidenceFileName)
+- [x] **SCHEMA-07**: User model exists with passwordHash for account creation
 - [ ] **SCHEMA-08**: Filing receipt ID generator utility (src/lib/filing-receipt-id.ts)
 
 ### Payments
