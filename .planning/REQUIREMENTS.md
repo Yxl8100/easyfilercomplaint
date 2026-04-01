@@ -134,8 +134,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCHEMA-01 to SCHEMA-08 | Phase 1 | Pending |
-| PAY-01 to PAY-08 | Phase 2 | Pending |
+| SCHEMA-01 to SCHEMA-08 | Phase 1 | Complete |
+| PAY-01 to PAY-08 | Phase 2 | Complete |
 | PDF-01 to PDF-07 | Phase 3 | Pending |
 | FAX-01 to FAX-09, PIPE-01 to PIPE-06 | Phase 4 | Pending |
 | EMAIL-01 to EMAIL-06 | Phase 5 | Pending |
@@ -150,6 +150,13 @@
 - Mapped to phases: 61
 - Unmapped: 0 ✓
 
+**v1.1 milestone scope (Phases 3-5):**
+- PDF-01 to PDF-07: 7 requirements → Phase 3
+- FAX-01 to FAX-09: 9 requirements → Phase 4
+- PIPE-01 to PIPE-06: 6 requirements → Phase 4
+- EMAIL-01 to EMAIL-06: 6 requirements → Phase 5
+- Total v1.1: 28 requirements, 100% mapped ✓
+
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-04-01 — v1.1 milestone: added PDF-07, FAX-08, FAX-09, PIPE-06 from research*
+*Last updated: 2026-04-01 — v1.1 milestone: Phases 3-5 traceability updated to Pending; Phases 1-2 marked Complete*

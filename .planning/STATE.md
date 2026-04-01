@@ -2,7 +2,7 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Live Filing Pipeline
-status: Defining requirements
+status: Roadmap ready — Phase 3 next
 last_updated: "2026-04-01T00:00:00.000Z"
 progress:
   total_phases: 3
@@ -22,18 +22,28 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: Phase 3 — Complaint PDF Generation (not started)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-04-01 — Milestone v1.1 started
+Status: Roadmap created, ready to plan Phase 3
+Last activity: 2026-04-01 — v1.1 roadmap created (Phases 3-5 planned)
+
+```
+v1.1 Progress: [░░░░░░░░░░] 0/3 phases complete
+```
 
 ## Phase Status
 
-| Phase | Name | Status |
-|-------|------|--------|
-| 3 | Complaint PDF Generation | Not started |
-| 4 | Phaxio Fax Integration + Filing Pipeline | Not started |
-| 5 | Filing Receipt Email | Not started |
+| Phase | Name | Plans | Status |
+|-------|------|-------|--------|
+| 3 | Complaint PDF Generation | 0/? | Not started |
+| 4 | Phaxio Fax Integration + Filing Pipeline | 0/? | Not started |
+| 5 | Filing Receipt Email | 0/? | Not started |
+
+## Milestone Context (v1.0 Complete)
+
+Phases 1-2 complete as of 2026-04-01:
+- Phase 1: Prisma schema extended (SCHEMA-01–08) — Neon deployed
+- Phase 2: Stripe checkout wired (PAY-01–08) — test mode verified
 
 ## Decisions Log
 
@@ -60,21 +70,26 @@ Last activity: 2026-04-01 — Milestone v1.1 started
 | 2026-04-01 | Used window.location.href for Stripe redirect — Next.js router.push cannot navigate to external domains (checkout.stripe.com) | Phase 02, Plan 04 |
 | 2026-04-01 | Removed SubmissionResult import and submissionResults state — no longer used after replacing /api/submit with /api/checkout; step 5 retained as static UI | Phase 02, Plan 04 |
 
-## Notes
+## Critical Notes
 
 - CA AG fax number in agency-directory.ts is a placeholder — MUST verify against oag.ca.gov before go-live
 - www. prefix is critical in all production URLs (Vercel redirect behavior strips headers on non-www)
-- Entity separation must be verified across ALL pages, emails, and PDFs before launch
+- Entity separation must be verified across ALL pages, emails, and PDFs before launch — automated assertion required
 - Stripe must be in test mode until full end-to-end flow is verified
+- Phaxio fax calls MUST use axios or node-fetch (not native fetch) — confirmed Node.js 18-23.6 multipart CRLF bug causes 422 errors
+- @pdf-lib/fontkit must be verified installed before Phase 3 begins — needed for embedded fonts
+- Vercel cron at */15 requires Pro plan — confirm tier before adding vercel.json; use 0 */1 * * * on Hobby
+- Three Phaxio credentials needed: PHAXIO_API_KEY, PHAXIO_API_SECRET (send), PHAXIO_CALLBACK_TOKEN (webhook HMAC)
+- PIPE-05: fax step must be wrapped in isolated try/catch — fax failure must NEVER suppress receipt email
+- Resend PDF attachment: use Buffer.from(pdfBytes).toString('base64') — not Uint8Array directly
 
 ## Accumulated Context
 
-- CA AG fax number in agency-directory.ts is a placeholder — MUST verify against oag.ca.gov before go-live
-- www. prefix is critical in all production URLs (Vercel redirect behavior strips headers on non-www)
-- Entity separation must be verified across ALL pages, emails, and PDFs before launch
-- Stripe must be in test mode until full end-to-end flow is verified
 - pdf-lib is already installed (from v1.0)
 - Resend integration is stubbed and ready to wire
+- All three new integrations (pdf-lib, Phaxio, Resend) are already in package.json — no npm install needed
+- Single Uint8Array from pdf-lib.save() is source of truth — convert to Buffer once at pipeline level and pass downstream
+- Pipeline build order within Phase 4: agency-directory → phaxio.ts → filing-pipeline.ts → Stripe webhook modification → phaxio webhook → vercel.json + cron
 
 ---
-*Last updated: 2026-04-01 — Milestone v1.1 started (Live Filing Pipeline)*
+*Last updated: 2026-04-01 — v1.1 roadmap created, Phases 3-5 planned*
