@@ -69,7 +69,12 @@ Plans:
   3. A fax failure does NOT prevent the consumer from receiving a receipt email — the email step runs regardless of fax outcome
   4. The Stripe webhook calls executeFilingPipeline() with maxDuration=60 and an idempotency guard that skips already-processed filings
   5. Vercel cron job polls Phaxio fax status every 15 minutes as a fallback (note: requires Vercel Pro; on Hobby use hourly fallback schedule 0 */1 * * *)
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 04-01-PLAN.md — Agency directory, phaxio.ts rewrite (axios), filerInfo schema + checkout storage
+- [ ] 04-02-PLAN.md — Phaxio webhook handler with HMAC-SHA1 signature verification
+- [ ] 04-03-PLAN.md — Filing pipeline orchestrator + Stripe webhook wiring
+- [ ] 04-04-PLAN.md — Cron job for fax status polling + vercel.json
 **UI hint**: no
 
 ### Phase 5: Filing Receipt Email
@@ -128,7 +133,7 @@ Plans:
 | 1. Schema & Data Model | 2/2 | Complete | 2026-04-01 |
 | 2. Stripe Payment Integration | 5/5 | Complete | 2026-04-01 |
 | 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
-| 4. Phaxio Fax Integration + Filing Pipeline | 0/? | Not started | - |
+| 4. Phaxio Fax Integration + Filing Pipeline | 0/4 | Planned | - |
 | 5. Filing Receipt Email | 0/? | Not started | - |
 | 6. Guest-to-Account Conversion | 0/? | Not started | - |
 | 7. Landing Page & Legal Pages | 0/? | Not started | - |
@@ -169,5 +174,5 @@ CRON_SECRET=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Last updated: 2026-04-01 — Phase 3 planned: 2 plans in 2 waves*
+*Last updated: 2026-04-01 — Phase 4 planned: 4 plans in 2 waves*
 *Milestone: v1 -- 8 phases, 61 requirements*
