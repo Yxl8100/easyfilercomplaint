@@ -40,15 +40,18 @@ import { getAgencyFaxNumber } from '@/lib/agency-directory'
 import axios from 'axios'
 import { executeFilingPipeline } from '@/lib/filing-pipeline'
 
-const mockPrismaFiling = prisma.filing as unknown as {
-  findUnique: ReturnType<typeof vi.fn>
-  update: ReturnType<typeof vi.fn>
-}
-const mockGenerateComplaintPdf = generateComplaintPdf as ReturnType<typeof vi.fn>
-const mockStoreComplaintPdf = storeComplaintPdf as ReturnType<typeof vi.fn>
-const mockSendFax = sendFax as ReturnType<typeof vi.fn>
-const mockGetAgencyFaxNumber = getAgencyFaxNumber as ReturnType<typeof vi.fn>
-const mockAxios = axios as unknown as { get: ReturnType<typeof vi.fn> }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockPrismaFiling = prisma.filing as any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockGenerateComplaintPdf = generateComplaintPdf as any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockStoreComplaintPdf = storeComplaintPdf as any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockSendFax = sendFax as any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockGetAgencyFaxNumber = getAgencyFaxNumber as any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mockAxios = axios as any
 
 const mockFiling = {
   id: 'filing-123',
@@ -107,9 +110,8 @@ describe('executeFilingPipeline', () => {
   it('Test 2 (status transitions): Filing.status transitions paid -> generating -> filing -> filed on success', async () => {
     await executeFilingPipeline('filing-123')
 
-    const updateCalls = mockPrismaFiling.update.mock.calls.map(
-      (call: [{ where: unknown; data: { status: string } }]) => call[0].data.status
-    )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateCalls = mockPrismaFiling.update.mock.calls.map((call: any[]) => call[0].data.status)
     expect(updateCalls).toContain('generating')
     expect(updateCalls).toContain('filing')
     expect(updateCalls).toContain('filed')
@@ -148,9 +150,8 @@ describe('executeFilingPipeline', () => {
     await executeFilingPipeline('filing-123')
 
     expect(mockSendFax).not.toHaveBeenCalled()
-    const updateCalls = mockPrismaFiling.update.mock.calls.map(
-      (call: [{ where: unknown; data: { status: string } }]) => call[0].data.status
-    )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateCalls = mockPrismaFiling.update.mock.calls.map((call: any[]) => call[0].data.status)
     expect(updateCalls).toContain('failed')
   })
 
@@ -160,13 +161,13 @@ describe('executeFilingPipeline', () => {
 
     await executeFilingPipeline('filing-123')
 
-    const updateCalls = mockPrismaFiling.update.mock.calls.map(
-      (call: [{ where: unknown; data: { status: string } }]) => call[0].data.status
-    )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateCalls = mockPrismaFiling.update.mock.calls.map((call: any[]) => call[0].data.status)
     expect(updateCalls).toContain('failed')
 
     // Email stub log should appear regardless of fax failure
-    const logCalls = consoleSpy.mock.calls.map((call: unknown[]) => String(call[0]))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const logCalls = consoleSpy.mock.calls.map((call: any[]) => String(call[0]))
     expect(logCalls.some((log: string) => log.includes('Receipt email stub'))).toBe(true)
 
     consoleSpy.mockRestore()
@@ -218,9 +219,8 @@ describe('executeFilingPipeline', () => {
     await executeFilingPipeline('filing-123')
 
     const updateCalls = mockPrismaFiling.update.mock.calls
-    const filedUpdate = updateCalls.find(
-      (call: [{ where: unknown; data: Record<string, unknown> }]) => call[0].data.faxId !== undefined
-    )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const filedUpdate = updateCalls.find((call: any[]) => call[0].data.faxId !== undefined)
     expect(filedUpdate).toBeDefined()
     expect(filedUpdate[0].data.faxId).toBe('99999')
     expect(filedUpdate[0].data.faxStatus).toBe('queued')
