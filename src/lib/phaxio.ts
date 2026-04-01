@@ -1,28 +1,20 @@
-/**
- * Phaxio Fax API Client
- * Docs: https://www.phaxio.com/docs/api/v2/faxes/create_and_send_fax
- *
- * Pricing: $0.07/page
- * Test API key: simulates fax without sending (free, unlimited)
- * Live API key: actually sends the fax
- */
+import axios from 'axios'
+import FormData from 'form-data'
 
 const PHAXIO_API_URL = 'https://api.phaxio.com/v2/faxes'
 
-interface PhaxioSendResult {
+export interface PhaxioSendResult {
   success: boolean
   message: string
-  data?: {
-    id: number
-  }
+  data?: { id: number }
   error?: string
 }
 
-interface PhaxioFaxStatus {
+export interface PhaxioFaxStatus {
   success: boolean
   data?: {
     id: number
-    status: string // 'queued' | 'pendingbatch' | 'inprogress' | 'success' | 'failure' | 'partialsuccess'
+    status: string
     num_pages: number
     completed_at: string | null
     recipients: Array<{
@@ -33,61 +25,51 @@ interface PhaxioFaxStatus {
   }
 }
 
+export interface FaxFile {
+  buffer: Buffer
+  filename: string
+  contentType: string
+}
+
 export async function sendFax(
   toNumber: string,
-  pdfBuffer: Buffer | Uint8Array,
-  filename: string = 'complaint.pdf'
+  files: FaxFile[]
 ): Promise<PhaxioSendResult> {
   const apiKey = process.env.PHAXIO_API_KEY
   const apiSecret = process.env.PHAXIO_API_SECRET
-
   if (!apiKey || !apiSecret) {
     throw new Error('PHAXIO_API_KEY and PHAXIO_API_SECRET must be set')
   }
 
-  const formData = new FormData()
-  formData.append('to', toNumber)
-  formData.append('file', new Blob([Buffer.from(pdfBuffer)], { type: 'application/pdf' }), filename)
+  const form = new FormData()
+  form.append('to', toNumber)
+  for (const f of files) {
+    form.append('file[]', f.buffer, { filename: f.filename, contentType: f.contentType })
+  }
 
-  const authHeader = 'Basic ' + Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
-
-  const response = await fetch(PHAXIO_API_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: authHeader,
-    },
-    body: formData,
+  const response = await axios.post(PHAXIO_API_URL, form, {
+    auth: { username: apiKey, password: apiSecret },
+    headers: form.getHeaders(),
   })
 
-  const result: PhaxioSendResult = await response.json()
-
+  const result: PhaxioSendResult = response.data
   if (!result.success) {
     console.error('[Phaxio] Fax send failed:', result.message || result.error)
   } else {
-    console.log(`[Phaxio] Fax queued successfully. Fax ID: ${result.data?.id}`)
+    console.log(`[Phaxio] Fax queued. ID: ${result.data?.id}`)
   }
-
   return result
 }
 
 export async function getFaxStatus(faxId: number): Promise<PhaxioFaxStatus> {
   const apiKey = process.env.PHAXIO_API_KEY
   const apiSecret = process.env.PHAXIO_API_SECRET
+  if (!apiKey || !apiSecret) {
+    throw new Error('PHAXIO_API_KEY and PHAXIO_API_SECRET must be set')
+  }
 
-  const authHeader = 'Basic ' + Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
-
-  const response = await fetch(`${PHAXIO_API_URL}/${faxId}`, {
-    method: 'GET',
-    headers: {
-      Authorization: authHeader,
-    },
+  const response = await axios.get(`${PHAXIO_API_URL}/${faxId}`, {
+    auth: { username: apiKey, password: apiSecret },
   })
-
-  return await response.json()
+  return response.data
 }
-
-// Agency fax numbers (use config.ts for live/test switching)
-export const AGENCY_FAX_NUMBERS = {
-  ca_ag: '+19163235341',  // CA Attorney General (916) 323-5341
-  fda: '+18003320178',    // FDA MedWatch 800-332-0178
-} as const
