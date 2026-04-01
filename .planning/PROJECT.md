@@ -28,7 +28,7 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - [ ] Phaxio fax delivery to CA AG
 - [ ] Filing pipeline orchestrator (PDF → fax → email in sequence)
 - [ ] Filing receipt confirmation email with PDF attachment
-- [ ] Prisma schema: Filing model with Stripe + Phaxio + receipt fields
+- [x] Prisma schema: Filing model with Stripe + Phaxio + receipt fields — Validated in Phase 01: schema-and-data-model
 - [ ] Guest-to-account conversion flow (post-filing)
 - [ ] Filing history page (/account/filings)
 - [ ] Auth middleware protecting /account/* routes
@@ -112,4 +112,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-31 after initialization*
+*Last updated: 2026-04-01 — Phase 01 complete: schema extended with FilingStatus enum, all Stripe/Phaxio/receipt fields, guest filing support, vitest infrastructure*
