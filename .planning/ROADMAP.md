@@ -74,7 +74,7 @@ Plans:
 - [x] 04-01-PLAN.md — Agency directory, phaxio.ts rewrite (axios), filerInfo schema + checkout storage
 - [x] 04-02-PLAN.md — Phaxio webhook handler with HMAC-SHA1 signature verification
 - [ ] 04-03-PLAN.md — Filing pipeline orchestrator + Stripe webhook wiring
-- [ ] 04-04-PLAN.md — Cron job for fax status polling + vercel.json
+- [x] 04-04-PLAN.md — Cron job for fax status polling + vercel.json
 **UI hint**: no
 
 ### Phase 5: Filing Receipt Email

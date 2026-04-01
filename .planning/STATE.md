@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-04-01T19:09:26.557Z"
+last_updated: "2026-04-01T19:16:30.000Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 8
   completed_phases: 3
   total_plans: 13
-  completed_plans: 11
+  completed_plans: 13
 ---
 
 # State: EasyFilerComplaint
@@ -23,13 +23,13 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 
 ## Current Position
 
-Phase: 04 (phaxio-fax-integration-filing-pipeline) — EXECUTING
-Plan: 3 of 4 (completed)
-Status: Ready to execute
+Phase: 04 (phaxio-fax-integration-filing-pipeline) — COMPLETE
+Plan: 4 of 4 (completed)
+Status: Phase complete — ready for Phase 05
 Last activity: 2026-04-01
 
 ```
-v1.1 Progress: [███░░░░░░░] 1/3 phases complete
+v1.1 Progress: [█████████░] 92% (13/13 plans complete)
 ```
 
 ## Phase Status
@@ -83,6 +83,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | Used crypto.timingSafeEqual wrapped in try/catch to handle HMAC length-mismatch edge case without throwing | Phase 04, Plan 02 |
 | 2026-04-01 | verifyPhaxioSignature() extracted as standalone utility for testability — webhook route imports it | Phase 04, Plan 02 |
 | 2026-04-01 | NEXT_PUBLIC_APP_URL used to construct callbackUrl — webhook URL must match what Phaxio was configured with | Phase 04, Plan 02 |
+| 2026-04-01 | Vercel cron schedule defaults to 0 0 * * * (once daily, Hobby plan safe); Pro upgrade path documented in route.ts comment | Phase 04, Plan 04 |
+| 2026-04-01 | Per-filing try/catch in cron handler — one Phaxio API failure does not block other filings in the same cron run | Phase 04, Plan 04 |
+| 2026-04-01 | Skip prisma.filing.update when faxStatus has not changed — avoids unnecessary writes on every cron tick | Phase 04, Plan 04 |
 
 ## Critical Notes
 
@@ -118,5 +121,9 @@ Phases 1-2 complete as of 2026-04-01:
 - phaxio.ts rewritten with axios+form-data — sendFax(toNumber, files: FaxFile[]) supports multi-file attachments, no native fetch
 - Filing.filerInfo Json? column added to schema — stores filer PII at checkout for pipeline access
 
+- GET /api/cron/check-fax-status is COMPLETE — polls Phaxio for in-progress faxes, updates Filing.faxStatus/faxPages/faxCompletedAt, maps terminal fax status to Filing.status (filed/failed)
+- vercel.json added at project root with Hobby-safe daily cron schedule (0 0 * * *)
+- Phase 04 is COMPLETE — all 4 plans done: agency-directory, phaxio rewrite, webhook handler, filing pipeline, cron poller
+
 ---
-*Last updated: 2026-04-01 — Phase 04 Plan 01 complete: agency-directory, phaxio axios rewrite, filerInfo schema*
+*Last updated: 2026-04-01 — Phase 04 Plan 04 complete: cron fax status poller + vercel.json*
