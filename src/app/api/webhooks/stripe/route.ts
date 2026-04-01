@@ -1,8 +1,11 @@
+export const maxDuration = 60
+
 import { NextRequest, NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 import { generateFilingReceiptId } from '@/lib/filing-receipt-id'
+import { executeFilingPipeline } from '@/lib/filing-pipeline'
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -33,12 +36,12 @@ export async function POST(request: NextRequest) {
         break
       }
 
-      // Idempotency: skip if already paid
+      // Idempotency: skip if already processed (status beyond pending_payment/draft)
       const existing = await prisma.filing.findUnique({
         where: { id: filingId },
         select: { status: true },
       })
-      if (existing?.status === 'paid') {
+      if (existing?.status !== 'pending_payment' && existing?.status !== 'draft') {
         break
       }
 
@@ -54,6 +57,15 @@ export async function POST(request: NextRequest) {
           filingReceiptId: generateFilingReceiptId(),
         },
       })
+
+      // Trigger filing pipeline (PIPE-02)
+      // Pipeline has its own idempotency guard (PIPE-06)
+      try {
+        await executeFilingPipeline(filingId)
+      } catch (pipelineErr) {
+        console.error(`[webhook] Pipeline failed for ${filingId}:`, pipelineErr)
+        // Pipeline sets Filing.status=failed internally — webhook still returns 200
+      }
       break
     }
 

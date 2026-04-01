@@ -22,6 +22,10 @@ vi.mock('@/lib/filing-receipt-id', () => ({
   generateFilingReceiptId: vi.fn(() => 'EFC-20260401-ABCDE'),
 }))
 
+vi.mock('@/lib/filing-pipeline', () => ({
+  executeFilingPipeline: vi.fn().mockResolvedValue(undefined),
+}))
+
 const makeRequest = (body: string, signature: string | null) =>
   new NextRequest('http://localhost/api/webhooks/stripe', {
     method: 'POST',
