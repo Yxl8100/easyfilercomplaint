@@ -1,44 +1,39 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: Milestone complete
-last_updated: "2026-04-01T16:28:55.337Z"
+milestone: v1.1
+milestone_name: Live Filing Pipeline
+status: Defining requirements
+last_updated: "2026-04-01T00:00:00.000Z"
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_phases: 3
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # State: EasyFilerComplaint
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-31)
+See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 02 — stripe-payment-integration
+**Current focus:** Milestone v1.1 — Live Filing Pipeline
 
-## Current Status
+## Current Position
 
-**Milestone:** v1 — Stripe + Phaxio Live Filing Pipeline
-**Active phase:** 02 — stripe-payment-integration (Complete — 5/5 plans done)
-**Last action:** Completed 02-04-PLAN.md (Wizard step 4 wired to /api/checkout + Stripe redirect + Review & Pay UI) — 2026-04-01
-**Last session stopped at:** Completed 02-stripe-payment-integration/02-04-PLAN.md
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-01 — Milestone v1.1 started
 
 ## Phase Status
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | Schema & Data Model | Complete (2/2 plans complete) |
-| 2 | Stripe Payment Integration | In progress (5/5 plans complete) |
 | 3 | Complaint PDF Generation | Not started |
 | 4 | Phaxio Fax Integration + Filing Pipeline | Not started |
 | 5 | Filing Receipt Email | Not started |
-| 6 | Guest-to-Account Conversion | Not started |
-| 7 | Landing Page & Legal Pages | Not started |
-| 8 | Filing Wizard UX Adjustments | Not started |
 
 ## Decisions Log
 
@@ -72,5 +67,14 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 - Entity separation must be verified across ALL pages, emails, and PDFs before launch
 - Stripe must be in test mode until full end-to-end flow is verified
 
+## Accumulated Context
+
+- CA AG fax number in agency-directory.ts is a placeholder — MUST verify against oag.ca.gov before go-live
+- www. prefix is critical in all production URLs (Vercel redirect behavior strips headers on non-www)
+- Entity separation must be verified across ALL pages, emails, and PDFs before launch
+- Stripe must be in test mode until full end-to-end flow is verified
+- pdf-lib is already installed (from v1.0)
+- Resend integration is stubbed and ready to wire
+
 ---
-*Last updated: 2026-04-01 after 02-04-PLAN.md completion (all 5/5 Phase 02 plans complete)*
+*Last updated: 2026-04-01 — Milestone v1.1 started (Live Filing Pipeline)*

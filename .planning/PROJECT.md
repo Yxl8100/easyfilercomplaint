@@ -8,6 +8,15 @@ EasyFilerComplaint (easyfilercomplaint.com) is a consumer complaint filing platf
 
 A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes — creating both documented economic injury and an independent government paper trail.
 
+## Current Milestone: v1.1 Live Filing Pipeline
+
+**Goal:** Complete the core filing pipeline so a paid submission generates a complaint PDF, faxes it to CA AG, and sends the consumer a receipt email — making the end-to-end filing flow live.
+
+**Target features:**
+- Complaint PDF generation (pdf-lib, formal government-style letter)
+- Phaxio fax delivery to CA AG + filing pipeline orchestrator
+- Filing receipt email with PDF attachment (Resend)
+
 ## Requirements
 
 ### Validated
@@ -115,4 +124,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 — Phase 01 complete: schema extended with FilingStatus enum, all Stripe/Phaxio/receipt fields, guest filing support, vitest infrastructure*
+*Last updated: 2026-04-01 — Milestone v1.1 started: Live Filing Pipeline (PDF generation, Phaxio fax, receipt email)*
