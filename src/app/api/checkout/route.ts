@@ -45,6 +45,17 @@ export async function POST(request: NextRequest) {
         priorContact: data.priorContact,
         priorContactDetails: data.priorContactDetails,
         categoryFields: data.categoryFields as object,
+        filerInfo: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          address: data.address,
+          city: data.city,
+          state: data.state,
+          zip: data.zip,
+          phone: data.phone,
+          county: data.county || undefined,
+        },
         status: 'pending_payment',
       },
     })

@@ -114,6 +114,7 @@ model Filing {
 
   categoryFields  Json?
   generatedText   Json?
+  filerInfo       Json?
 
   submissions     Submission[]
   invoiceId       String?
