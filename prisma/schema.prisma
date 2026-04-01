@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum FilingStatus {
+  draft
+  pending_payment
+  paid
+  generating
+  filing
+  filed
+  failed
+}
+
 model User {
   id                    String    @id @default(uuid())
   email                 String    @unique
@@ -22,6 +32,8 @@ model User {
   ageRange              String?
   county                String?
   image                 String?
+
+  passwordHash          String?
 
   stripeCustomerId      String?   @unique
   subscriptionId        String?
@@ -80,8 +92,8 @@ model VerificationToken {
 
 model Filing {
   id              String    @id @default(uuid())
-  userId          String
-  user            User      @relation(fields: [userId], references: [id])
+  userId          String?
+  user            User?     @relation(fields: [userId], references: [id])
 
   category        String
   targetName      String
@@ -102,12 +114,38 @@ model Filing {
 
   categoryFields  Json?
   generatedText   Json?
+  filerInfo       Json?
 
   submissions     Submission[]
   invoiceId       String?
   invoice         Invoice?  @relation(fields: [invoiceId], references: [id])
 
-  status          String    @default("draft")
+  // Stripe payment fields (SCHEMA-01)
+  stripeSessionId   String?
+  stripePaymentId   String?
+  paymentStatus     String?
+  paymentAmount     Decimal?  @db.Decimal(10, 2)
+  paidAt            DateTime?
+
+  // Phaxio fax fields (SCHEMA-02)
+  faxId             String?
+  faxStatus         String?
+  faxSentAt         DateTime?
+  faxCompletedAt    DateTime?
+  faxPages          Int?
+
+  // Filing receipt ID (SCHEMA-03)
+  filingReceiptId   String?   @unique
+
+  // Evidence file fields (SCHEMA-06)
+  evidenceFileUrl   String?
+  evidenceFileName  String?
+
+  // PDF and email tracking (needed by Phase 3 and Phase 5)
+  complaintPdfUrl   String?
+  receiptEmailSentAt DateTime?
+
+  status          FilingStatus @default(draft)
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
