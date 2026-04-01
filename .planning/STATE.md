@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-last_updated: "2026-04-01T18:03:18.737Z"
+status: verifying
+last_updated: "2026-04-01T18:10:19.671Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 8
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # State: EasyFilerComplaint
@@ -19,17 +19,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 03 Plan 2 — complaint-pdf-generation (03-01 complete)
+**Current focus:** Phase 03 COMPLETE — complaint-pdf-generation (both plans complete)
 
 ## Current Position
 
-Phase: 03 (complaint-pdf-generation) — EXECUTING
-Plan: 2 of 2
-Status: Ready to execute
+Phase: 03 (complaint-pdf-generation) — COMPLETE
+Plan: 2 of 2 — COMPLETE
+Status: Phase 03 fully complete — ready for Phase 04
 Last activity: 2026-04-01
 
 ```
-v1.1 Progress: [░░░░░░░░░░] 0/3 phases complete
+v1.1 Progress: [███░░░░░░░] 1/3 phases complete
 ```
 
 ## Phase Status
@@ -74,6 +74,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | Store PDF section markers as literal strings in Info dict (PDFString.of() + useObjectStreams: false) — custom font glyph encoding makes drawn text unsearchable via latin1 string search | Phase 03, Plan 01 |
 | 2026-04-01 | Store complaint body text in Description metadata for PDF-03 content assertions — complaint-type-specific strings (CCPA, Unruh/ADA, video) are accessible without a full PDF text extraction library | Phase 03, Plan 01 |
 | 2026-04-01 | extractPdfText() test utility skips streams >50KB to avoid false positives in binary font data when checking for prohibited strings | Phase 03, Plan 01 |
+| 2026-04-01 | storeComplaintPdf takes filingId and filingReceiptId as separate strings (not full Filing object) for minimal interface matching Phase 4 pipeline call signature | Phase 03, Plan 02 |
+| 2026-04-01 | access: 'private' on all Vercel Blob uploads — complaint PDFs contain PII per RESEARCH.md Pitfall 5 | Phase 03, Plan 02 |
+| 2026-04-01 | Status lifecycle transitions (generating/complete) deferred to PIPE-03 in Phase 4 — storeComplaintPdf is a pure storage utility | Phase 03, Plan 02 |
 
 ## Critical Notes
 
@@ -99,6 +102,8 @@ Phases 1-2 complete as of 2026-04-01:
 - generateComplaintPdf(filing, filerInfo) is COMPLETE — returns Uint8Array with Liberation Serif fonts, 13 sections, type-specific content for data-privacy/accessibility/video-sharing
 - FilerInfo interface is exported from src/lib/generate-complaint-pdf.ts — Phase 4 pipeline needs to pass this
 - PDF bytes: use Buffer.from(pdfBytes).toString('base64') for Resend attachment (Uint8Array direct not supported)
+- storeComplaintPdf(filingId, filingReceiptId, pdfBytes) is COMPLETE — uploads to Vercel Blob, updates Filing.complaintPdfUrl, returns null gracefully when BLOB_READ_WRITE_TOKEN absent
+- ROADMAP SC#3 verified: generate-to-store integration chain test passes end-to-end
 
 ---
-*Last updated: 2026-04-01 — Phase 03 Plan 01 complete: generateComplaintPdf implemented*
+*Last updated: 2026-04-01 — Phase 03 Plan 02 complete: storeComplaintPdf implemented, Phase 03 fully done*

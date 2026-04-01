@@ -10,7 +10,7 @@
 
 - [x] **Phase 1: Schema & Data Model** - Extend Prisma schema to support full filing lifecycle
 - [x] **Phase 2: Stripe Payment Integration** - Consumer pays $1.99 and Filing record is updated on confirmation
-- [ ] **Phase 3: Complaint PDF Generation** - Generate formal government-style complaint letter PDF with embedded fonts
+- [x] **Phase 3: Complaint PDF Generation** - Generate formal government-style complaint letter PDF with embedded fonts (completed 2026-04-01)
 - [ ] **Phase 4: Phaxio Fax Integration + Filing Pipeline** - Deliver PDF to CA AG via fax and wire full pipeline orchestrator
 - [ ] **Phase 5: Filing Receipt Email** - Send consumer confirmation email with complaint PDF attached
 - [ ] **Phase 6: Guest-to-Account Conversion** - Post-filing account creation with filing history
@@ -56,7 +56,7 @@
 **Plans**: 2 plans
 Plans:
 - [x] 03-01-PLAN.md — PDF generation core: deps, fonts, video-sharing template, generateComplaintPdf() with 13 sections
-- [ ] 03-02-PLAN.md — Vercel Blob storage + Filing.complaintPdfUrl update
+- [x] 03-02-PLAN.md — Vercel Blob storage + Filing.complaintPdfUrl update
 **UI hint**: no
 
 ### Phase 4: Phaxio Fax Integration + Filing Pipeline
@@ -127,7 +127,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Schema & Data Model | 2/2 | Complete | 2026-04-01 |
 | 2. Stripe Payment Integration | 5/5 | Complete | 2026-04-01 |
-| 3. Complaint PDF Generation | 1/2 | In Progress|  |
+| 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
 | 4. Phaxio Fax Integration + Filing Pipeline | 0/? | Not started | - |
 | 5. Filing Receipt Email | 0/? | Not started | - |
 | 6. Guest-to-Account Conversion | 0/? | Not started | - |

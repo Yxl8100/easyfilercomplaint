@@ -32,8 +32,8 @@
 - [x] **PDF-01**: generateComplaintPdf() produces a single-page formal complaint letter
 - [x] **PDF-02**: PDF includes all required sections: header, To, From, Subject, body paragraphs, closing, footer
 - [x] **PDF-03**: PDF body copy is determined by complaintType (privacy_tracking / accessibility / video_sharing)
-- [ ] **PDF-04**: Generated PDF stored in Vercel Blob (or DB fallback if BLOB_READ_WRITE_TOKEN not set)
-- [ ] **PDF-05**: Filing.complaintPdfUrl updated after PDF generation
+- [x] **PDF-04**: Generated PDF stored in Vercel Blob (or DB fallback if BLOB_READ_WRITE_TOKEN not set)
+- [x] **PDF-05**: Filing.complaintPdfUrl updated after PDF generation
 - [x] **PDF-06**: PDF contains zero references to DPW, PV Law, APFC, ComplianceSweep, IV, lawsuits, or attorneys
 - [x] **PDF-07**: PDF uses @pdf-lib/fontkit with an embedded font (not Standard Fonts) for consistent rendering on government fax machines
 
