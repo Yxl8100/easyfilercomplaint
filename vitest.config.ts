@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     globals: true,
+    exclude: ['**/node_modules/**', '**/.claude/worktrees/**'],
   },
   resolve: {
     alias: {
