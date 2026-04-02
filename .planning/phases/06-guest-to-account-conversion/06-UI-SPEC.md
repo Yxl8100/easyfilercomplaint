@@ -60,8 +60,8 @@ Declared values (multiples of 4 only). Matches existing codebase convention.
 | 3xl | 64px | Not used in this phase |
 
 Exceptions:
-- Password input touch target: minimum 44px height — use `py-2.5` (10px) + `text-sm` (20px line height) + border = ~42px; add `min-h-[44px]` to both password inputs.
-- Success page account CTA button: `px-8 py-3.5` already provides 44px height — carry forward unchanged.
+- Password input touch target: minimum 44px height — use `py-3` (12px) + `text-sm` (20px line height) + border = ~44px; add `min-h-[44px]` to both password inputs.
+- Success page account CTA button: `px-8 py-4` already provides 44px height — carry forward unchanged.
 
 ---
 
@@ -133,7 +133,7 @@ Structure:
    - `FormField` email — label "Email", type email, `readOnly`, `bg-bg-alt cursor-not-allowed` (pre-filled from filerInfo)
    - `FormField` password — label "Password", type password, required, minLength 8, hint "At least 8 characters"
    - `FormField` confirmPassword — label "Confirm Password", type password, required
-   - Submit button: `font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white w-full py-3.5 rounded-[6px] hover:bg-text-mid transition-colors min-h-[44px]`
+   - Submit button: `font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white w-full py-4 rounded-[6px] hover:bg-text-mid transition-colors min-h-[44px]`
    - Button label: "Create Free Account"
 6. Already have an account? link: `font-body text-sm text-text-mid` + `<a href="/login" className="underline text-text">Sign in</a>`
 7. `Footer`
@@ -172,7 +172,7 @@ Structure:
 1. `Masthead` — update to show "My Filings" nav link when authenticated (Masthead modification scope: auth state awareness)
 2. `<h1>` — "Your Filings" — `font-serif text-3xl font-bold text-text`
 3. Filing rows (each): `bg-bg-alt border border-border rounded-[6px] p-6 mb-4`
-   - Receipt ID: `font-mono text-xl font-bold text-text tracking-wider` (same as success page)
+   - Receipt ID: `font-mono text-sm font-bold text-text tracking-wider`
    - Business name: `font-body text-sm text-text-mid`
    - Filed date: `font-body text-sm text-text-mid`
    - Status badge: `font-mono text-[9px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px]`
