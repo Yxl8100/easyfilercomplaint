@@ -67,16 +67,19 @@ Exceptions:
 
 ## Typography
 
-All values pre-populated from existing codebase patterns (success page, FormField, Masthead).
+All values pre-populated from existing codebase patterns (success page, FormField, Masthead). Fixed by checker revision: collapsed to 4 sizes, 2 weights.
 
 | Role | Size | Weight | Line Height | Font family | Usage in phase |
 |------|------|--------|-------------|-------------|----------------|
 | Display | 30px (text-3xl) | 700 (bold) | 1.2 | font-serif (Fraunces) | Page h1 headings: "Create Your Account", "Sign In", "Your Filings" |
-| Heading | 16px (text-base) | 700 (bold) | 1.3 | font-serif (Fraunces) | Card sub-headings, section labels |
-| Body | 14px (text-sm) | 500 | 1.5 | font-body (Inter) | Form helper text, filing detail rows, descriptive copy |
-| Label | 9px (text-[9px]) | 400 | 1.0 | font-mono (JetBrains) | Input labels (`tracking-[0.15em] uppercase`), badge text |
-| CTA | 11px (text-[11px]) | 400 | 1.0 | font-mono (JetBrains) | Button text (`tracking-[0.1em] uppercase`) |
-| Hint | 8px (text-[8px]) | 400 | 1.0 | font-mono (JetBrains) | Input hint text (`tracking-[0.05em]`) |
+| Body | 14px (text-sm) | 400 (regular) | 1.5 | font-body (Inter) | Form helper text, filing detail rows, descriptive copy, card sub-headings (bold variant via font-bold class) |
+| CTA | 11px (text-[11px]) | 400 (regular) | 1.0 | font-mono (JetBrains) | Button text (`tracking-[0.1em] uppercase`) |
+| Label | 9px (text-[9px]) | 400 (regular) | 1.0 | font-mono (JetBrains) | Input labels (`tracking-[0.15em] uppercase`), badge text, input hint text (`tracking-[0.05em]`) |
+
+Notes:
+- Headings (card sub-headings, section labels) use 14px Body size at `font-bold` (700) — no separate Heading size.
+- Hint text uses 9px Label size at `tracking-[0.05em]` (without uppercase) to differentiate from uppercase input labels.
+- Only two weights in use: 700 (`font-bold`) and 400 (`font-normal`). Weight 500 (`font-medium`) is not used.
 
 Source: `src/components/forms/FormField.tsx`, `src/app/filing/[id]/success/page.tsx`
 
@@ -136,7 +139,7 @@ Structure:
 7. `Footer`
 
 Inline validation states:
-- Empty required field on blur: red border (`border-accent`) + hint text in `text-accent text-[8px] font-mono`
+- Empty required field on blur: red border (`border-accent`) + hint text in `text-accent text-[9px] font-mono`
 - Password mismatch: "Passwords do not match." below confirm field
 - Email already registered (409 from API): error card `bg-accent-bg border border-accent rounded-[6px] p-4 text-sm font-body text-accent`
 - Loading state: button shows spinner (lucide `Loader2` className `animate-spin`) + `disabled` attribute + text "Creating Account..."
@@ -172,7 +175,7 @@ Structure:
    - Receipt ID: `font-mono text-xl font-bold text-text tracking-wider` (same as success page)
    - Business name: `font-body text-sm text-text-mid`
    - Filed date: `font-body text-sm text-text-mid`
-   - Status badge: `font-mono text-[8px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px]`
+   - Status badge: `font-mono text-[9px] tracking-[0.1em] uppercase px-2 py-0.5 rounded-[4px]`
      - Filed: `bg-bg-dark text-white`
      - Failed: `bg-accent-bg text-accent border border-accent`
      - In progress (generating/filing): `bg-bg-alt text-text-mid border border-border`
