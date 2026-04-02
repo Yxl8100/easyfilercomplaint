@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-04-01T19:52:33.849Z"
-last_activity: 2026-04-01
+status: executing
+last_updated: "2026-04-02T03:07:32Z"
+last_activity: 2026-04-02 -- Phase 06 Plan 01 complete
 progress:
   total_phases: 8
   completed_phases: 5
-  total_plans: 14
-  completed_plans: 14
+  total_plans: 16
+  completed_plans: 15
 ---
 
 # State: EasyFilerComplaint
@@ -19,17 +19,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 05 — filing-receipt-email — COMPLETE
+**Current focus:** Phase 06 — guest-to-account-conversion
 
 ## Current Position
 
-Phase: 6
-Plan: Not started
-Status: Phase 05 complete — all plans done, 99/99 tests passing
-Last activity: 2026-04-01
+Phase: 06 (guest-to-account-conversion) — EXECUTING
+Plan: 2 of 2
+Status: Executing Phase 06
+Last activity: 2026-04-02 -- Phase 06 Plan 01 complete (auth infrastructure)
 
 ```
-v1.1 Progress: [██████████] 100% (14/14 plans complete)
+v1.1 Progress: [██████████] ~94% (15/16 plans complete)
 ```
 
 ## Phase Status
@@ -92,6 +92,10 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-01 | vi.hoisted() for mockSend in Resend test — vi.fn() outside vi.mock factory is unavailable at mock registration time | Phase 05, Plan 01 |
 | 2026-04-01 | function constructor syntax in vi.mock Resend factory — arrow function cannot be used with new keyword | Phase 05, Plan 01 |
 | 2026-04-01 | EMAIL-05 attorney prohibited check strips Attorney General (government office title) — prohibition targets law-firm/legal-counsel references only | Phase 05, Plan 01 |
+| 2026-04-02 | bcrypt cost factor 12 for password hashing — industry standard, ~250ms latency acceptable for registration | Phase 06, Plan 01 |
+| 2026-04-02 | JWT session strategy required for Credentials + PrismaAdapter — database strategy silently fails | Phase 06, Plan 01 |
+| 2026-04-02 | filerEmail indexed String? column (not raw SQL JSON extraction from filerInfo) — resolves RESEARCH.md Open Question 1 | Phase 06, Plan 01 |
+| 2026-04-02 | Middleware test extracts protectedPaths logic to pure functions — NextAuth v5 auth() wrapper not directly unit-testable | Phase 06, Plan 01 |
 
 ## Critical Notes
 
@@ -141,4 +145,12 @@ Phases 1-2 complete as of 2026-04-01:
 - 99/99 tests passing as of Phase 05 completion
 
 ---
-*Last updated: 2026-04-01 — Phase 05 Plan 01 complete: filing receipt email via Resend wired into pipeline*
+- POST /api/auth/register is COMPLETE — bcrypt cost-12 hash, 409 on duplicate email, 400 on short password, links all same-email filings to new user (AUTH-02, AUTH-03)
+- Filing.filerEmail String? column added with @@index([filerEmail]) — populated at checkout time (AUTH-03 backfill path)
+- src/lib/auth.ts has Credentials provider + JWT session strategy + bcrypt.compare authorize callback (AUTH-05)
+- src/middleware.ts protects /account/* with redirect to /login?callbackUrl=... (AUTH-06)
+- prisma db push required in production environment to apply filerEmail column to DB
+- 113/113 tests passing as of Phase 06 Plan 01 completion
+
+---
+*Last updated: 2026-04-02 — Phase 06 Plan 01 complete: auth infrastructure (Credentials, JWT, registration, middleware)*
