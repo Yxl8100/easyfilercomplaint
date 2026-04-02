@@ -4,11 +4,11 @@ import { NextResponse } from 'next/server'
 export default auth((req) => {
   const { pathname } = req.nextUrl
 
-  const protectedPaths = ['/dashboard', '/file']
+  const protectedPaths = ['/dashboard', '/file', '/account']
   const isProtected = protectedPaths.some((path) => pathname.startsWith(path))
 
   if (isProtected && !req.auth) {
-    const signInUrl = new URL('/auth/signin', req.url)
+    const signInUrl = new URL('/login', req.url)
     signInUrl.searchParams.set('callbackUrl', pathname)
     return NextResponse.redirect(signInUrl)
   }
