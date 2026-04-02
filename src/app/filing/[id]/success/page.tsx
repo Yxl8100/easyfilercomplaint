@@ -120,7 +120,7 @@ export default async function SuccessPage({
               Create a free account to view your filing history and download your complaint PDF anytime.
             </p>
             <a
-              href="/account/create"
+              href={`/account/create?filingId=${filing.id}`}
               className="inline-block font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white px-8 py-3.5 rounded-[6px] hover:bg-text-mid transition-colors"
             >
               Create Free Account →
