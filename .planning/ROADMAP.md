@@ -113,7 +113,11 @@ Plans:
   2. How It Works 3-step section and collapsible FAQ (5 questions) appear on homepage
   3. Privacy policy, Terms of Service, and About pages are accessible at /privacy, /terms, /about
   4. All pages pass entity separation audit with zero prohibited references
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 07-01-PLAN.md — Homepage rewrite (copy, categories, steps, pricing, FAQ) + Masthead/Footer nav updates
+- [ ] 07-02-PLAN.md — Legal pages: /privacy, /terms, /about
+- [ ] 07-03-PLAN.md — Entity separation tests + content verification for all pages
 **UI hint**: yes
 
 ### Phase 8: Filing Wizard UX Adjustments
@@ -140,7 +144,7 @@ Plans:
 | 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
 | 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
 | 6. Guest-to-Account Conversion | 2/2 | Complete | 2026-04-02 |
-| 7. Landing Page & Legal Pages | 0/? | Not started | - |
+| 7. Landing Page & Legal Pages | 0/3 | Planning complete | - |
 | 8. Filing Wizard UX Adjustments | 0/? | Not started | - |
 
 ---
@@ -178,5 +182,5 @@ CRON_SECRET=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Last updated: 2026-04-02 — Phase 6 complete: Guest-to-Account Conversion (2/2 plans); all 16 plans complete*
+*Last updated: 2026-04-02 — Phase 7 planned: 3 plans in 2 waves*
 *Milestone: v1 -- 8 phases, 61 requirements*
