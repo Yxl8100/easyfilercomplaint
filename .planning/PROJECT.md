@@ -44,8 +44,8 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - ✓ Guest-to-account conversion flow (post-filing) — Validated in Phase 06 (2026-04-02)
 - ✓ Filing history page (/account/filings) — Validated in Phase 06 (2026-04-02)
 - ✓ Auth middleware protecting /account/* routes — Validated in Phase 06 (2026-04-02)
-- [ ] Landing page with full consumer-facing copy
-- [ ] Privacy policy, Terms of Service, About pages
+- ✓ Landing page with full consumer-facing copy — Validated in Phase 07 (2026-04-02)
+- ✓ Privacy policy, Terms of Service, About pages — Validated in Phase 07 (2026-04-02)
 - [ ] Filing wizard UX adjustments (labels, agency selection, evidence upload)
 - [ ] Evidence file upload (Vercel Blob) + attach to fax
 
@@ -121,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 — Phase 05 complete: Resend receipt email with PDF attachment live; full filing pipeline (PDF → store → fax → email) is end-to-end functional*
+*Last updated: 2026-04-02 — Phase 07 complete: Homepage rewritten for $1.99 CA AG privacy filing product; Privacy Policy, Terms of Service, and About pages created; 152/152 tests passing including entity-separation coverage*
