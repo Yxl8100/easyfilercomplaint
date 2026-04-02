@@ -115,6 +115,7 @@ model Filing {
   categoryFields  Json?
   generatedText   Json?
   filerInfo       Json?
+  filerEmail      String?
 
   submissions     Submission[]
   invoiceId       String?
@@ -152,6 +153,7 @@ model Filing {
 
   @@index([userId])
   @@index([status])
+  @@index([filerEmail])
   @@map("filings")
 }
 

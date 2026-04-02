@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
           phone: data.phone,
           county: data.county || undefined,
         },
+        filerEmail: data.email,
         status: 'pending_payment',
       },
     })
