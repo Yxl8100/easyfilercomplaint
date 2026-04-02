@@ -2,7 +2,7 @@
 phase: 06-guest-to-account-conversion
 plan: 02
 subsystem: auth
-status: checkpoint-pending
+status: complete
 tags: [auth, account-creation, login, filing-history, pdf-proxy, nextauth]
 dependency_graph:
   requires:
@@ -44,8 +44,8 @@ decisions:
   - "bcryptjs installed via npm install in worktree — was in package.json but not in worktrees node_modules"
 metrics:
   duration: "12 minutes"
-  completed: "2026-04-02 (checkpoint-pending)"
-  tasks_completed: 2
+  completed: "2026-04-02"
+  tasks_completed: 3
   tasks_total: 3
   files_created: 8
   files_modified: 1
@@ -53,11 +53,11 @@ metrics:
   tests_total: 130
 ---
 
-# Phase 06 Plan 02: UI Pages Summary (Checkpoint Pending)
+# Phase 06 Plan 02: UI Pages Summary
 
 **One-liner:** Account creation with email pre-fill, credentials login, filing history with proxied PDF downloads — all pages wired to the Plan 01 auth infrastructure.
 
-**Status:** Tasks 1 and 2 complete. Awaiting Task 3 human verification checkpoint.
+**Status:** Complete. All 3 tasks done. Human verification approved 2026-04-02.
 
 ## Tasks Completed
 
@@ -65,6 +65,7 @@ metrics:
 |------|------|--------|-------|
 | 1 | Account create page, login page, success page CTA | fbad126 | src/app/account/create/page.tsx, AccountCreateForm.tsx, src/app/login/page.tsx, src/app/filing/[id]/success/page.tsx |
 | 2 | Filing history page and PDF proxy route | 7aab40d | src/app/account/filings/page.tsx, src/app/api/filings/[id]/pdf/route.ts |
+| 3 | Verify complete guest-to-account conversion flow | (human checkpoint) | Human approved — account creation with pre-filled email, filing history with PDF downloads, login/logout cycle, middleware redirect, JWT httpOnly cookie verified |
 
 ## What Was Built
 
@@ -122,15 +123,22 @@ metrics:
 - **Files modified:** page.test.tsx files (no behavior change)
 - **Commit:** fbad126 (included in Task 1 commit)
 
-## Checkpoint Awaiting
+## Human Verification (Task 3)
 
-Task 3 is `type="checkpoint:human-verify"` — requires human verification of the complete end-to-end guest-to-account conversion flow in a running dev environment.
+Human approved on 2026-04-02. Verified:
+- Account creation form with email pre-filled from filerInfo, read-only email field
+- Password validation (8+ chars, match confirmation), redirect to /account/filings after registration
+- Filing history page renders filing cards with receipt IDs, status badges, and conditional PDF download links
+- PDF download via `/api/filings/[id]/pdf` proxy opens correctly
+- Sign-out and direct navigation to /account/filings redirects to /login
+- Login with created credentials redirects back to /account/filings
+- `next-auth.session-token` cookie has `HttpOnly` flag confirmed in DevTools
 
 ## Known Stubs
 
 None — all functionality is wired. The PDF proxy correctly fetches from `complaintPdfUrl` (set by Plan 03's `storeComplaintPdf`). The filing history page shows real data from Prisma.
 
-## Self-Check: PASSED (Tasks 1-2 only)
+## Self-Check: PASSED
 
 - src/app/account/create/page.tsx: FOUND
 - src/app/account/create/AccountCreateForm.tsx: FOUND
@@ -139,4 +147,5 @@ None — all functionality is wired. The PDF proxy correctly fetches from `compl
 - src/app/api/filings/[id]/pdf/route.ts: FOUND
 - Commit fbad126: FOUND (Task 1)
 - Commit 7aab40d: FOUND (Task 2)
-- 130/130 tests passing: VERIFIED
+- Task 3: Human verification approved
+- 130/130 tests passing: VERIFIED (post-checkpoint full re-run confirmed)

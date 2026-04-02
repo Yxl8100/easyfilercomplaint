@@ -13,7 +13,7 @@
 - [x] **Phase 3: Complaint PDF Generation** - Generate formal government-style complaint letter PDF with embedded fonts (completed 2026-04-01)
 - [x] **Phase 4: Phaxio Fax Integration + Filing Pipeline** - Deliver PDF to CA AG via fax and wire full pipeline orchestrator (completed 2026-04-01)
 - [x] **Phase 5: Filing Receipt Email** - Send consumer confirmation email with complaint PDF attached (completed 2026-04-01)
-- [ ] **Phase 6: Guest-to-Account Conversion** - Post-filing account creation with filing history
+- [x] **Phase 6: Guest-to-Account Conversion** - Post-filing account creation with filing history (completed 2026-04-02)
 - [ ] **Phase 7: Landing Page & Legal Pages** - Consumer-facing copy and required legal pages
 - [ ] **Phase 8: Filing Wizard UX Adjustments** - Wizard polish: labels, evidence upload, agency selection
 
@@ -99,9 +99,10 @@ Plans:
   3. Authenticated user can view filing history at /account/filings with PDF download links
   4. Unauthenticated requests to /account/* redirect to /login
 **Plans**: 2 plans
+**Plans**: 2/2 complete
 Plans:
-- [ ] 06-01-PLAN.md — Auth infrastructure: bcryptjs, Credentials provider, JWT session, register API, middleware protection
-- [ ] 06-02-PLAN.md — UI pages: account creation, login, filing history, PDF proxy, success page CTA update
+- [x] 06-01-PLAN.md — Auth infrastructure: bcryptjs, Credentials provider, JWT session, register API, middleware protection
+- [x] 06-02-PLAN.md — UI pages: account creation, login, filing history, PDF proxy, success page CTA update
 
 ### Phase 7: Landing Page & Legal Pages
 **Goal**: Full consumer-facing copy on homepage plus required legal pages establishing EFC as a filing service
@@ -138,7 +139,7 @@ Plans:
 | 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
 | 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
 | 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
-| 6. Guest-to-Account Conversion | 0/2 | Planned | - |
+| 6. Guest-to-Account Conversion | 2/2 | Complete | 2026-04-02 |
 | 7. Landing Page & Legal Pages | 0/? | Not started | - |
 | 8. Filing Wizard UX Adjustments | 0/? | Not started | - |
 
@@ -177,5 +178,5 @@ CRON_SECRET=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Last updated: 2026-04-01 — Phase 6 planned: Guest-to-Account Conversion (2 plans)*
+*Last updated: 2026-04-02 — Phase 6 complete: Guest-to-Account Conversion (2/2 plans); all 16 plans complete*
 *Milestone: v1 -- 8 phases, 61 requirements*

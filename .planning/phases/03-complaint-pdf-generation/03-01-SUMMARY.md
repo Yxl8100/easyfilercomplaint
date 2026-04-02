@@ -146,6 +146,21 @@ None - no external service configuration required.
 - PDF bytes are Uint8Array; use Buffer.from(pdfBytes).toString('base64') for Resend email attachment (as noted in STATE.md)
 - @vercel/blob is installed and ready for PDF storage if Phase 4 or 5 needs it
 
+## Self-Check: PASSED
+
+Files verified:
+- FOUND: src/lib/generate-complaint-pdf.ts
+- FOUND: src/lib/templates/video-sharing.ts
+- FOUND: src/lib/__tests__/generate-complaint-pdf.test.ts
+- FOUND: src/assets/fonts/LiberationSerif-Regular.ttf
+- FOUND: src/assets/fonts/LiberationSerif-Bold.ttf
+
+Commits verified:
+- FOUND: 664fba6 (Task 1: deps + fonts + video-sharing template)
+- FOUND: fd0758a (Task 2 RED: failing tests)
+- FOUND: 61fedc4 (Task 2 GREEN: implementation)
+- FOUND: 18ea4b5 (docs: plan summary + STATE + ROADMAP)
+
 ---
 *Phase: 03-complaint-pdf-generation*
 *Completed: 2026-04-01*

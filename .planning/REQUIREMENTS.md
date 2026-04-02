@@ -69,13 +69,13 @@
 
 ### Authentication & Accounts
 
-- [ ] **AUTH-01**: Post-filing account creation form (name pre-filled, email read-only, password + confirm)
+- [x] **AUTH-01**: Post-filing account creation form (name pre-filled, email read-only, password + confirm)
 - [x] **AUTH-02**: Account creation hashes password with bcrypt
 - [x] **AUTH-03**: Account creation links current filing and all prior same-email filings to new user
-- [ ] **AUTH-04**: Login page at /login with email + password
+- [x] **AUTH-04**: Login page at /login with email + password
 - [x] **AUTH-05**: Authenticated session stored as JWT in httpOnly cookie
 - [x] **AUTH-06**: /account/* routes protected by middleware (redirect to /login if unauthenticated)
-- [ ] **AUTH-07**: Filing history page at /account/filings shows all user filings with PDF download links
+- [x] **AUTH-07**: Filing history page at /account/filings shows all user filings with PDF download links
 
 ### Wizard UX
 
