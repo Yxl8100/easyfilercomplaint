@@ -92,9 +92,9 @@
 - [x] **MKTG-01**: Homepage hero with "File a Privacy Complaint in 5 Minutes" + CTA
 - [x] **MKTG-02**: "How It Works" 3-step section on homepage
 - [x] **MKTG-03**: FAQ section on homepage (collapsible, 5 questions)
-- [ ] **MKTG-04**: Privacy policy page at /privacy (CCPA section included)
-- [ ] **MKTG-05**: Terms of Service at /terms (filing service, not law firm)
-- [ ] **MKTG-06**: About page at /about (no references to other entities)
+- [x] **MKTG-04**: Privacy policy page at /privacy (CCPA section included)
+- [x] **MKTG-05**: Terms of Service at /terms (filing service, not law firm)
+- [x] **MKTG-06**: About page at /about (no references to other entities)
 - [ ] **MKTG-07**: All pages pass entity separation check (zero prohibited references)
 
 ## v2 Requirements
