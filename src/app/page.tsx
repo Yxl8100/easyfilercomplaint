@@ -2,51 +2,33 @@ import Link from 'next/link'
 import { Masthead } from '@/components/Masthead'
 import { Footer } from '@/components/Footer'
 import { DoubleRule } from '@/components/DoubleRule'
+import { HomeFaq } from '@/components/HomeFaq'
 
-const categories = [
+const complaintTypes = [
   {
     symbol: '§',
-    title: 'Data Privacy',
-    description: 'Unauthorized data collection, sale of personal information, CCPA violations, data breach failures.',
-    agencies: ['FTC', 'CA AG'],
+    title: 'Privacy Tracking Violations',
+    description: 'Unauthorized data collection, sale of personal information, CCPA violations, failure to honor opt-out requests.',
+    agency: 'CA Attorney General',
   },
   {
     symbol: '¶',
-    title: 'Consumer Protection',
-    description: 'Deceptive practices, false advertising, billing fraud, subscription traps, warranty violations.',
-    agencies: ['FTC', 'CFPB'],
+    title: 'Website Accessibility Barriers',
+    description: 'Websites or apps that are inaccessible to people with disabilities, violating accessibility requirements.',
+    agency: 'CA Attorney General',
   },
   {
     symbol: '†',
-    title: 'FDA Violations',
-    description: 'Unsafe food products, mislabeled supplements, counterfeit medications, undisclosed ingredients.',
-    agencies: ['FDA'],
-  },
-  {
-    symbol: '‡',
-    title: 'Environmental',
-    description: 'Pollution, hazardous waste dumping, Clean Air Act violations, Clean Water Act violations.',
-    agencies: ['EPA'],
-  },
-  {
-    symbol: '∞',
-    title: 'City Code Violations',
-    description: 'Zoning infractions, building code violations, unlicensed contractors, public nuisance.',
-    agencies: ['CA AG'],
-  },
-  {
-    symbol: '◊',
-    title: 'Accessibility / ADA',
-    description: 'Disability discrimination, inaccessible facilities, failure to provide accommodations.',
-    agencies: ['DOJ/ADA'],
+    title: 'Video Sharing Privacy',
+    description: 'Unauthorized sharing or distribution of personal videos, violation of video privacy protections.',
+    agency: 'CA Attorney General',
   },
 ]
 
 const steps = [
-  { numeral: 'I', title: 'Select Category', description: 'Choose from 6 complaint categories spanning federal and state agencies.' },
-  { numeral: 'II', title: 'Answer Questions', description: 'A guided form collects the details each specific agency requires.' },
-  { numeral: 'III', title: 'We Format & File', description: 'We generate agency-specific complaint documents and submit via email or fax.' },
-  { numeral: 'IV', title: 'Track Everything', description: 'Your dashboard shows submission status, confirmation numbers, and next steps.' },
+  { numeral: 'I', title: 'Describe the Problem', description: 'Tell us what happened — the business name, what privacy violation occurred, and your contact details.' },
+  { numeral: 'II', title: 'We Generate & File', description: 'We create a formal complaint letter and fax it directly to the California Attorney General\'s office.' },
+  { numeral: 'III', title: 'Get Your Receipt', description: 'You receive a confirmation email with your complaint PDF and a unique filing receipt ID.' },
 ]
 
 export default function HomePage() {
@@ -61,29 +43,29 @@ export default function HomePage() {
             {/* Main story */}
             <div className="lg:col-span-2 lg:border-r lg:border-border lg:pr-8">
               <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-3">
-                Consumer Rights · Special Report
+                Privacy Rights · Filing Service
               </p>
               <h1 className="font-serif text-4xl md:text-5xl font-bold text-text leading-tight mb-4">
-                You Have the Right to File a Complaint.{' '}
-                <em className="text-accent">We Make It Easy.</em>
+                File a Privacy Complaint{' '}
+                <em className="text-accent">in 5 Minutes</em>
               </h1>
               <DoubleRule />
               <p className="font-body text-lg text-text-mid leading-relaxed mb-6 mt-4">
-                Seven government agencies accept consumer complaints. Most people never file because
-                the process is buried in government websites, requires agency-specific knowledge, and
-                demands hours of research. We solve all of that with one guided form.
+                California businesses are required to respect your privacy rights under the CCPA. When they
+                don&apos;t, you have the right to file a formal complaint with the California Attorney General.
+                EasyFilerComplaint handles the paperwork.
               </p>
               <p className="font-body text-base text-text-mid leading-relaxed mb-8">
-                Fill out your complaint once. We format it for every relevant agency — FCC, FTC,
-                CFPB, FDA, EPA, DOJ — and submit via official email and fax channels where available.
-                Your complaint enters the official record.
+                Tell us what happened. We generate a formal complaint letter, fax it directly to the CA
+                Attorney General&apos;s office, and email you a copy with your unique filing receipt ID. The
+                whole process takes about 5 minutes.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  href="/auth/signin"
+                  href="/file"
                   className="inline-flex items-center justify-center font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white px-8 py-3 rounded-[6px] hover:bg-text-mid transition-colors"
                 >
-                  File a Complaint →
+                  File a Privacy Complaint →
                 </Link>
                 <Link
                   href="#how-it-works"
@@ -102,11 +84,10 @@ export default function HomePage() {
                 </p>
                 <div className="space-y-4">
                   {[
-                    { stat: '7', label: 'Government Agencies' },
-                    { stat: '6', label: 'Complaint Categories' },
-                    { stat: '$0.50', label: 'Per Filing' },
-                    { stat: '$2', label: 'Annual Membership' },
-                    { stat: '1', label: 'Form to Fill Out' },
+                    { stat: '$1.99', label: 'Per Filing' },
+                    { stat: '5 min', label: 'Average Time' },
+                    { stat: '1', label: 'Government Agency' },
+                    { stat: '3', label: 'Complaint Types' },
                   ].map(({ stat, label }) => (
                     <div key={label} className="flex items-baseline justify-between border-b border-border pb-3">
                       <span className="font-serif text-2xl font-bold text-text">{stat}</span>
@@ -125,7 +106,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* What You Can File */}
       <section id="categories" className="border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-12">
           <div className="flex items-center gap-4 mb-8">
@@ -138,27 +119,22 @@ export default function HomePage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categories.map((cat) => (
-              <div key={cat.title} className="bg-bg-alt border border-border rounded-[6px] p-6 hover:border-border-dark transition-colors group cursor-pointer">
+            {complaintTypes.map((ct) => (
+              <div key={ct.title} className="bg-bg-alt border border-border rounded-[6px] p-6 hover:border-border-dark transition-colors group cursor-pointer">
                 <div className="flex items-start justify-between mb-3">
                   <span className="font-serif text-4xl text-border-dark group-hover:text-accent transition-colors">
-                    {cat.symbol}
+                    {ct.symbol}
                   </span>
                   <span className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-light border border-border rounded-[4px] px-2 py-0.5">
-                    $0.50
+                    $1.99
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-text mb-2">{cat.title}</h3>
-                <p className="font-body text-sm text-text-mid leading-relaxed mb-4">{cat.description}</p>
+                <h3 className="font-serif text-lg font-bold text-text mb-2">{ct.title}</h3>
+                <p className="font-body text-sm text-text-mid leading-relaxed mb-4">{ct.description}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  {cat.agencies.map((agency) => (
-                    <span
-                      key={agency}
-                      className="font-mono text-[8px] tracking-[0.1em] uppercase bg-bg-dark text-white px-2 py-0.5 rounded-[4px]"
-                    >
-                      {agency}
-                    </span>
-                  ))}
+                  <span className="font-mono text-[8px] tracking-[0.1em] uppercase bg-bg-dark text-white px-2 py-0.5 rounded-[4px]">
+                    {ct.agency}
+                  </span>
                 </div>
               </div>
             ))}
@@ -175,10 +151,10 @@ export default function HomePage() {
           </div>
 
           <h2 className="font-serif text-3xl font-bold text-text mb-10">
-            Four Steps to an Official Filing
+            Three Steps to an Official Filing
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {steps.map((step) => (
               <div key={step.numeral} className="bg-bg border border-border rounded-[6px] p-6">
                 <div className="font-serif text-5xl font-bold text-border-dark mb-4">{step.numeral}.</div>
@@ -201,28 +177,27 @@ export default function HomePage() {
           <div className="max-w-lg mx-auto">
             <div className="bg-bg border border-border rounded-[6px] p-8">
               <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-text-light text-center mb-2">
-                Annual Membership
+                Simple Pricing
               </p>
               <DoubleRule />
 
               <div className="text-center py-6">
                 <div className="flex items-end justify-center gap-1 mb-1">
-                  <span className="font-serif text-6xl font-bold text-text">$2</span>
-                  <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-light mb-3">per annum</span>
+                  <span className="font-serif text-6xl font-bold text-text">$1.99</span>
+                  <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-light mb-3">per filing</span>
                 </div>
-                <p className="font-mono text-sm text-accent font-medium">+ $0.50 per filing</p>
+                <p className="font-body text-sm text-text-mid">Flat fee. No subscription. No surprise charges.</p>
               </div>
 
               <DoubleRule />
 
               <ul className="space-y-3 mb-8">
                 {[
-                  'Access to all 6 complaint categories',
-                  'Auto-submission to relevant agencies',
-                  'PDF complaint documents',
-                  'Filing status dashboard',
-                  'Confirmation tracking',
-                  'Unlimited filings (pay per use)',
+                  'Formal complaint letter generated',
+                  'Faxed to the California Attorney General',
+                  'PDF copy emailed to you',
+                  'Unique filing receipt ID',
+                  'Account to track your filings',
                 ].map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
                     <span className="font-serif text-accent mt-0.5">§</span>
@@ -232,16 +207,32 @@ export default function HomePage() {
               </ul>
 
               <Link
-                href="/auth/signin"
+                href="/file"
                 className="block w-full text-center font-mono text-[11px] tracking-[0.1em] uppercase bg-bg-dark text-white py-3 rounded-[6px] hover:bg-text-mid transition-colors"
               >
-                Start Filing — $2/year →
+                File a Complaint — $1.99 →
               </Link>
 
               <p className="font-mono text-[8px] tracking-[0.05em] uppercase text-text-light text-center mt-4">
-                Cancel anytime · No auto-renew · Pay per filing only
+                No account required to file · Create one after to track filings
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="font-mono text-[11px] tracking-[0.1em] uppercase text-text-light">Support</span>
+            <div className="flex-1 border-t border-border" />
+          </div>
+          <h2 className="font-serif text-3xl font-bold text-text mb-10">
+            Common Questions
+          </h2>
+          <div className="max-w-3xl mx-auto">
+            <HomeFaq />
           </div>
         </div>
       </section>

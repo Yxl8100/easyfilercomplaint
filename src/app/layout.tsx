@@ -21,8 +21,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'EasyFilerComplaint — File Official Complaints With One Form',
-  description: 'File official complaints with FCC, FTC, CFPB, FDA, EPA, DOJ/ADA and more. One form, seven agencies.',
+  title: 'EasyFilerComplaint — File a Privacy Complaint in 5 Minutes',
+  description: 'File a formal privacy complaint with the California Attorney General for $1.99. We generate the paperwork, fax it to the AG, and email you a copy.',
 }
 
 export default function RootLayout({

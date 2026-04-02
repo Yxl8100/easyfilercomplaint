@@ -1,5 +1,18 @@
 import Link from 'next/link'
 
+const platformLinks = [
+  { label: 'File a Complaint', href: '/file' },
+  { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Dashboard', href: '/account/filings' },
+]
+
+const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
+  { label: 'About', href: '/about' },
+]
+
 export function Footer() {
   return (
     <footer className="bg-bg-dark text-white">
@@ -18,10 +31,10 @@ export function Footer() {
           <div>
             <h3 className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/40 mb-4">Platform</h3>
             <ul className="space-y-2">
-              {['File a Complaint', 'How It Works', 'Pricing', 'Dashboard'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="font-body text-sm text-white/70 hover:text-white transition-colors">
-                    {item}
+              {platformLinks.map((item) => (
+                <li key={item.label}>
+                  <Link href={item.href} className="font-body text-sm text-white/70 hover:text-white transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -30,10 +43,10 @@ export function Footer() {
           <div>
             <h3 className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/40 mb-4">Legal</h3>
             <ul className="space-y-2">
-              {['Privacy Policy', 'Terms of Service', 'Refund Policy'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="font-body text-sm text-white/70 hover:text-white transition-colors">
-                    {item}
+              {legalLinks.map((item) => (
+                <li key={item.label}>
+                  <Link href={item.href} className="font-body text-sm text-white/70 hover:text-white transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -42,7 +55,7 @@ export function Footer() {
           <div>
             <h3 className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/40 mb-4">Agencies</h3>
             <ul className="space-y-2">
-              {['FCC', 'FTC', 'CFPB', 'FDA', 'EPA', 'DOJ/ADA'].map((item) => (
+              {['CA Attorney General'].map((item) => (
                 <li key={item}>
                   <span className="font-mono text-xs text-white/50">{item}</span>
                 </li>

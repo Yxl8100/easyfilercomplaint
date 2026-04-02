@@ -17,7 +17,7 @@ export function Masthead() {
             Pricing
           </Link>
           <Link
-            href="/auth/signin"
+            href="/login"
             className="font-mono text-[11px] tracking-[0.1em] uppercase border border-bg-dark px-4 py-1.5 text-text rounded-[6px] hover:bg-bg-dark hover:text-white transition-colors"
           >
             Sign In
