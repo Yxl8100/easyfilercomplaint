@@ -41,9 +41,9 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - ✓ Stripe $1.99 checkout integration — validated in Phase 02 (2026-04-01)
 - ✓ Stripe webhook handler (payment confirmation → pipeline trigger) — validated in Phase 02 (2026-04-01)
 - [x] Prisma schema: Filing model with Stripe + Phaxio + receipt fields — Validated in Phase 01: schema-and-data-model
-- [ ] Guest-to-account conversion flow (post-filing)
-- [ ] Filing history page (/account/filings)
-- [ ] Auth middleware protecting /account/* routes
+- ✓ Guest-to-account conversion flow (post-filing) — Validated in Phase 06 (2026-04-02)
+- ✓ Filing history page (/account/filings) — Validated in Phase 06 (2026-04-02)
+- ✓ Auth middleware protecting /account/* routes — Validated in Phase 06 (2026-04-02)
 - [ ] Landing page with full consumer-facing copy
 - [ ] Privacy policy, Terms of Service, About pages
 - [ ] Filing wizard UX adjustments (labels, agency selection, evidence upload)
@@ -70,7 +70,6 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - Basic Prisma schema (may need extension for Stripe/Phaxio fields)
 
 **What's NOT live:**
-- Guest-to-account conversion
 - Full wizard UX polish
 
 **Critical infrastructure notes:**
