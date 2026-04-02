@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-04-02T04:35:22.414Z"
+status: executing
+last_updated: "2026-04-02T18:37:31.930Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 8
   completed_phases: 6
-  total_plans: 16
-  completed_plans: 16
+  total_plans: 19
+  completed_plans: 17
 ---
 
 # State: EasyFilerComplaint
@@ -19,17 +19,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 06 — guest-to-account-conversion
+**Current focus:** Phase 07 — landing-page-and-legal-pages
 
 ## Current Position
 
-Phase: 7
-Plan: Not started
-Status: Phase 06 complete. All 16 plans complete.
+Phase: 07 (landing-page-and-legal-pages) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-04-02
 
 ```
-v1.1 Progress: [██████████] 100% (16/16 plans complete)
+v1.1 Progress: [█████████░] 89% (17/19 plans complete)
 ```
 
 ## Phase Status
@@ -99,6 +99,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-02 | Server component wrapper + client AccountCreateForm — server reads filerInfo from DB, passes as props to client form | Phase 06, Plan 02 |
 | 2026-04-02 | PDF proxy route for filing downloads — Blob URLs are private; server verifies auth + ownership before streaming | Phase 06, Plan 02 |
 | 2026-04-02 | JSON.stringify(result) server component testing pattern used throughout — no @testing-library/react installed | Phase 06, Plan 02 |
+| 2026-04-02 | @base-ui/react Accordion import path is @base-ui/react/accordion (not @base-ui-components/react/accordion) | Phase 07, Plan 01 |
+| 2026-04-02 | HomeFaq must be 'use client' — @base-ui/react Accordion uses React hooks internally; Server Component context fails | Phase 07, Plan 01 |
+| 2026-04-02 | FAQ_ITEMS exported as const (not only named export) for testability without rendering the component | Phase 07, Plan 01 |
 
 ## Critical Notes
 
@@ -170,3 +173,9 @@ Phases 1-2 complete as of 2026-04-01:
 - Phase 06 (guest-to-account-conversion) COMPLETE — all 2 plans done
 
 *Last updated: 2026-04-02 — Phase 06 Plan 02 complete; human verify approved; all 130 tests passing; Phase 06 fully complete*
+
+---
+- Phase 07 Plan 01 COMPLETE — homepage rewritten for $1.99 single-agency product; HomeFaq client component created; Masthead /login and Footer real links wired
+- MKTG-01, MKTG-02, MKTG-03 requirements marked complete
+
+*Last updated: 2026-04-02 — Phase 07 Plan 01 complete; homepage rewritten; HomeFaq component created; Masthead/Footer links updated*

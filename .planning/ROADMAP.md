@@ -115,7 +115,7 @@ Plans:
   4. All pages pass entity separation audit with zero prohibited references
 **Plans**: 3 plans
 Plans:
-- [ ] 07-01-PLAN.md — Homepage rewrite (copy, categories, steps, pricing, FAQ) + Masthead/Footer nav updates
+- [x] 07-01-PLAN.md — Homepage rewrite (copy, categories, steps, pricing, FAQ) + Masthead/Footer nav updates
 - [ ] 07-02-PLAN.md — Legal pages: /privacy, /terms, /about
 - [ ] 07-03-PLAN.md — Entity separation tests + content verification for all pages
 **UI hint**: yes
@@ -144,7 +144,7 @@ Plans:
 | 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
 | 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
 | 6. Guest-to-Account Conversion | 2/2 | Complete | 2026-04-02 |
-| 7. Landing Page & Legal Pages | 0/3 | Planning complete | - |
+| 7. Landing Page & Legal Pages | 1/3 | In Progress|  |
 | 8. Filing Wizard UX Adjustments | 0/? | Not started | - |
 
 ---
