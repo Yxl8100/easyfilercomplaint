@@ -95,7 +95,7 @@
 - [x] **MKTG-04**: Privacy policy page at /privacy (CCPA section included)
 - [x] **MKTG-05**: Terms of Service at /terms (filing service, not law firm)
 - [x] **MKTG-06**: About page at /about (no references to other entities)
-- [ ] **MKTG-07**: All pages pass entity separation check (zero prohibited references)
+- [x] **MKTG-07**: All pages pass entity separation check (zero prohibited references)
 
 ## v2 Requirements
 

@@ -14,7 +14,7 @@
 - [x] **Phase 4: Phaxio Fax Integration + Filing Pipeline** - Deliver PDF to CA AG via fax and wire full pipeline orchestrator (completed 2026-04-01)
 - [x] **Phase 5: Filing Receipt Email** - Send consumer confirmation email with complaint PDF attached (completed 2026-04-01)
 - [x] **Phase 6: Guest-to-Account Conversion** - Post-filing account creation with filing history (completed 2026-04-02)
-- [ ] **Phase 7: Landing Page & Legal Pages** - Consumer-facing copy and required legal pages
+- [x] **Phase 7: Landing Page & Legal Pages** - Consumer-facing copy and required legal pages (completed 2026-04-02)
 - [ ] **Phase 8: Filing Wizard UX Adjustments** - Wizard polish: labels, evidence upload, agency selection
 
 ---
@@ -117,7 +117,7 @@ Plans:
 Plans:
 - [x] 07-01-PLAN.md — Homepage rewrite (copy, categories, steps, pricing, FAQ) + Masthead/Footer nav updates
 - [x] 07-02-PLAN.md — Legal pages: /privacy, /terms, /about
-- [ ] 07-03-PLAN.md — Entity separation tests + content verification for all pages
+- [x] 07-03-PLAN.md — Entity separation tests + content verification for all pages
 **UI hint**: yes
 
 ### Phase 8: Filing Wizard UX Adjustments
@@ -144,7 +144,7 @@ Plans:
 | 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
 | 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
 | 6. Guest-to-Account Conversion | 2/2 | Complete | 2026-04-02 |
-| 7. Landing Page & Legal Pages | 2/3 | In Progress|  |
+| 7. Landing Page & Legal Pages | 3/3 | Complete   | 2026-04-02 |
 | 8. Filing Wizard UX Adjustments | 0/? | Not started | - |
 
 ---
