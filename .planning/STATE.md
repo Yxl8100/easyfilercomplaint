@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-04-02T03:07:32Z"
-last_activity: 2026-04-02 -- Phase 06 Plan 01 complete
+last_updated: "2026-04-02T03:30:00Z"
+last_activity: 2026-04-02 -- Phase 06 Plan 02 tasks 1-2 complete (checkpoint pending human verify)
 progress:
   total_phases: 8
   completed_phases: 5
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 
 Phase: 06 (guest-to-account-conversion) — EXECUTING
 Plan: 2 of 2
-Status: Executing Phase 06
-Last activity: 2026-04-02 -- Phase 06 Plan 01 complete (auth infrastructure)
+Status: Checkpoint pending human verification (06-02, Task 3)
+Last activity: 2026-04-02 -- Phase 06 Plan 02 tasks 1-2 complete; awaiting checkpoint:human-verify
 
 ```
 v1.1 Progress: [██████████] ~94% (15/16 plans complete)
@@ -96,6 +96,9 @@ Phases 1-2 complete as of 2026-04-01:
 | 2026-04-02 | JWT session strategy required for Credentials + PrismaAdapter — database strategy silently fails | Phase 06, Plan 01 |
 | 2026-04-02 | filerEmail indexed String? column (not raw SQL JSON extraction from filerInfo) — resolves RESEARCH.md Open Question 1 | Phase 06, Plan 01 |
 | 2026-04-02 | Middleware test extracts protectedPaths logic to pure functions — NextAuth v5 auth() wrapper not directly unit-testable | Phase 06, Plan 01 |
+| 2026-04-02 | Server component wrapper + client AccountCreateForm — server reads filerInfo from DB, passes as props to client form | Phase 06, Plan 02 |
+| 2026-04-02 | PDF proxy route for filing downloads — Blob URLs are private; server verifies auth + ownership before streaming | Phase 06, Plan 02 |
+| 2026-04-02 | JSON.stringify(result) server component testing pattern used throughout — no @testing-library/react installed | Phase 06, Plan 02 |
 
 ## Critical Notes
 
@@ -153,4 +156,12 @@ Phases 1-2 complete as of 2026-04-01:
 - 113/113 tests passing as of Phase 06 Plan 01 completion
 
 ---
-*Last updated: 2026-04-02 — Phase 06 Plan 01 complete: auth infrastructure (Credentials, JWT, registration, middleware)*
+- /account/create page (server + client split) is COMPLETE — pre-fills email from filerInfo/filerEmail, validates passwords, POSTs to /api/auth/register, auto-logs in with signIn('credentials'), redirects to /account/filings
+- /login page is COMPLETE — credentials sign-in with error handling, redirects to /account/filings on success
+- /account/filings page is COMPLETE — auth-gated server component, queries filings by userId, renders cards with status badges + conditional PDF proxy links
+- GET /api/filings/[id]/pdf is COMPLETE — auth + ownership verification, streams private Blob content with Content-Disposition header
+- Success page CTA updated to pass filingId query param for email pre-fill
+- 130/130 tests passing as of Phase 06 Plan 02 completion
+
+---
+*Last updated: 2026-04-02 — Phase 06 Plan 02 tasks 1-2 complete: account create, login, filing history, PDF proxy (checkpoint:human-verify pending)*
