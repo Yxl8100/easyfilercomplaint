@@ -98,7 +98,10 @@ Plans:
   2. New account links all prior same-email filings to the user record
   3. Authenticated user can view filing history at /account/filings with PDF download links
   4. Unauthenticated requests to /account/* redirect to /login
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 06-01-PLAN.md — Auth infrastructure: bcryptjs, Credentials provider, JWT session, register API, middleware protection
+- [ ] 06-02-PLAN.md — UI pages: account creation, login, filing history, PDF proxy, success page CTA update
 
 ### Phase 7: Landing Page & Legal Pages
 **Goal**: Full consumer-facing copy on homepage plus required legal pages establishing EFC as a filing service
@@ -135,7 +138,7 @@ Plans:
 | 3. Complaint PDF Generation | 2/2 | Complete   | 2026-04-01 |
 | 4. Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete | 2026-04-01 |
 | 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
-| 6. Guest-to-Account Conversion | 0/? | Not started | - |
+| 6. Guest-to-Account Conversion | 0/2 | Planned | - |
 | 7. Landing Page & Legal Pages | 0/? | Not started | - |
 | 8. Filing Wizard UX Adjustments | 0/? | Not started | - |
 
@@ -174,5 +177,5 @@ CRON_SECRET=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Last updated: 2026-04-01 — Phase 4 complete: Phaxio integration + filing pipeline (4/4 plans)*
+*Last updated: 2026-04-01 — Phase 6 planned: Guest-to-Account Conversion (2 plans)*
 *Milestone: v1 -- 8 phases, 61 requirements*
