@@ -54,15 +54,21 @@ Source: Measured from `src/app/page.tsx` existing section classes (`py-12`, `px-
 | Role | Size | Weight | Line Height | Font family | Usage |
 |------|------|--------|-------------|-------------|-------|
 | Body | 16px | 500 | 1.625 (relaxed) | Inter (`font-body`) | Paragraph text, FAQ answers, legal page body |
-| Label | 11px (0.68rem) | 400 | 1.0 | JetBrains Mono (`font-mono`) | Section eyebrows, badge text, nav links, CTAs (`text-[11px] tracking-[0.1em] uppercase`) |
+| Label | 11px (0.68rem) | 500 | 1.0 | JetBrains Mono (`font-mono`) | Section eyebrows, badge text, nav links, CTAs (`text-[11px] tracking-[0.1em] uppercase`) |
 | Heading | 28px–30px | 700 | 1.25 (tight) | Fraunces (`font-serif`) | H2 section headings (`text-3xl`) |
 | Display | 36px–48px | 700 | 1.2 (tight) | Fraunces (`font-serif`) | H1 hero heading (`text-4xl md:text-5xl`) |
 
 Notes:
-- Body weight is 500 per `globals.css` (`p { font-weight: 500 }`). Base body is 450 (`body { font-weight: 450 }`).
-- All existing mono labels use 9px (`text-[9px]`) for eyebrow/micro-labels and 11px for interactive labels. Maintain this distinction.
+- Canonical weight set for Phase 7: **500** (body and label) and **700** (heading and display). These are the only two weights the Phase 7 executor applies.
+- The 450 base body weight declared in `globals.css` (`body { font-weight: 450 }`) is an inherited global baseline — not a Phase 7 design decision. The operative body weight is 500 per the `p { font-weight: 500 }` override.
+- The 400 weight that appeared in older mono/label rendering is superseded by 500. All JetBrains Mono labels in Phase 7 use weight 500. If the browser renders JetBrains Mono at a visually lighter appearance at 500, that is acceptable — no third weight is declared.
+- Label size is canonically 11px (`text-[11px]`). The 9px (`text-[9px]`) micro-label variant present in `page.tsx` is a legacy implementation detail. Phase 7 executors must render all new mono labels at 11px. Existing 9px instances in untouched code may be left as-is but must not be introduced in any new elements.
 - Legal page body text uses 16px at weight 500 and line-height 1.625.
 - Legal page H1 uses `text-4xl font-bold font-serif` matching the pattern in `07-RESEARCH.md` Pattern 1 example.
+
+**Type scale summary (4 sizes, 2 weights):**
+- Sizes: 11px · 16px · 28–30px · 36–48px
+- Weights: 500 (body/label) · 700 (heading/display)
 
 Source: `src/app/page.tsx`, `src/app/globals.css`, `tailwind.config.ts`, `07-RESEARCH.md` Pattern 1.
 
