@@ -57,6 +57,8 @@ export async function POST(request: NextRequest) {
           county: data.county || undefined,
         },
         filerEmail: data.email,
+        evidenceFileUrl: data.evidenceFileUrl ?? undefined,
+        evidenceFileName: data.evidenceFileName ?? undefined,
         status: 'pending_payment',
       },
     })
