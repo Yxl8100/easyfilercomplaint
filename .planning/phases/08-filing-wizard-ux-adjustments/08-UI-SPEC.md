@@ -43,7 +43,7 @@ Declared values (multiples of 4):
 
 Exceptions:
 - Form field groups: `space-y-5` (20px) — existing convention, do not change
-- Input height: `py-2.5` (10px vertical) + border = ~42px total — acceptable touch target
+- Input height: `py-3` (12px vertical) + border = ~44px total — meets touch target guidelines
 - Upload drop zone minimum height: 80px (tap-safe on mobile)
 - "Coming soon" badge on FCC option: inline, no extra spacing
 
@@ -55,11 +55,14 @@ Source: `src/app/file/[category]/page.tsx`, `src/components/forms/FormField.tsx`
 
 | Role | Size | Weight | Line Height | Font |
 |------|------|--------|-------------|------|
-| Body | 14px (`text-sm`) | 500 | 1.5 (`leading-relaxed`) | Inter (`font-body`) |
-| Label | 9px (`text-[9px]`) | 400 | 1.2 | JetBrains Mono (`font-mono`), uppercase, tracking-[0.15em] |
-| Sub-label / hint | 8px (`text-[8px]`) | 400 | 1.2 | JetBrains Mono (`font-mono`), tracking-[0.05em] |
+| Body | 14px (`text-sm`) | 400 | 1.5 (`leading-relaxed`) | Inter (`font-body`) |
+| Label / hint | 9px (`text-[9px]`) | 400 | 1.2 | JetBrains Mono (`font-mono`), uppercase, tracking-[0.15em] |
 | Heading (step title) | 20px (`text-xl`) | 700 | 1.3 | Fraunces (`font-serif`) |
 | Display (review total) | 24px (`text-2xl` / `text-xl`) | 700 | 1.2 | Fraunces (`font-serif`) |
+
+Scale: 4 sizes (9px, 14px, 20px, 24px). Weights: 2 (400, 700).
+
+The Label / hint token at 9px (`text-[9px]`) covers ALL mono field labels AND hint/sub-label text. The previous 8px size is removed; use 9px uniformly for both purposes.
 
 Note: The existing wizard uses `text-sm font-body` for all body copy and `font-mono text-[9px] tracking-[0.15em] uppercase` for all field labels. Phase 8 MUST use these exact classes for new elements. Do not introduce new font sizes.
 
@@ -77,7 +80,7 @@ Source: `src/components/forms/FormField.tsx`, `src/app/file/[category]/page.tsx`
 | Primary text | `#1c1c1c` (`text`) | All heading and data values |
 | Mid text | `#3a3a3a` (`text-mid`) | Body copy, descriptions |
 | Muted text | `#6a6a6a` (`text-light`) | Labels, hints, placeholder text |
-| Accent (10%) | `#b91c1c` (`accent`) | Required asterisk (`*`), error state borders, error heading text, "coming soon" badge background |
+| Accent (10%) | `#b91c1c` (`accent`) | Required asterisk (`*`), error state borders, error heading text, "coming soon" badge background, terminal CTA button (Pay & File) |
 | Accent background | `#fef2f2` (`accent-bg`) | Error state container background |
 | Border default | `#e5e5e3` (`border`) | Input borders, card borders, dividers |
 | Border dark | `#c5c5c3` (`border-dark`) | Focused input border substitute (uses `focus:border-bg-dark` = `#1c1c1c` in practice) |
@@ -88,8 +91,9 @@ Accent (`#b91c1c`) is reserved for:
 2. Error state container border and heading text
 3. "Coming soon" badge text on FCC option (WIZ-04)
 4. The "Expand/collapse" text link in the review step
+5. Terminal CTA button ("Pay & File") fill — `bg-accent text-white` — applies only to the final step's primary action after attestation is checked
 
-Do NOT use accent on: buttons (use `bg-dark`), normal interactive state, hover states.
+Do NOT use accent on: normal interactive buttons (use `bg-dark`), normal interactive state, hover states. The terminal CTA exception (item 5) is intentional; it signals irreversibility of the payment action.
 
 Source: `tailwind.config.ts`, `src/app/file/[category]/page.tsx`
 
@@ -115,9 +119,9 @@ All existing form primitives are already built and styled. Do not create new var
 | Element | Implementation approach |
 |---------|------------------------|
 | Complaint type selector (WIZ-01) | Replaces the old agency-selection Step 0. Render as radio-card list. Each card: `bg-bg border border-border rounded-[6px] p-4`. Selected state: `border-bg-dark`. Label in `font-serif text-base font-bold text-text`. Sub-label in `font-body text-sm text-text-mid`. |
-| Visit date dropdown (WIZ-02) | Two `FormSelect` components side-by-side in a `grid grid-cols-2 gap-4`: Month (January–December) and Year (current year back to current year minus 5). Label: "Approximate Visit Date". Both optional; show `font-mono text-[8px] text-text-light` hint: "Approximate date is sufficient." |
+| Visit date dropdown (WIZ-02) | Two `FormSelect` components side-by-side in a `grid grid-cols-2 gap-4`: Month (January–December) and Year (current year back to current year minus 5). Label: "Approximate Visit Date". Both optional; show `font-mono text-[9px] text-text-light` hint: "Approximate date is sufficient." |
 | Evidence file upload (WIZ-03) | A `<label>` acting as a drop zone: `bg-bg-alt border border-dashed border-border-dark rounded-[6px] p-6 text-center cursor-pointer`. Contains hidden `<input type="file" accept=".pdf,.png,.jpg,.jpeg">`. Shows filename on selection. Error if >5MB: uses error container pattern (accent-bg + accent border). |
-| Agency display (WIZ-04) | Single non-interactive card for CA AG: `bg-bg border border-border rounded-[6px] p-4`. FCC shown as a separate card with `opacity-50` and a "Coming soon" inline badge: `font-mono text-[8px] uppercase tracking-[0.1em] bg-accent-bg text-accent border border-accent px-2 py-0.5 rounded-[4px]`. |
+| Agency display (WIZ-04) | Single non-interactive card for CA AG: `bg-bg border border-border rounded-[6px] p-4`. FCC shown as a separate card with `opacity-50` and a "Coming soon" inline badge: `font-mono text-[9px] uppercase tracking-[0.1em] bg-accent-bg text-accent border border-accent px-2 py-0.5 rounded-[4px]`. |
 | State pre-select (WIZ-05) | Standard `FormSelect` with `defaultValue="CA"`. No visual change; just a data default. |
 | Review attestation (WIZ-06) | Checkbox row below the summary: `<input type="checkbox">` + `font-body text-sm text-text-mid` label. "Continue" is disabled until checked. The checkbox uses native browser styling (`accent-text`). |
 | Evidence stored in Blob (WIZ-07) | Backend only — no new UI element. |
@@ -138,6 +142,8 @@ The wizard restructures from the current 5 steps to a 6-step flow matching the p
 | 5 | Review | Full summary + attestation + Pay & File |
 
 Update `ProgressBar` `STEPS` array to: `['Complaint Type', 'Business', 'Details', 'Agency', 'Your Info', 'Review']`
+
+Step 0 focal point: the three radio cards are the primary visual anchor — all other elements (heading, description, Continue button) are supporting. Card layout must be visually dominant relative to surrounding copy.
 
 ---
 
@@ -174,11 +180,13 @@ Do NOT display the raw enum strings (`privacy_tracking`, etc.) anywhere in the U
 | State field default label | "State" |
 | State pre-selected hint | "Pre-selected based on filing jurisdiction." |
 | Attestation checkbox label | "I certify that the information in this complaint is true and accurate to the best of my knowledge." |
-| Review step "Continue" label (disabled until attested) | "Pay & File — $1.99 →" |
+| Review step Continue label (disabled until attested) | "Pay & File — $1.99 →" |
 | Payment error heading | "Payment Error" |
 | Payment error body | "We could not start the payment process. Please try again or contact support." |
 | Empty state (no complaint type selected) | "Select a complaint type to continue." (shown as `text-text-light` below the Continue button when user attempts to advance) |
 | Primary CTA (final step) | "Pay & File — $1.99 →" |
+
+CTA label note: all intermediate wizard steps use the label "Continue" — this is an intentional product decision for multi-step wizard consistency, not a copywriting gap. The final step departs from "Continue" to "Pay & File — $1.99 →" to signal the irreversible payment action.
 
 Source: WIZ-01 through WIZ-07 (REQUIREMENTS.md), pattern from `src/app/file/[category]/page.tsx`
 
@@ -222,7 +230,7 @@ Source: WIZ-01 through WIZ-07 (REQUIREMENTS.md), pattern from `src/app/file/[cat
 ### Review + Attestation (WIZ-06)
 - All summary fields shown: complaint type label, business name, agency name, approximate visit date (if entered), evidence filename (if uploaded), filer name, filer email
 - Attestation checkbox is required — unchecked state: Continue button uses `bg-border text-text-light cursor-not-allowed` (same disabled style as other disabled Continue states)
-- Checked state: Continue button uses `bg-accent text-white hover:bg-bg-dark` (final-step CTA style)
+- Checked state: Continue button uses `bg-accent text-white hover:bg-bg-dark` (terminal CTA — accent fill is intentional here per Color section item 5)
 - No inline toggle of expanded complaint text in the simplified review — Phase 8 review is summary only
 
 ---
@@ -232,15 +240,15 @@ Source: WIZ-01 through WIZ-07 (REQUIREMENTS.md), pattern from `src/app/file/[cat
 | State | Visual treatment |
 |-------|-----------------|
 | Input focused | `focus:border-bg-dark` (existing convention) |
-| Input error | Wrap field in `space-y-1.5` + add `<p className="font-mono text-[8px] text-accent">` error message below |
+| Input error | Wrap field in `space-y-1.5` + add `<p className="font-mono text-[9px] text-accent">` error message below |
 | Button disabled | `bg-border text-text-light cursor-not-allowed` |
-| Button active/final | `bg-accent text-white hover:bg-bg-dark` |
+| Button active/final (terminal CTA) | `bg-accent text-white hover:bg-bg-dark` — accent fill reserved for "Pay & File" only (see Color section item 5) |
 | Button normal | `bg-bg-dark text-white hover:bg-text-mid` |
 | Error container | `bg-accent-bg border border-accent rounded-[6px] p-4` with `font-mono text-[9px] uppercase text-accent` heading |
 | Upload drop zone default | `bg-bg-alt border border-dashed border-border-dark rounded-[6px] p-6` |
 | Upload drop zone hover | `border-bg-dark` border (CSS hover state) |
 | FCC "coming soon" option | `opacity-50 cursor-not-allowed` on wrapping div |
-| "Coming soon" badge | `bg-accent-bg text-accent border border-accent font-mono text-[8px] uppercase tracking-[0.1em] px-2 py-0.5 rounded-[4px]` |
+| "Coming soon" badge | `bg-accent-bg text-accent border border-accent font-mono text-[9px] uppercase tracking-[0.1em] px-2 py-0.5 rounded-[4px]` |
 | Radio card unselected | `bg-bg border border-border rounded-[6px]` |
 | Radio card selected | `bg-bg border border-bg-dark rounded-[6px]` |
 
