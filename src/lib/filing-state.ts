@@ -32,6 +32,12 @@ export interface FilingData {
   phone: string
   county?: string
   ageRange?: string
+
+  // Phase 8: visit date and evidence
+  visitMonth?: string        // '01'-'12' from Details step dropdown
+  visitYear?: string         // e.g. '2026' from Details step dropdown
+  evidenceFileUrl?: string   // set after /api/upload-evidence, forwarded to checkout
+  evidenceFileName?: string  // set after /api/upload-evidence, forwarded to checkout
 }
 
 export const defaultFilingData: FilingData = {
@@ -46,7 +52,7 @@ export const defaultFilingData: FilingData = {
   email: '',
   address: '',
   city: '',
-  state: '',
+  state: 'CA',
   zip: '',
   phone: '',
 }

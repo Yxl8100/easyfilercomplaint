@@ -24,7 +24,7 @@ export function FormSelect({ label, hint, options, className = '', ...props }: F
           </option>
         ))}
       </select>
-      {hint && <p className="font-mono text-[8px] tracking-[0.05em] text-text-light">{hint}</p>}
+      {hint && <p className="font-mono text-[9px] tracking-[0.05em] text-text-light">{hint}</p>}
     </div>
   )
 }
