@@ -579,17 +579,19 @@ This is a refactor/UX adjustment phase with no renames. Runtime state inventory 
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Wizard URL routing: what happens to `/file/[category]`?**
    - **What we know:** Current entry is `/file/[category]` where category is one of `categories.ts` IDs (`data-privacy`, etc.). Phase 8 introduces a complaint type selector (Step 0) with different values (`privacy_tracking`, `accessibility`, `video_sharing`).
    - **What's unclear:** Does the wizard remain at `/file/[category]` (requiring categories.ts to be updated to match new values), or does Step 0 use a fixed URL like `/file/start`? The UI-SPEC does not specify the URL structure change.
    - **Recommendation:** The simplest approach is to update `categories.ts` category IDs to match the three Phase 8 complaint types (`privacy_tracking`, `accessibility`, `video_sharing`), update `src/app/file/page.tsx` to link to the new IDs, and change the wizard's `notFound()` guard accordingly. This preserves the URL pattern. Confirm with user or planner.
+   - **RESOLVED:** Keep `/file/[category]` URL pattern. Update `categories.ts` IDs to `privacy_tracking`, `accessibility`, `video_sharing`. Plan 08-02 Task 1 implements this.
 
 2. **`/api/upload-evidence`: BLOB_READ_WRITE_TOKEN absent behavior**
    - **What we know:** `storeComplaintPdf` returns `null` gracefully when token is absent. Evidence upload is a user-initiated action that needs a URL back.
    - **What's unclear:** Should the upload route return a mock URL in development (like `file:///local`) or should it error?
    - **Recommendation:** Return a 503 with `{ error: 'Evidence upload unavailable in this environment' }`. The wizard shows a non-fatal error and allows the user to continue without evidence. This is consistent with making evidence optional (WIZ-03).
+   - **RESOLVED:** Return 503 with `{ error: 'Evidence upload unavailable in this environment' }`. Plan 08-01 Task 2 implements this.
 
 ---
 
