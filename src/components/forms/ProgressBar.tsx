@@ -1,4 +1,4 @@
-const STEPS = ['Category', 'Agencies', 'Business', 'Incident', 'Your Info', 'Review']
+const STEPS = ['Complaint Type', 'Business', 'Details', 'Agency', 'Your Info', 'Review']
 
 interface ProgressBarProps {
   currentStep: number

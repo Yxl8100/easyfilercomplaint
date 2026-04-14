@@ -10,22 +10,18 @@ export default function FilePage() {
       <div className="border-b border-border bg-bg-alt">
         <div className="max-w-6xl mx-auto px-6 py-1.5 flex items-center justify-between">
           <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-text-light">
-            File a Complaint · Select Category
+            File a Complaint
           </span>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-10">
-          <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-text-light mb-2">
-            Step I of VI
-          </p>
-          <div className="border-t-2 border-bg-dark my-4" />
           <h1 className="font-serif text-4xl font-bold text-text mt-4 mb-2">
-            What Are You Filing About?
+            What type of complaint are you filing?
           </h1>
           <p className="font-body text-base text-text-mid">
-            Select the category that best describes your complaint. We&apos;ll identify the relevant agencies and guide you through the process.
+            Select the category that best describes your complaint.
           </p>
         </div>
 
@@ -40,22 +36,9 @@ export default function FilePage() {
                 <span className="font-serif text-4xl text-border-dark group-hover:text-accent transition-colors">
                   {cat.icon}
                 </span>
-                <span className="font-mono text-[9px] tracking-[0.1em] uppercase text-text-light border border-border rounded-[4px] px-2 py-0.5">
-                  {cat.agencies.length} {cat.agencies.length === 1 ? 'agency' : 'agencies'}
-                </span>
               </div>
               <h3 className="font-serif text-lg font-bold text-text mb-2">{cat.label}</h3>
               <p className="font-body text-sm text-text-mid leading-relaxed mb-4">{cat.description}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {cat.agencies.map((agency) => (
-                  <span
-                    key={agency.id}
-                    className="font-mono text-[8px] tracking-[0.1em] uppercase bg-bg-dark text-white px-2 py-0.5 rounded-[4px]"
-                  >
-                    {agency.name}
-                  </span>
-                ))}
-              </div>
               <div className="mt-4 font-mono text-[9px] tracking-[0.1em] uppercase text-accent group-hover:text-text transition-colors">
                 Select →
               </div>

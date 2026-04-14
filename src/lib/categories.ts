@@ -15,73 +15,34 @@ export interface Category {
 
 export const categories: Category[] = [
   {
-    id: 'data-privacy',
-    icon: '§',
-    label: 'Data Privacy',
-    description: 'Unauthorized tracking, data sharing, CCPA violations, HIPAA breaches',
+    id: 'privacy_tracking',
+    icon: '\u00A7',
+    label: 'Privacy & Tracking',
+    description: 'Unauthorized data collection, cookies, CCPA violations',
     agencies: [
-      { id: 'fcc', name: 'FCC', method: 'guided' },
-      { id: 'ftc', name: 'FTC', method: 'guided' },
-      { id: 'ca_ag', name: 'CA Attorney General', method: 'auto_fax' },
-      { id: 'doj_ada', name: 'DOJ Civil Rights', method: 'auto_email' },
-    ],
-    accent: '#8b2500',
-  },
-  {
-    id: 'consumer-protection',
-    icon: '¶',
-    label: 'Consumer Protection',
-    description: 'Deceptive practices, fraud, unfair billing, false advertising',
-    agencies: [
-      { id: 'ftc', name: 'FTC', method: 'guided' },
-      { id: 'cfpb', name: 'CFPB', method: 'guided' },
-      { id: 'ca_ag', name: 'CA Attorney General', method: 'auto_fax' },
-    ],
-    accent: '#2d5016',
-  },
-  {
-    id: 'fda-violations',
-    icon: '†',
-    label: 'FDA Violations',
-    description: 'Food safety, drug safety, medical devices, supplements',
-    agencies: [
-      { id: 'fda', name: 'FDA MedWatch', method: 'auto_fax' },
       { id: 'ca_ag', name: 'CA Attorney General', method: 'auto_fax' },
     ],
     accent: '#8b2500',
   },
   {
-    id: 'environmental',
-    icon: '‡',
-    label: 'Environmental',
-    description: 'Pollution, illegal dumping, water contamination, air quality',
+    id: 'accessibility',
+    icon: '\u25CA',
+    label: 'Accessibility (ADA)',
+    description: 'Website barriers, physical access, service animal denial',
     agencies: [
-      { id: 'epa', name: 'EPA', method: 'guided' },
       { id: 'ca_ag', name: 'CA Attorney General', method: 'auto_fax' },
     ],
-    accent: '#2d5016',
+    accent: '#3b1f6e',
   },
   {
-    id: 'city-code',
-    icon: '∞',
-    label: 'City Code Violations',
-    description: 'Building violations, noise complaints, zoning issues',
+    id: 'video_sharing',
+    icon: '\u2020',
+    label: 'Video Sharing & Streaming',
+    description: 'Cable operator violations, streaming privacy, VPPA',
     agencies: [
       { id: 'ca_ag', name: 'CA Attorney General', method: 'auto_fax' },
     ],
     accent: '#5c4a1e',
-  },
-  {
-    id: 'accessibility',
-    icon: '◊',
-    label: 'Accessibility (ADA)',
-    description: 'Website accessibility, physical barriers, discrimination',
-    agencies: [
-      { id: 'doj_ada', name: 'DOJ Civil Rights', method: 'auto_email' },
-      { id: 'fcc', name: 'FCC', method: 'guided' },
-      { id: 'ca_ag', name: 'CA Attorney General', method: 'auto_fax' },
-    ],
-    accent: '#3b1f6e',
   },
 ]
 
