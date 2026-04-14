@@ -129,7 +129,10 @@ Plans:
   2. Details step includes approximate visit date dropdown and optional evidence file upload (PDF/PNG/JPG, max 5MB)
   3. Agency step shows CA AG as the only active option with FCC marked "coming soon"
   4. Evidence file is stored in Vercel Blob and attached to the fax alongside the complaint PDF
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 08-01-PLAN.md — Data layer + API: FilingData extension, upload-evidence route, checkout evidence fields, hint font fix
+- [ ] 08-02-PLAN.md — Wizard UI rewrite: 6-step flow, categories update, ProgressBar labels, human verify
 **UI hint**: yes
 
 ---
@@ -145,7 +148,7 @@ Plans:
 | 5. Filing Receipt Email | 1/1 | Complete   | 2026-04-01 |
 | 6. Guest-to-Account Conversion | 2/2 | Complete | 2026-04-02 |
 | 7. Landing Page & Legal Pages | 3/3 | Complete   | 2026-04-02 |
-| 8. Filing Wizard UX Adjustments | 0/? | Not started | - |
+| 8. Filing Wizard UX Adjustments | 0/2 | Planning complete | - |
 
 ---
 
@@ -182,5 +185,5 @@ CRON_SECRET=...
 
 ---
 *Roadmap created: 2026-03-31*
-*Last updated: 2026-04-02 — Phase 7 planned: 3 plans in 2 waves*
+*Last updated: 2026-04-14 — Phase 8 planned: 2 plans in 2 waves*
 *Milestone: v1 -- 8 phases, 61 requirements*
