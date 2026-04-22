@@ -19,6 +19,7 @@ export function AccountCreateForm({
 }: AccountCreateFormProps) {
   const router = useRouter()
   const [name, setName] = useState(defaultName)
+  const [email, setEmail] = useState(defaultEmail)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -26,9 +27,13 @@ export function AccountCreateForm({
   const [emailTaken, setEmailTaken] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const emailPrefilled = defaultEmail !== ''
+
   function validate(): boolean {
     const next: Record<string, string> = {}
     if (!name.trim()) next.name = 'Name is required.'
+    if (!email.trim()) next.email = 'Email is required.'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = 'Enter a valid email address.'
     if (password.length < 8) next.password = 'Password must be at least 8 characters.'
     if (password !== confirmPassword) next.confirmPassword = 'Passwords do not match.'
     setErrors(next)
@@ -48,7 +53,7 @@ export function AccountCreateForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: name.trim(),
-          email: defaultEmail,
+          email,
           password,
           filingId: filingId ?? undefined,
         }),
@@ -56,7 +61,7 @@ export function AccountCreateForm({
 
       if (res.status === 201) {
         const result = await signIn('credentials', {
-          email: defaultEmail,
+          email,
           password,
           redirect: false,
         })
@@ -120,12 +125,17 @@ export function AccountCreateForm({
         <FormField
           label="Email"
           type="email"
-          readOnly
-          aria-label="Email address (pre-filled from your filing)"
-          value={defaultEmail}
-          className="bg-bg-alt cursor-not-allowed"
-          hint="Pre-filled from your recent filing"
+          required
+          readOnly={emailPrefilled}
+          aria-label="Email address"
+          value={email}
+          onChange={emailPrefilled ? undefined : (e) => setEmail(e.target.value)}
+          className={`${emailPrefilled ? 'bg-bg-alt cursor-not-allowed' : ''} ${errors.email ? 'border-accent' : ''}`}
+          hint={emailPrefilled ? 'Pre-filled from your recent filing' : undefined}
         />
+        {errors.email && (
+          <p className="font-mono text-[9px] text-accent">{errors.email}</p>
+        )}
 
         <FormField
           label="Password"
