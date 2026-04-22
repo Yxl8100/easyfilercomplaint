@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { inflateSync } from 'zlib'
 import { generateComplaintPdf } from '../generate-complaint-pdf'
 import { storeComplaintPdf } from '../store-complaint-pdf'
+import type { Filing } from '@prisma/client'
 
 // Mock @vercel/blob
 vi.mock('@vercel/blob', () => ({
@@ -137,7 +138,7 @@ const mockFiling = {
   status: 'paid' as const,
   createdAt: new Date(),
   updatedAt: new Date(),
-} as any // Cast to Filing type for test
+} as unknown as Filing
 
 // Mock FilerInfo fixture (personal info for the filer)
 const mockFilerInfo = {

@@ -27,7 +27,9 @@ export async function submitViaFax(
     const agencyLabel = agency === 'ca_ag' ? 'CA Attorney General' : 'FDA MedWatch'
     const filename = `Complaint-${agencyLabel.replace(/\s/g, '-')}-${targetName.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`
 
-    const result = await sendFax(faxNumber, pdfBuffer, filename)
+    const result = await sendFax(faxNumber, [
+      { buffer: Buffer.from(pdfBuffer), filename, contentType: 'application/pdf' },
+    ])
 
     if (!result.success) {
       return { success: false, error: result.message || 'Fax failed to send' }

@@ -44,7 +44,7 @@ import { getAgencyFaxNumber } from '@/lib/agency-directory'
 import axios from 'axios'
 import { executeFilingPipeline } from '@/lib/filing-pipeline'
 import { sendFilingReceiptEmail } from '@/lib/email-receipt'
-const mockSendFilingReceiptEmail = sendFilingReceiptEmail as any
+const mockSendFilingReceiptEmail = vi.mocked(sendFilingReceiptEmail)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mockPrismaFiling = prisma.filing as any

@@ -94,7 +94,7 @@ vi.mock('@/lib/agency-directory', () => ({
 }))
 
 import { sendFilingReceiptEmail } from '@/lib/email-receipt'
-import { prisma } from '@/lib/prisma'
+import type { Filing } from '@prisma/client'
 
 const mockFiling = {
   id: 'filing-123',
@@ -103,7 +103,7 @@ const mockFiling = {
   paidAt: new Date('2026-04-01'),
   paymentAmount: 1.99,
   filerInfo: { email: 'jane@example.com', firstName: 'Jane', lastName: 'Doe' },
-} as any
+} as unknown as Filing
 
 describe('sendFilingReceiptEmail', () => {
   beforeEach(() => {

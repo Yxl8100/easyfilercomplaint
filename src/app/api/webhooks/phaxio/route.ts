@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
   // Convert FormData to plain object for HMAC verification
   const postFields: Record<string, string> = {}
-  for (const [key, value] of formData.entries()) {
+  for (const [key, value] of Array.from(formData.entries())) {
     if (typeof value === 'string') {
       postFields[key] = value
     }

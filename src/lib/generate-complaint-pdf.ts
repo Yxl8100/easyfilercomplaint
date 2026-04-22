@@ -131,7 +131,7 @@ export async function generateComplaintPdf(
   // Store section markers as literal ASCII strings in PDF Info dict so they are
   // findable in raw PDF bytes (pdf-lib custom font encoding makes drawn text unsearchable).
   // These are used by automated tests and compliance checks.
-  const filingReceiptIdForMeta = (filing as any).filingReceiptId || filing.id
+  const filingReceiptIdForMeta = filing.filingReceiptId ?? filing.id
   const infoDict = pdfDoc.context.lookup(pdfDoc.context.trailerInfo.Info, PDFDict)
   if (infoDict) {
     infoDict.set(PDFName.of('Subject'), PDFString.of('PRIVACY COMPLAINT'))
@@ -300,7 +300,7 @@ export async function generateComplaintPdf(
 
   // ---- Section 13: Footer ----
   // Get filing receipt ID (may be on extended schema or fall back to id)
-  const filingReceiptId = (filing as any).filingReceiptId || filing.id
+  const filingReceiptId = filing.filingReceiptId ?? filing.id
   const footerText = `EasyFilerComplaint . easyfilercomplaint.com . Filing ID: ${filingReceiptId}`
   const lastPage = pdfDoc.getPages()[pdfDoc.getPageCount() - 1]
   lastPage.drawText(footerText, {
