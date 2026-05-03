@@ -170,6 +170,12 @@ const mockFilingVideoSharing = {
   categoryFields: { contentType: 'video', platform: 'social-media' },
 }
 
+const mockFilingPrivacyTracking = {
+  ...mockFiling,
+  category: 'privacy_tracking',
+  categoryFields: { visitMonth: '3', visitYear: '2026' },
+}
+
 // Prohibited strings (union of REQUIREMENTS.md PDF-06 and ROADMAP.md SC#4 lists)
 const PROHIBITED = [
   'DPW',
@@ -285,31 +291,43 @@ describe('generateComplaintPdf', () => {
   it('PDF-02: PDF bytes contain required section markers', async () => {
     const bytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
     const text = extractPdfText(bytes)
-    expect(text).toContain('PRIVACY COMPLAINT')
-    expect(text).toContain('Re:')
-    expect(text).toContain('Respectfully submitted')
+    // New form-section header checks (AGPDF-01)
+    expect(text).toContain('YOUR INFORMATION')
+    expect(text).toContain('BUSINESS INFORMATION')
+    expect(text).toContain('COMPLAINT')
+    expect(text).toContain('RESOLUTION REQUESTED')
+    expect(text).toContain('AFFIRMATION')
+    // Always-required markers
     expect(text).toContain('EasyFilerComplaint')
     expect(text).toContain('Filing ID:')
+    // Prohibition checks (AGPDF-02, AGPDF-03)
+    expect(text).not.toContain('Re:')
+    expect(text).not.toContain('Respectfully submitted')
+    expect(text).not.toContain('Dear Attorney General')
+    expect(text).not.toContain('N/A')
   })
 
-  it('PDF-03 variant 1: privacy_tracking PDF bytes contain CCPA reference', async () => {
+  it('PDF-03: AG PDF COMPLAINT section uses CPPA Q4 narrative opening', async () => {
     const bytes = await generateComplaintPdf(mockFiling, mockFilerInfo)
     const text = extractPdfText(bytes)
-    const hasCCPA = text.includes('CCPA') || text.includes('California Consumer Privacy Act')
-    expect(hasCCPA).toBe(true)
+    expect(text).toContain('On or about')
+    expect(text).not.toContain('§')
+    expect(text).not.toContain('Civil Code')
   })
 
-  it('PDF-03 variant 2: accessibility PDF bytes contain Unruh or ADA reference', async () => {
+  it('PDF-03 variant 2: accessibility PDF uses CPPA Q4 narrative (no ADA/Unruh statute refs)', async () => {
     const bytes2 = await generateComplaintPdf(mockFilingAccessibility, mockFilerInfo)
     const text2 = extractPdfText(bytes2)
-    const hasADA = text2.includes('Unruh') || text2.includes('ADA')
-    expect(hasADA).toBe(true)
+    expect(text2).toContain('On or about')
+    expect(text2).not.toContain('Unruh')
+    expect(text2).not.toContain('42 U.S.C.')
   })
 
-  it('PDF-03 variant 3: video_sharing PDF bytes contain video reference', async () => {
+  it('PDF-03 variant 3: video_sharing PDF uses CPPA Q4 narrative opening', async () => {
     const bytes3 = await generateComplaintPdf(mockFilingVideoSharing, mockFilerInfo)
     const text3 = extractPdfText(bytes3)
-    expect(text3).toContain('video')
+    expect(text3).toContain('On or about')
+    expect(text3).not.toContain('§')
   })
 
   it('PDF-07: PDF bytes do NOT contain StandardFonts (no Times-Roman or Helvetica)', async () => {
