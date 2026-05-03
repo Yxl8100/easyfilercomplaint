@@ -200,7 +200,7 @@ CRON_SECRET=...
 
 ## Phases
 
-- [ ] **Phase 9: Complaint Narrative Engine + AG PDF + Success Page** - Complaint text generator, CA AG PDF restructure, and redesigned success page with three filing channel sections
+- [x] **Phase 9: Complaint Narrative Engine + AG PDF + Success Page** - Complaint text generator, CA AG PDF restructure, and redesigned success page with three filing channel sections (completed 2026-05-03)
 - [ ] **Phase 10: CPPA Guided Filing Page** - Consumer-facing walkthrough page at /filing/[id]/cppa-guide with per-question copy buttons
 - [ ] **Phase 11: CPPA Paper Complaint PDF** - Downloadable PDF mirroring the CPPA official paper form layout, with API route and Blob storage
 
@@ -222,10 +222,10 @@ CRON_SECRET=...
   7. Guest users see a "Create Account" CTA at the bottom of the success page
 **Plans**: 4 plans
 Plans:
-- [ ] 09-01-PLAN.md — Wave 0: test scaffolds for CPPA generator, AG PDF, and success page
-- [ ] 09-02-PLAN.md — CPPA complaint narrative generator (cppa-complaint-generator.ts)
-- [ ] 09-03-PLAN.md — CA AG PDF restructure to form-style layout (generate-complaint-pdf.ts)
-- [ ] 09-04-PLAN.md — Success page 3-channel redesign (success/page.tsx)
+- [x] 09-01-PLAN.md — Wave 0: test scaffolds for CPPA generator, AG PDF, and success page
+- [x] 09-02-PLAN.md — CPPA complaint narrative generator (cppa-complaint-generator.ts)
+- [x] 09-03-PLAN.md — CA AG PDF restructure to form-style layout (generate-complaint-pdf.ts)
+- [x] 09-04-PLAN.md — Success page 3-channel redesign (success/page.tsx)
 **UI hint**: yes
 
 ### Phase 10: CPPA Guided Filing Page
@@ -257,7 +257,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 9. Complaint Narrative Engine + AG PDF + Success Page | 0/4 | Planning complete | - |
+| 9. Complaint Narrative Engine + AG PDF + Success Page | 4/4 | Complete | 2026-05-03 |
 | 10. CPPA Guided Filing Page | 0/TBD | Not started | - |
 | 11. CPPA Paper Complaint PDF | 0/TBD | Not started | - |
 
