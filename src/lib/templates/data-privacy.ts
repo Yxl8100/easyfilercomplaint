@@ -65,9 +65,9 @@ COMPLAINT DESCRIPTION:
 
 I am filing this complaint against {{targetName}} ({{targetUrl}}) for violations of California consumer privacy laws, including the California Consumer Privacy Act (CCPA) and the California Invasion of Privacy Act (CIPA).
 
-On or about {{incidentDate}}, I discovered that {{targetName}} was collecting and disclosing my personal information without my knowledge or consent. The company's website deployed tracking technologies including {{categoryFields.trackingTypes}} that captured my browsing activity, device information, and other personal data, and transmitted this information to third-party advertising networks and data brokers.
+On or about {{incidentDate}}, I discovered that {{targetName}} was collecting and disclosing my personal information without my knowledge or consent. The company's website deployed tracking technologies that captured my browsing activity, device information, and other personal data, and transmitted this information to third-party advertising networks and data brokers without my knowledge or consent.
 
-{{description}}
+{{#if description}}Specifically, I observed: {{description}}{{/if}}
 
 These practices violate my rights under California Civil Code Section 1798.100 et seq. (CCPA), which requires businesses to inform consumers about the categories of personal information collected and the purposes for which it is used, and to obtain consent before selling or sharing personal information.
 

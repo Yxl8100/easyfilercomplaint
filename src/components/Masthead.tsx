@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { auth, signOut } from '@/lib/auth'
+import { auth } from '@/lib/auth'
+import { signOutAction } from '@/lib/actions'
 
 export async function Masthead() {
   const session = await auth()
@@ -27,12 +28,7 @@ export async function Masthead() {
               >
                 Your Filings
               </Link>
-              <form
-                action={async () => {
-                  'use server'
-                  await signOut({ redirectTo: '/' })
-                }}
-              >
+              <form action={signOutAction}>
                 <button
                   type="submit"
                   className="font-mono text-[11px] tracking-[0.1em] uppercase border border-bg-dark px-4 py-1.5 text-text rounded-[6px] hover:bg-bg-dark hover:text-white transition-colors"

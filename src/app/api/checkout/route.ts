@@ -44,7 +44,11 @@ export async function POST(request: NextRequest) {
         paymentMethod: data.paymentMethod,
         priorContact: data.priorContact,
         priorContactDetails: data.priorContactDetails,
-        categoryFields: data.categoryFields as object,
+        categoryFields: {
+          ...(data.categoryFields as object),
+          ...(data.visitMonth && { visitMonth: data.visitMonth }),
+          ...(data.visitYear && { visitYear: data.visitYear }),
+        },
         filerInfo: {
           firstName: data.firstName,
           lastName: data.lastName,

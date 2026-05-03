@@ -30,6 +30,7 @@ const CATEGORY_TO_TEMPLATE: Record<string, string> = {
 
 // Convert Filing + FilerInfo to FilingData shape
 function toFilingData(filing: Filing, filerInfo: FilerInfo): FilingData {
+  const categoryFields = (filing.categoryFields as Record<string, unknown>) || {}
   return {
     category: CATEGORY_TO_TEMPLATE[filing.category] || filing.category,
     selectedAgencies: ['ca_ag'],
@@ -43,7 +44,9 @@ function toFilingData(filing: Filing, filerInfo: FilerInfo): FilingData {
     incidentDate: filing.incidentDate?.toISOString(),
     priorContact: filing.priorContact,
     priorContactDetails: filing.priorContactDetails || undefined,
-    categoryFields: (filing.categoryFields as Record<string, unknown>) || {},
+    categoryFields,
+    visitMonth: categoryFields.visitMonth as string | undefined,
+    visitYear: categoryFields.visitYear as string | undefined,
     firstName: filerInfo.firstName,
     lastName: filerInfo.lastName,
     email: filerInfo.email,

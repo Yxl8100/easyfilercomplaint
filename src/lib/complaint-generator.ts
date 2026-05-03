@@ -6,11 +6,24 @@ export function generateComplaintText(data: FilingData, agency: string): string 
   return fillTemplate(template, data)
 }
 
+function buildVisitDate(data: FilingData): string {
+  const fields = data.categoryFields as Record<string, unknown>
+  const month = data.visitMonth || (fields?.visitMonth as string | undefined)
+  const year = data.visitYear || (fields?.visitYear as string | undefined)
+  if (month && year) {
+    const names = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    const idx = parseInt(month, 10) - 1
+    return `${names[idx] ?? month} ${year}`
+  }
+  if (year) return year
+  return 'a recent date'
+}
+
 function fillTemplate(template: string, data: FilingData): string {
   const fields = data.categoryFields as Record<string, unknown>
   const trackingTypes = Array.isArray(fields?.trackingTypes)
     ? (fields.trackingTypes as string[]).join(', ')
-    : String(fields?.trackingTypes || 'various tracking technologies')
+    : (fields?.trackingTypes ? String(fields.trackingTypes) : '')
 
   const adverseOutcomes = Array.isArray(fields?.adverseOutcomes)
     ? (fields.adverseOutcomes as string[]).join(', ')
@@ -35,13 +48,13 @@ function fillTemplate(template: string, data: FilingData): string {
     .replace(/\{\{email\}\}/g, data.email)
     .replace(/\{\{address\}\}/g, data.address)
     .replace(/\{\{cityStateZip\}\}/g, `${data.city}, ${data.state} ${data.zip}`)
-    .replace(/\{\{phone\}\}/g, data.phone)
-    .replace(/\{\{county\}\}/g, data.county || 'N/A')
+    .replace(/\{\{phone\}\}/g, data.phone?.trim() || '__OMIT__')
+    .replace(/\{\{county\}\}/g, data.county?.trim() || '__OMIT__')
     .replace(/\{\{targetName\}\}/g, data.targetName)
     .replace(/\{\{targetUrl\}\}/g, data.targetUrl || 'N/A')
     .replace(
       /\{\{targetAddress\}\}/g,
-      [data.targetAddress, data.targetCity, data.targetState, data.targetZip].filter(Boolean).join(', ') || 'N/A'
+      [data.targetAddress, data.targetCity, data.targetState, data.targetZip].filter(Boolean).join(', ') || '__OMIT__'
     )
     .replace(
       /\{\{incidentDate\}\}/g,
@@ -51,7 +64,7 @@ function fillTemplate(template: string, data: FilingData): string {
             month: 'long',
             day: 'numeric',
           })
-        : 'N/A'
+        : buildVisitDate(data)
     )
     .replace(/\{\{description\}\}/g, data.description)
     .replace(
@@ -92,6 +105,18 @@ function fillTemplate(template: string, data: FilingData): string {
     }
     return ''
   })
+
+  result = result.replace(/\{\{#if description\}\}([\s\S]*?)\{\{\/if\}\}/g, (_match: string, inner: string) => {
+    if (data.description?.trim()) {
+      return inner.replace(/\{\{description\}\}/g, data.description)
+    }
+    return ''
+  })
+
+  // Remove lines where a field was empty (__OMIT__ sentinel)
+  result = result.replace(/^[^\n]*__OMIT__[^\n]*(\n|$)/gm, '')
+  // Normalize runs of 3+ blank lines down to two
+  result = result.replace(/\n{3,}/g, '\n\n')
 
   return result.trim()
 }
