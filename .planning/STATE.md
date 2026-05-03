@@ -1,52 +1,50 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: executing
-last_updated: "2026-04-14T19:32:56.524Z"
-last_activity: 2026-04-14 -- Phase 08 execution started
+milestone: v2.0
+milestone_name: Triple-Filing (CPPA + CA AG + PDF)
+status: planning
+last_updated: "2026-05-03T00:00:00.000Z"
+last_activity: 2026-05-03 -- Milestone v2.0 started
 progress:
-  total_phases: 8
-  completed_phases: 7
-  total_plans: 21
-  completed_plans: 19
-  percent: 90
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # State: EasyFilerComplaint
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-01)
+See: .planning/PROJECT.md (updated 2026-05-03)
 
-**Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes.
-**Current focus:** Phase 08 — filing-wizard-ux-adjustments
+**Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with government agencies in under 5 minutes — via CPPA guided form, CPPA paper PDF, and CA AG fax.
+**Current focus:** Milestone v2.0 — defining phases
 
 ## Current Position
 
-Phase: 08 (filing-wizard-ux-adjustments) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 08
-Last activity: 2026-04-14 -- Phase 08 execution started
-
-```
-v1.1 Progress: [██████████] 100% (19/19 plans complete)
-```
+Phase: Not started (defining roadmap)
+Plan: —
+Status: Roadmap being created
+Last activity: 2026-05-03 — Milestone v2.0 started
 
 ## Phase Status
 
-| Phase | Name | Plans | Status |
-|-------|------|-------|--------|
-| 3 | Complaint PDF Generation | 2/2 | Complete |
-| 4 | Phaxio Fax Integration + Filing Pipeline | 4/4 | Complete |
-| 5 | Filing Receipt Email | 1/1 | Complete |
+_(phases will be added when roadmap is created)_
 
-## Milestone Context (v1.0 Complete)
+## Milestone Context (v1 Complete)
 
-Phases 1-2 complete as of 2026-04-01:
+v1 milestone (Phases 1–7 complete, Phase 8 planned):
 
 - Phase 1: Prisma schema extended (SCHEMA-01–08) — Neon deployed
-- Phase 2: Stripe checkout wired (PAY-01–08) — test mode verified
+- Phase 2: Stripe checkout wired (PAY-01–08) — verified
+- Phase 3: Complaint PDF generation with embedded fonts (PDF-01–07) — complete
+- Phase 4: Sinch fax pipeline to CA AG + orchestrator (FAX-01–09, PIPE-01–06) — complete
+- Phase 5: Filing receipt email via Resend (EMAIL-01–06) — complete
+- Phase 6: Guest-to-account conversion + filing history (AUTH-01–07) — complete
+- Phase 7: Landing page + legal pages + entity separation tests (MKTG-01–07) — complete
+- Phase 8: Filing wizard UX adjustments (WIZ-01–07) — planned, not yet executed
 
 ## Decisions Log
 
@@ -54,148 +52,37 @@ Phases 1-2 complete as of 2026-04-01:
 |------|----------|---------|
 | 2026-03-31 | Standard granularity, YOLO mode, parallel execution | Initial config |
 | 2026-03-31 | Research + plan-check + verifier all enabled | Quality gates on |
-| 2026-03-31 | Codebase mapping skipped | Detailed spec provided by user |
-| 2026-04-01 | Used Prisma enum FilingStatus for type-safe lifecycle status with DB-level constraint | Phase 01, Plan 01 |
-| 2026-04-01 | Made userId and user relation optional on Filing to support guest filings (SCHEMA-05) | Phase 01, Plan 01 |
-| 2026-04-01 | Added complaintPdfUrl and receiptEmailSentAt to Filing now to prevent schema changes in Phase 3 and Phase 5 | Phase 01, Plan 01 |
-| 2026-04-01 | passwordHash added as String? (nullable) so existing OAuth users are not broken | Phase 01, Plan 01 |
-| 2026-04-01 | Used Math.random() with A-Z0-9 charset (5 chars = 60M+ combinations) for filing receipt ID suffix | Phase 01, Plan 02 |
-| 2026-04-01 | UTC date in EFC-YYYYMMDD-XXXXX format ensures consistent receipt IDs regardless of server timezone | Phase 01, Plan 02 |
-| 2026-04-01 | Module-level Stripe singleton (not globalThis pattern from prisma.ts) because Stripe instances are stateless — no HMR concern | Phase 02, Plan 01 |
-| 2026-04-01 | Stripe env guard throws at module load time so STRIPE_SECRET_KEY absence surfaces at startup, not mid-request | Phase 02, Plan 01 |
-| 2026-04-01 | Create Filing before Stripe session so filingId is available for session metadata; stripeSessionId stored in second update after session creation | Phase 02, Plan 02 |
-| 2026-04-01 | Validate targetName, email, description, category before touching Stripe or Prisma — fail fast on missing required fields | Phase 02, Plan 02 |
-| 2026-04-01 | Used request.text() for raw body in webhook handler — Stripe HMAC requires unmodified bytes; request.json() would break signature verification | Phase 02, Plan 03 |
-| 2026-04-01 | Idempotency guard in webhook via prisma.filing.findUnique before paid update — prevents double-processing on Stripe retry storms | Phase 02, Plan 03 |
-| 2026-04-01 | paymentAmount stored as string '1.99' — Prisma accepts string for Decimal fields without importing Decimal class | Phase 02, Plan 03 |
-| 2026-04-01 | Called server component directly in tests (JSON.stringify result) — avoids React DOM testing complexity for server components | Phase 02, Plan 05 |
-| 2026-04-01 | Added @vitejs/plugin-react to vitest so TSX files can be transformed — tsconfig jsx:preserve is required for Next.js but breaks vitest without plugin | Phase 02, Plan 05 |
-| 2026-04-01 | Used window.location.href for Stripe redirect — Next.js router.push cannot navigate to external domains (checkout.stripe.com) | Phase 02, Plan 04 |
-| 2026-04-01 | Removed SubmissionResult import and submissionResults state — no longer used after replacing /api/submit with /api/checkout; step 5 retained as static UI | Phase 02, Plan 04 |
-| 2026-04-01 | Store PDF section markers as literal strings in Info dict (PDFString.of() + useObjectStreams: false) — custom font glyph encoding makes drawn text unsearchable via latin1 string search | Phase 03, Plan 01 |
-| 2026-04-01 | Store complaint body text in Description metadata for PDF-03 content assertions — complaint-type-specific strings (CCPA, Unruh/ADA, video) are accessible without a full PDF text extraction library | Phase 03, Plan 01 |
-| 2026-04-01 | extractPdfText() test utility skips streams >50KB to avoid false positives in binary font data when checking for prohibited strings | Phase 03, Plan 01 |
-| 2026-04-01 | storeComplaintPdf takes filingId and filingReceiptId as separate strings (not full Filing object) for minimal interface matching Phase 4 pipeline call signature | Phase 03, Plan 02 |
-| 2026-04-01 | access: 'private' on all Vercel Blob uploads — complaint PDFs contain PII per RESEARCH.md Pitfall 5 | Phase 03, Plan 02 |
-| 2026-04-01 | Status lifecycle transitions (generating/complete) deferred to PIPE-03 in Phase 4 — storeComplaintPdf is a pure storage utility | Phase 03, Plan 02 |
-| 2026-04-01 | axios + form-data instead of native fetch for Phaxio — avoids Node.js 18-23.6 multipart CRLF bug (FAX-08) | Phase 04, Plan 01 |
-| 2026-04-01 | sendFax takes FaxFile[] array — enables multi-file evidence attachments in single fax send (FAX-07) | Phase 04, Plan 01 |
-| 2026-04-01 | filerInfo Json? stored at checkout time — filing pipeline retrieves filer PII from Filing without User join | Phase 04, Plan 01 |
-| 2026-04-01 | Used crypto.timingSafeEqual wrapped in try/catch to handle HMAC length-mismatch edge case without throwing | Phase 04, Plan 02 |
-| 2026-04-01 | verifyPhaxioSignature() extracted as standalone utility for testability — webhook route imports it | Phase 04, Plan 02 |
-| 2026-04-01 | NEXT_PUBLIC_APP_URL used to construct callbackUrl — webhook URL must match what Phaxio was configured with | Phase 04, Plan 02 |
-| 2026-04-01 | Direct pipeline call from Stripe webhook — no queue needed at this volume (PIPE-02) | Phase 04, Plan 03 |
-| 2026-04-01 | Fax failure isolated in try/catch so email stub always runs regardless of fax outcome (PIPE-05) | Phase 04, Plan 03 |
-| 2026-04-01 | Idempotency guard updated: skip if status != pending_payment/draft — prevents re-run after pipeline starts | Phase 04, Plan 03 |
-| 2026-04-01 | Vercel cron schedule defaults to 0 0 * * * (once daily, Hobby plan safe); Pro upgrade path documented in route.ts comment | Phase 04, Plan 04 |
-| 2026-04-01 | Per-filing try/catch in cron handler — one Phaxio API failure does not block other filings in the same cron run | Phase 04, Plan 04 |
-| 2026-04-01 | Skip prisma.filing.update when faxStatus has not changed — avoids unnecessary writes on every cron tick | Phase 04, Plan 04 |
-| 2026-04-01 | vi.hoisted() for mockSend in Resend test — vi.fn() outside vi.mock factory is unavailable at mock registration time | Phase 05, Plan 01 |
-| 2026-04-01 | function constructor syntax in vi.mock Resend factory — arrow function cannot be used with new keyword | Phase 05, Plan 01 |
-| 2026-04-01 | EMAIL-05 attorney prohibited check strips Attorney General (government office title) — prohibition targets law-firm/legal-counsel references only | Phase 05, Plan 01 |
-| 2026-04-02 | bcrypt cost factor 12 for password hashing — industry standard, ~250ms latency acceptable for registration | Phase 06, Plan 01 |
-| 2026-04-02 | JWT session strategy required for Credentials + PrismaAdapter — database strategy silently fails | Phase 06, Plan 01 |
-| 2026-04-02 | filerEmail indexed String? column (not raw SQL JSON extraction from filerInfo) — resolves RESEARCH.md Open Question 1 | Phase 06, Plan 01 |
-| 2026-04-02 | Middleware test extracts protectedPaths logic to pure functions — NextAuth v5 auth() wrapper not directly unit-testable | Phase 06, Plan 01 |
-| 2026-04-02 | Server component wrapper + client AccountCreateForm — server reads filerInfo from DB, passes as props to client form | Phase 06, Plan 02 |
-| 2026-04-02 | PDF proxy route for filing downloads — Blob URLs are private; server verifies auth + ownership before streaming | Phase 06, Plan 02 |
-| 2026-04-02 | JSON.stringify(result) server component testing pattern used throughout — no @testing-library/react installed | Phase 06, Plan 02 |
-| 2026-04-02 | @base-ui/react Accordion import path is @base-ui/react/accordion (not @base-ui-components/react/accordion) | Phase 07, Plan 01 |
-| 2026-04-02 | HomeFaq must be 'use client' — @base-ui/react Accordion uses React hooks internally; Server Component context fails | Phase 07, Plan 01 |
-| 2026-04-02 | FAQ_ITEMS exported as const (not only named export) for testability without rendering the component | Phase 07, Plan 01 |
+| 2026-04-01 | axios + form-data for fax calls (not native fetch) | Node.js 18-23.6 multipart CRLF bug |
+| 2026-04-01 | Vercel Blob access: 'private' for all complaint PDFs | PII content |
+| 2026-04-02 | JWT session strategy for NextAuth Credentials provider | Database strategy silently fails |
+| 2026-05-03 | CPPA becomes primary filing channel (not CA AG fax) | CPPA is primary CCPA enforcer since July 2023 |
+| 2026-05-03 | ADA complaints excluded from CPPA channel | ADA is not a CCPA violation — CPPA has no jurisdiction |
+| 2026-05-03 | AG PDF restructured to form-style (not legal letter) | Real consumers don't cite §1798.100; looks automated |
+| 2026-05-03 | Complaint description ≤2000 chars, no statute citations | CPPA form character limit; naturalness requirement |
 
 ## Critical Notes
 
 - CA AG fax number in agency-directory.ts is a placeholder — MUST verify against oag.ca.gov before go-live
 - www. prefix is critical in all production URLs (Vercel redirect behavior strips headers on non-www)
-- Entity separation must be verified across ALL pages, emails, and PDFs before launch — automated assertion required
-- Stripe must be in test mode until full end-to-end flow is verified
-- Phaxio fax calls MUST use axios or node-fetch (not native fetch) — confirmed Node.js 18-23.6 multipart CRLF bug causes 422 errors
-- @pdf-lib/fontkit is installed (Phase 03 Plan 01 complete) — needed for embedded fonts
-- Vercel cron at */15 requires Pro plan — confirm tier before adding vercel.json; use 0 */1 * * * on Hobby
-- Three Phaxio credentials needed: PHAXIO_API_KEY, PHAXIO_API_SECRET (send), PHAXIO_CALLBACK_TOKEN (webhook HMAC)
-- PIPE-05: fax step must be wrapped in isolated try/catch — fax failure must NEVER suppress receipt email
-- Resend PDF attachment: use Buffer.from(pdfBytes).toString('base64') — not Uint8Array directly
+- Entity separation must be verified across ALL pages, emails, and PDFs — automated assertion required
+- Fax provider: Sinch (sinch-fax.ts) — old Phaxio references in ROADMAP.md are superseded
+- @pdf-lib/fontkit installed — needed for embedded fonts in both AG and CPPA PDFs
+- Vercel cron at */15 requires Pro plan; use 0 */1 * * * on Hobby
 
 ## Accumulated Context
 
-- pdf-lib is already installed (from v1.0)
-- Resend integration is stubbed and ready to wire
-- All three new integrations (pdf-lib, Phaxio, Resend) are already in package.json — no npm install needed
-- Single Uint8Array from pdf-lib.save() is source of truth — convert to Buffer once at pipeline level and pass downstream
-- Pipeline build order within Phase 4: agency-directory → phaxio.ts → filing-pipeline.ts → Stripe webhook modification → phaxio webhook → vercel.json + cron
+**From v1:**
+- generate-complaint-pdf.ts: existing CA AG complaint generator (legal letter style — needs restructuring in Phase 3 of v2)
+- complaint-generator.ts: existing complaint text generator — review before writing cppa-complaint-generator.ts
+- sinch-fax.ts: Sinch fax integration (replaces old Phaxio references in v1 planning docs)
+- store-complaint-pdf.ts: Vercel Blob storage utility — reuse pattern for CPPA PDF storage
+- /api/filings/[id]/pdf: existing PDF proxy route — use as pattern for /api/filings/[id]/cppa-pdf
+- Success page at /filing/[id]/success: needs full redesign to show 3 channels
 
-- generateComplaintPdf(filing, filerInfo) is COMPLETE — returns Uint8Array with Liberation Serif fonts, 13 sections, type-specific content for data-privacy/accessibility/video-sharing
-- FilerInfo interface is exported from src/lib/generate-complaint-pdf.ts — Phase 4 pipeline needs to pass this
-- PDF bytes: use Buffer.from(pdfBytes).toString('base64') for Resend attachment (Uint8Array direct not supported)
-- storeComplaintPdf(filingId, filingReceiptId, pdfBytes) is COMPLETE — uploads to Vercel Blob, updates Filing.complaintPdfUrl, returns null gracefully when BLOB_READ_WRITE_TOKEN absent
-- ROADMAP SC#3 verified: generate-to-store integration chain test passes end-to-end
-- verifyPhaxioSignature(callbackUrl, postFields, callbackToken, receivedSig, fileSha1Digests?) is COMPLETE — HMAC-SHA1 with sorted params + optional file digests
-- Phaxio webhook at /api/webhooks/phaxio is COMPLETE — parses multipart, verifies HMAC before DB writes, updates Filing fax fields
+**For v2.0:**
+- CPPA form URL: cppa.ca.gov/webapplications/complaint (new tab link on guide page)
+- CPPA mailing address: California Privacy Protection Agency, ATTN: Complaints, 400 R Street, Suite 350, Sacramento, CA 95811
+- CPPA complaint description character limit: 2000 characters
+- Complaint types: privacy_tracking → 2 CPPA checkboxes; video_sharing → 1 CPPA checkbox; accessibility (ADA) → no CPPA channel
 
----
-- agency-directory.ts is COMPLETE — getAgencyFaxNumber('ca_ag') returns '+19163235341' (E.164, placeholder — verify before go-live)
-- phaxio.ts rewritten with axios+form-data — sendFax(toNumber, files: FaxFile[]) supports multi-file attachments, no native fetch
-- Filing.filerInfo Json? column added to schema — stores filer PII at checkout for pipeline access
-
-- GET /api/cron/check-fax-status is COMPLETE — polls Phaxio for in-progress faxes, updates Filing.faxStatus/faxPages/faxCompletedAt, maps terminal fax status to Filing.status (filed/failed)
-- vercel.json added at project root with Hobby-safe daily cron schedule (0 0 * * *)
-- Phase 04 is COMPLETE — all 4 plans done: agency-directory, phaxio rewrite, webhook handler, filing pipeline, cron poller
-
----
-- sendFilingReceiptEmail(filing, pdfBytes, faxFailed) is COMPLETE — sends branded HTML email via Resend from noreply@easyfilercomplaint.com with complaint PDF attached
-- buildReceiptEmailHtml(params) is COMPLETE — pure inline-CSS HTML with receipt ID, business name, CA AG, date, amount, optional fax-failure note (EMAIL-05 compliant)
-- Filing.receiptEmailSentAt written to DB after successful Resend call (EMAIL-06)
-- executeFilingPipeline Step 4 stub replaced — email failure remains non-fatal (PIPE-05 maintained)
-- Phase 05 is COMPLETE — 1 plan done: filing receipt email via Resend
-- Full v1.1 pipeline is now live: PDF generation → Blob storage → fax → receipt email
-- 99/99 tests passing as of Phase 05 completion
-
----
-- POST /api/auth/register is COMPLETE — bcrypt cost-12 hash, 409 on duplicate email, 400 on short password, links all same-email filings to new user (AUTH-02, AUTH-03)
-- Filing.filerEmail String? column added with @@index([filerEmail]) — populated at checkout time (AUTH-03 backfill path)
-- src/lib/auth.ts has Credentials provider + JWT session strategy + bcrypt.compare authorize callback (AUTH-05)
-- src/middleware.ts protects /account/* with redirect to /login?callbackUrl=... (AUTH-06)
-- prisma db push required in production environment to apply filerEmail column to DB
-- 113/113 tests passing as of Phase 06 Plan 01 completion
-
----
-- /account/create page (server + client split) is COMPLETE — pre-fills email from filerInfo/filerEmail, validates passwords, POSTs to /api/auth/register, auto-logs in with signIn('credentials'), redirects to /account/filings
-- /login page is COMPLETE — credentials sign-in with error handling, redirects to /account/filings on success
-- /account/filings page is COMPLETE — auth-gated server component, queries filings by userId, renders cards with status badges + conditional PDF proxy links
-- GET /api/filings/[id]/pdf is COMPLETE — auth + ownership verification, streams private Blob content with Content-Disposition header
-- Success page CTA updated to pass filingId query param for email pre-fill
-- 130/130 tests passing as of Phase 06 Plan 02 completion
-
----
----
-- Phase 06 Plan 02 COMPLETE — /account/create, /login, /account/filings, /api/filings/[id]/pdf all wired and human-verified
-- 130/130 tests passing at Phase 06 completion
-- Phase 06 (guest-to-account-conversion) COMPLETE — all 2 plans done
-
-*Last updated: 2026-04-02 — Phase 06 Plan 02 complete; human verify approved; all 130 tests passing; Phase 06 fully complete*
-
----
-- Phase 07 Plan 01 COMPLETE — homepage rewritten for $1.99 single-agency product; HomeFaq client component created; Masthead /login and Footer real links wired
-- MKTG-01, MKTG-02, MKTG-03 requirements marked complete
-
-*Last updated: 2026-04-02 — Phase 07 Plan 01 complete; homepage rewritten; HomeFaq component created; Masthead/Footer links updated*
-
----
-- Phase 07 Plan 02 COMPLETE — /privacy (CCPA + third-party services), /terms (Arizona law + no-attorney-client), /about (service description) all created as Server Components
-- MKTG-04, MKTG-05, MKTG-06 requirements marked complete
-- Legal pages are pure Server Components — static content needs no use client
-- Entity separation verified: zero instances of DPW, Pro Veritas, APFC, ComplianceSweep, IdentifiedVerified
-
-*Last updated: 2026-04-02 — Phase 07 Plan 02 complete; three legal pages created; 130/130 tests passing*
-
----
-- Phase 07 Plan 03 COMPLETE — 22 automated tests across 5 files verify MKTG-07 entity separation and content requirements
-- MKTG-07 requirement marked complete
-- Mock next/link in server component tests to avoid circular JSON structure — Link component creates circular React element refs
-- Split hero heading assertion into two toContain checks — em tag splits JSX text children at boundary
-- Legal page tests need only Masthead/Footer mocks (no next/link used in legal pages)
-- Phase 07 (landing-page-and-legal-pages) COMPLETE — all 3 plans done
-- 152/152 tests passing (22 new tests across 5 files)
-
-*Last updated: 2026-04-02 — Phase 07 Plan 03 complete; entity separation tests passing; Phase 07 fully complete*
+*Last updated: 2026-05-03 — Milestone v2.0 started: Triple-Filing. Roadmap being created.*

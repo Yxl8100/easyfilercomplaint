@@ -97,40 +97,72 @@
 - [x] **MKTG-06**: About page at /about (no references to other entities)
 - [x] **MKTG-07**: All pages pass entity separation check (zero prohibited references)
 
-## v2 Requirements
+## v2.0 Requirements — Triple-Filing (CPPA + CA AG + PDF)
 
-### Additional Agencies
+### CPPA Text Generator
 
-- **AGCY-01**: FCC filing via web form submission adapter
-- **AGCY-02**: Multi-agency filing ($1.99 per agency selected)
-- **AGCY-03**: State-level AG offices beyond California
+- [ ] **CPTXT-01**: `generateCPPAComplaint(filing: Filing): CPPAComplaint` returns all 7 CPPA form question answers
+- [ ] **CPTXT-02**: Complaint description is a natural first-person narrative, no statute citations, ≤2000 characters
+- [ ] **CPTXT-03**: Visit date formatted as "Month YYYY" readable text (e.g., "March 2026"), never "N/A" or numeric codes
+- [ ] **CPTXT-04**: User's free-text description integrated naturally into complaint narrative (not orphaned "Specifically, I observed:" sentence)
+- [ ] **CPTXT-05**: Business name field: "{targetName} ({targetUrl})" or just "{targetName}" if no URL
 
-### Account Features
+### CPPA Guide Page
 
-- **ACCT-01**: Password reset via email link
-- **ACCT-02**: Account settings page (name, email, password update)
-- **ACCT-03**: Delete account + data
+- [ ] **CPGDE-01**: Page at `/filing/[id]/cppa-guide` is a server component that fetches the filing and generates CPPA text server-side
+- [ ] **CPGDE-02**: Auth check: user must own the filing (match by userId or filerEmail)
+- [ ] **CPGDE-03**: Each copyable answer has a working "Copy" button using the browser clipboard API
+- [ ] **CPGDE-04**: "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
+- [ ] **CPGDE-05**: Q1 (checkboxes), Q3 (CA resident), Q6 (contacted business) show visual instructions only — no copy-paste text box
 
-### Operations
+### Success Page
 
-- **OPS-01**: Admin dashboard showing filing volume and status
-- **OPS-02**: Manual retry for failed filings
-- **OPS-03**: Refund flow via Stripe dashboard integration
+- [ ] **SUCC-01**: Success page shows 3 distinct filing channel sections: CPPA Online (★ recommended), CPPA Paper PDF, CA AG (auto-filed ✓)
+- [ ] **SUCC-02**: CPPA section links to `/filing/[id]/cppa-guide`; Paper PDF section links to `/api/filings/[id]/cppa-pdf`
+- [ ] **SUCC-03**: CA AG section shows fax ID and status if available; shows failure or pending state if fax not complete
+- [ ] **SUCC-04**: Guest users see "Create Account" CTA at the bottom of the success page
+
+### ADA Complaint Handling
+
+- [ ] **ADA-01**: ADA (accessibility) complaint type hides CPPA channel (guide page + paper PDF) — CA AG fax is the only channel for ADA complaints
+
+### CPPA Paper PDF
+
+- [ ] **CPPDF-01**: `generateCPPAComplaintPdf(filing)` produces a PDF that mirrors the CPPA official paper form layout with all 10 sections pre-filled
+- [ ] **CPPDF-02**: PDF includes perjury attestation section with blank signature line, CPPA mailing address header, and filing ID footer
+- [ ] **CPPDF-03**: `GET /api/filings/[id]/cppa-pdf` authenticates user (owns filing), generates PDF, stores in Vercel Blob, and returns as file download
+
+### CA AG PDF Restructure
+
+- [ ] **AGPDF-01**: CA AG complaint PDF uses form-style layout with sections: Your Information, Business Information, Complaint, Resolution Requested, Prior Contact, Affirmation
+- [ ] **AGPDF-02**: AG PDF has zero statute citations, no "Dear Attorney General" salutation, no "Respectfully submitted" closing
+- [ ] **AGPDF-03**: Empty fields are omitted entirely — no "N/A" placeholder text anywhere in the AG PDF
+- [ ] **AGPDF-04**: Sinch fax pipeline is unchanged — same delivery mechanism, only PDF content changes
+
+### Complaint Description Quality
+
+- [ ] **DESC-01**: Generated complaint description uses natural first-person language throughout; user's free-text integrated contextually (not as a separate orphaned sentence)
+- [ ] **DESC-02**: Description stays ≤2000 characters; visit date formatted as readable "Month YYYY" text
+- [ ] **DESC-03**: Wizard complaint types map correctly to CPPA checkboxes: privacy_tracking → 2 boxes ("collection/use/storage/sharing" + "Right to Opt-out"), video_sharing → 1 box, accessibility → none (CPPA channel skipped)
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| FCC filing at launch | Web form submission required, different integration than fax |
+| FCC filing | Web form submission required, different integration than fax — future milestone |
 | Attorney / law firm features | EFC is a consumer tool only — no attorney-client relationship |
 | Cross-entity references (DPW, PV Law, APFC, ComplianceSweep, IV) | Entity separation requirement — EFC is independent |
 | Subscription or recurring billing | Flat per-filing fee only |
-| OAuth / social login | Email+password sufficient for v1 |
+| OAuth / social login | Email+password sufficient |
 | Real-time fax status | Polling + webhooks sufficient |
-| Full password reset flow | Contact support fallback for v1 |
-| Video evidence / screen recording | File upload (PDF/PNG/JPG) is sufficient |
+| Full password reset flow | Contact support fallback |
+| FCC complaints as additional channel | Out of scope for v2.0 — evaluate for v3 |
+| Admin dashboard / manual retry | Operations tooling — future milestone |
+| Multi-agency filing at different price points | v2.0 keeps $1.99 flat fee for all three channels |
 
 ## Traceability
+
+### v1 Requirements
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -138,25 +170,27 @@
 | PAY-01 to PAY-08 | Phase 2 | Complete |
 | PDF-01 to PDF-07 | Phase 3 | Complete |
 | FAX-01 to FAX-09, PIPE-01 to PIPE-06 | Phase 4 | Complete |
-| EMAIL-01 to EMAIL-06 | Phase 5 | Pending |
-| AUTH-01 to AUTH-07 | Phase 6 | Pending |
-| MKTG-01 to MKTG-07 | Phase 7 | Pending |
-| WIZ-01 to WIZ-07 | Phase 8 | Pending |
+| EMAIL-01 to EMAIL-06 | Phase 5 | Complete |
+| AUTH-01 to AUTH-07 | Phase 6 | Complete |
+| MKTG-01 to MKTG-07 | Phase 7 | Complete |
+| WIZ-01 to WIZ-07 | Phase 8 | In planning |
 
-**Coverage:**
-- v1 requirements: 57 total
-- v1.1 additions (research-derived): 4 (PDF-07, FAX-08, FAX-09, PIPE-06)
-- Total: 61
-- Mapped to phases: 61
-- Unmapped: 0 ✓
+**v1 coverage:** 61 requirements, 61 mapped ✓
 
-**v1.1 milestone scope (Phases 3-5):**
-- PDF-01 to PDF-07: 7 requirements → Phase 3
-- FAX-01 to FAX-09: 9 requirements → Phase 4
-- PIPE-01 to PIPE-06: 6 requirements → Phase 4
-- EMAIL-01 to EMAIL-06: 6 requirements → Phase 5
-- Total v1.1: 28 requirements, 100% mapped ✓
+### v2.0 Requirements
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| CPTXT-01 to CPTXT-05 | TBD (roadmap) | Pending |
+| CPGDE-01 to CPGDE-05 | TBD (roadmap) | Pending |
+| SUCC-01 to SUCC-04 | TBD (roadmap) | Pending |
+| ADA-01 | TBD (roadmap) | Pending |
+| CPPDF-01 to CPPDF-03 | TBD (roadmap) | Pending |
+| AGPDF-01 to AGPDF-04 | TBD (roadmap) | Pending |
+| DESC-01 to DESC-03 | TBD (roadmap) | Pending |
+
+**v2.0 coverage:** 23 requirements, phases TBD (roadmap being created) ✓
 
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-04-01 — Phase 4 complete: FAX-01 to FAX-09, PIPE-01 to PIPE-06 all satisfied*
+*Last updated: 2026-05-03 — v2.0 milestone requirements added: 23 requirements across 7 categories for Triple-Filing*

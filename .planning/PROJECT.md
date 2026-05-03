@@ -2,20 +2,24 @@
 
 ## What This Is
 
-EasyFilerComplaint (easyfilercomplaint.com) is a consumer complaint filing platform. A consumer fills out a short form about a website that violated their privacy, pays $1.99, and EFC generates a formal complaint PDF and faxes it to a government agency (currently CA Attorney General). The consumer receives a filing receipt email with a copy of the complaint PDF attached.
+EasyFilerComplaint (easyfilercomplaint.com) is a consumer complaint filing platform. A consumer fills out a short form about a website that violated their privacy, pays $1.99, and EFC provides three filing channels: a guided CPPA online form walkthrough with pre-written copy-paste text, a downloadable CPPA paper complaint PDF, and an auto-faxed complaint to the CA Attorney General. The consumer receives a filing receipt email and full access to all three channels.
 
 ## Core Value
 
 A consumer can pay $1.99 and have a formal privacy complaint filed with a government agency in under 5 minutes — creating both documented economic injury and an independent government paper trail.
 
-## Current Milestone: v1.1 Live Filing Pipeline
+## Current Milestone: v2.0 Triple-Filing (CPPA + CA AG + PDF)
 
-**Goal:** Complete the core filing pipeline so a paid submission generates a complaint PDF, faxes it to CA AG, and sends the consumer a receipt email — making the end-to-end filing flow live.
+**Goal:** Add CPPA as the primary filing channel with a guided online form walkthrough and downloadable paper PDF, while restructuring the CA AG complaint PDF to match form expectations — giving every $1.99 filing three channels.
 
 **Target features:**
-- Complaint PDF generation (pdf-lib, formal government-style letter)
-- Phaxio fax delivery to CA AG + filing pipeline orchestrator
-- Filing receipt email with PDF attachment (Resend)
+- CPPA text generator (pre-written answers for all 7 CPPA form questions)
+- CPPA guided filing page at /filing/[id]/cppa-guide with per-question copy buttons
+- CPPA paper complaint PDF (mirrors official form layout, downloadable)
+- Success page redesign — three channel sections with status
+- CA AG PDF restructure — form-style layout, no legal letter, no statute citations
+- Complaint description improvements — natural language, ≤2000 chars, integrated user description
+- Wizard complaint type → CPPA checkbox mapping (ADA excluded from CPPA channel)
 
 ## Requirements
 
@@ -29,25 +33,30 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 - ✓ pdf-lib installed and available — existing
 - ✓ Resend email integration (stub) — existing
 
-### Active
+### Active (v2.0)
 
-- ✓ Complaint PDF generation (formal government-style document) — Validated in Phase 03 (2026-04-01)
-- ✓ Phaxio fax delivery to CA AG — Validated in Phase 04 (2026-04-01)
-- ✓ Filing pipeline orchestrator (PDF → store → fax → email stub) — Validated in Phase 04 (2026-04-01)
-- ✓ Filing receipt confirmation email with PDF attachment — Validated in Phase 05 (2026-04-01)
+- [ ] CPPA text generator (generateCPPAComplaint) — all 7 question answers, natural language, ≤2000 chars
+- [ ] CPPA guided filing page at /filing/[id]/cppa-guide with copy buttons and external form link
+- [ ] CPPA paper complaint PDF (generateCPPAComplaintPdf) — mirrors official form, Blob storage
+- [ ] Success page redesign — three filing channel sections with status indicators
+- [ ] CA AG complaint PDF restructured — form-style, no legal letter, no statute citations
+- [ ] ADA complaint type excludes CPPA channel (CA AG fax only for ADA)
+- [ ] Wizard complaint type → CPPA checkbox mapping
 
 ### Validated
 
-- ✓ Stripe $1.99 checkout integration — validated in Phase 02 (2026-04-01)
-- ✓ Stripe webhook handler (payment confirmation → pipeline trigger) — validated in Phase 02 (2026-04-01)
-- [x] Prisma schema: Filing model with Stripe + Phaxio + receipt fields — Validated in Phase 01: schema-and-data-model
-- ✓ Guest-to-account conversion flow (post-filing) — Validated in Phase 06 (2026-04-02)
-- ✓ Filing history page (/account/filings) — Validated in Phase 06 (2026-04-02)
-- ✓ Auth middleware protecting /account/* routes — Validated in Phase 06 (2026-04-02)
-- ✓ Landing page with full consumer-facing copy — Validated in Phase 07 (2026-04-02)
-- ✓ Privacy policy, Terms of Service, About pages — Validated in Phase 07 (2026-04-02)
-- [ ] Filing wizard UX adjustments (labels, agency selection, evidence upload)
-- [ ] Evidence file upload (Vercel Blob) + attach to fax
+- ✓ Complaint PDF generation (formal government-style document) — Phase 03 (2026-04-01)
+- ✓ Sinch fax delivery to CA AG + filing pipeline orchestrator — Phase 04
+- ✓ Filing receipt confirmation email with PDF attachment (Resend) — Phase 05 (2026-04-01)
+- ✓ Stripe $1.99 checkout integration — Phase 02 (2026-04-01)
+- ✓ Stripe webhook handler (payment confirmation → pipeline trigger) — Phase 02 (2026-04-01)
+- ✓ Prisma schema: Filing model with Stripe + fax + receipt fields — Phase 01 (2026-04-01)
+- ✓ Guest-to-account conversion flow (post-filing) — Phase 06 (2026-04-02)
+- ✓ Filing history page (/account/filings) — Phase 06 (2026-04-02)
+- ✓ Auth middleware protecting /account/* routes — Phase 06 (2026-04-02)
+- ✓ Landing page with full consumer-facing copy — Phase 07 (2026-04-02)
+- ✓ Privacy policy, Terms of Service, About pages — Phase 07 (2026-04-02)
+- [ ] Filing wizard UX adjustments (labels, agency selection, evidence upload) — Phase 08 (in planning)
 
 ### Out of Scope
 
@@ -61,25 +70,31 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 
 ## Context
 
-**Stack:** Next.js 14 (App Router) / Prisma / Neon (Postgres) / Resend / pdf-lib / Vercel
+**Stack:** Next.js 14 (App Router) / Prisma / Neon (Postgres) / Sinch (fax) / Resend (email) / pdf-lib / Vercel Blob / Vercel
 
-**What's already built:**
-- Multi-step filing wizard (pages/components exist)
-- Auto-submit engine (currently stubbed, `EFC_LIVE_SUBMIT` flag is off)
-- Homepage scaffold with restyled theme
-- Basic Prisma schema (may need extension for Stripe/Phaxio fields)
+**What's already built (v1):**
+- Full filing wizard (multi-step form) with Stripe checkout
+- Sinch fax pipeline to CA AG + Vercel Blob PDF storage
+- Filing receipt email via Resend
+- Guest-to-account conversion + filing history at /account/filings
+- Landing page, Privacy Policy, Terms, About pages
+- generate-complaint-pdf.ts (existing CA AG letter — needs restructuring in v2)
+- complaint-generator.ts (existing complaint text generator — needs updating in v2)
 
-**What's NOT live:**
-- Full wizard UX polish
+**What's new in v2.0:**
+- CPPA text generator (src/lib/cppa-complaint-generator.ts)
+- CPPA paper PDF generator (src/lib/cppa-pdf-generator.ts)
+- CPPA guide page (/filing/[id]/cppa-guide)
+- Redesigned success page
+- AG PDF restructured (no legal letter format)
 
 **Critical infrastructure notes:**
-- Always use `www.` prefix in all URLs (non-www Vercel redirect strips headers/params, breaking Stripe webhook signatures and Checkout return URLs)
+- Always use `www.` prefix in all URLs (non-www Vercel redirect strips headers/params)
 - Stripe webhook endpoint: `https://www.easyfilercomplaint.com/api/webhooks/stripe`
-- Phaxio webhook endpoint: `https://www.easyfilercomplaint.com/api/webhooks/phaxio`
-- CA AG fax number MUST be verified against oag.ca.gov before go-live
-- Entity separation: zero references to DPW, Pro Veritas Law, APFC, ComplianceSweep, IdentifiedVerified across all pages and emails
+- Entity separation: zero references to DPW, Pro Veritas Law, APFC, ComplianceSweep, IdentifiedVerified
+- Fax provider: Sinch (sinch-fax.ts) — not Phaxio
 
-**Domain:** easyfilercomplaint.com (note: deployed at easyfilercompliant.com — verify actual domain)
+**Domain:** easyfilercomplaint.com
 
 ## Constraints
 
@@ -121,4 +136,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 — Phase 07 complete: Homepage rewritten for $1.99 CA AG privacy filing product; Privacy Policy, Terms of Service, and About pages created; 152/152 tests passing including entity-separation coverage*
+*Last updated: 2026-05-03 — Milestone v2.0 started: Triple-Filing (CPPA + CA AG + PDF). CPPA becomes primary channel. AG PDF restructured. Success page redesigned. 23 requirements defined across 7 categories.*
