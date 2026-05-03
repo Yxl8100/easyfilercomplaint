@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 
   // Verify HMAC-SHA1 signature BEFORE any database writes (FAX-09)
   const signature = request.headers.get('x-phaxio-signature') || ''
-  const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/phaxio`
+  const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.easyfilercompliant.com'}/api/webhooks/phaxio`
 
   if (!verifyPhaxioSignature(callbackUrl, postFields, callbackToken, signature)) {
     console.error('[phaxio-webhook] Invalid signature')

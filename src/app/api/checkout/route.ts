@@ -81,8 +81,8 @@ export async function POST(request: NextRequest) {
       ],
       metadata: { filingId: filing.id },
       customer_email: data.email,
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/filing/${filing.id}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/file/${data.category}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.easyfilercompliant.com'}/filing/${filing.id}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.easyfilercompliant.com'}/file/${data.category}`,
     })
 
     // Store the session ID on the Filing record
