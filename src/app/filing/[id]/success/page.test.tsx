@@ -121,7 +121,7 @@ describe('SuccessPage', () => {
     const { default: SuccessPage } = await import('./page')
     const html = JSON.stringify(await SuccessPage({ params: { id: 'filing-uuid-001' } }))
     expect(html).toContain('FAX-12345')
-    expect(html).toContain('success')
+    expect(html).toContain('Delivered')
   })
 
   it('SUCC-03: renders Pending when faxId is null', async () => {

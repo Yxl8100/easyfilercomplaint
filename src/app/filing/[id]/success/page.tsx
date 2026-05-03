@@ -182,7 +182,7 @@ export default async function SuccessPage({
           <p className="font-body text-sm text-text-mid mb-3">
             Status:{' '}
             <span className={`font-mono text-[11px] uppercase tracking-[0.1em] ${faxDisplay.colorClass}`}>
-              {filing.faxStatus ?? faxDisplay.label}
+              {faxDisplay.label}
             </span>
           </p>
           {filing.complaintPdfUrl && (
