@@ -181,16 +181,34 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CPTXT-01 to CPTXT-05 | TBD (roadmap) | Pending |
-| CPGDE-01 to CPGDE-05 | TBD (roadmap) | Pending |
-| SUCC-01 to SUCC-04 | TBD (roadmap) | Pending |
-| ADA-01 | TBD (roadmap) | Pending |
-| CPPDF-01 to CPPDF-03 | TBD (roadmap) | Pending |
-| AGPDF-01 to AGPDF-04 | TBD (roadmap) | Pending |
-| DESC-01 to DESC-03 | TBD (roadmap) | Pending |
+| CPTXT-01 | Phase 9 | Pending |
+| CPTXT-02 | Phase 9 | Pending |
+| CPTXT-03 | Phase 9 | Pending |
+| CPTXT-04 | Phase 9 | Pending |
+| CPTXT-05 | Phase 9 | Pending |
+| AGPDF-01 | Phase 9 | Pending |
+| AGPDF-02 | Phase 9 | Pending |
+| AGPDF-03 | Phase 9 | Pending |
+| AGPDF-04 | Phase 9 | Pending |
+| DESC-01 | Phase 9 | Pending |
+| DESC-02 | Phase 9 | Pending |
+| DESC-03 | Phase 9 | Pending |
+| SUCC-01 | Phase 9 | Pending |
+| SUCC-02 | Phase 9 | Pending |
+| SUCC-03 | Phase 9 | Pending |
+| SUCC-04 | Phase 9 | Pending |
+| ADA-01 | Phase 9 | Pending |
+| CPGDE-01 | Phase 10 | Pending |
+| CPGDE-02 | Phase 10 | Pending |
+| CPGDE-03 | Phase 10 | Pending |
+| CPGDE-04 | Phase 10 | Pending |
+| CPGDE-05 | Phase 10 | Pending |
+| CPPDF-01 | Phase 11 | Pending |
+| CPPDF-02 | Phase 11 | Pending |
+| CPPDF-03 | Phase 11 | Pending |
 
-**v2.0 coverage:** 23 requirements, phases TBD (roadmap being created) ✓
+**v2.0 coverage:** 25 requirements, 25 mapped ✓
 
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-05-03 — v2.0 milestone requirements added: 23 requirements across 7 categories for Triple-Filing*
+*Last updated: 2026-05-03 — v2.0 milestone requirements added: 25 requirements across 7 categories for Triple-Filing; traceability filled (Phases 9–11)*

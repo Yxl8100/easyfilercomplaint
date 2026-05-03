@@ -187,3 +187,75 @@ CRON_SECRET=...
 *Roadmap created: 2026-03-31*
 *Last updated: 2026-04-14 — Phase 8 planned: 2 plans in 2 waves*
 *Milestone: v1 -- 8 phases, 61 requirements*
+
+---
+
+# Roadmap: EasyFilerComplaint — v2.0 Triple-Filing (CPPA + CA AG + PDF)
+
+**Milestone:** v2.0 — Triple-Filing (CPPA + CA AG + PDF)
+**Goal:** Add CPPA as the primary filing channel with a guided online form walkthrough and downloadable paper PDF, while restructuring the CA AG complaint PDF to match form expectations — giving every $1.99 filing three channels.
+**Created:** 2026-05-03
+
+---
+
+## Phases
+
+- [ ] **Phase 9: Complaint Narrative Engine + AG PDF + Success Page** - Complaint text generator, CA AG PDF restructure, and redesigned success page with three filing channel sections
+- [ ] **Phase 10: CPPA Guided Filing Page** - Consumer-facing walkthrough page at /filing/[id]/cppa-guide with per-question copy buttons
+- [ ] **Phase 11: CPPA Paper Complaint PDF** - Downloadable PDF mirroring the CPPA official paper form layout, with API route and Blob storage
+
+---
+
+## Phase Details
+
+### Phase 9: Complaint Narrative Engine + AG PDF + Success Page
+**Goal**: Every filing produces a natural-language complaint narrative usable by both CPPA and CA AG channels, the CA AG PDF is restructured into a clean form-style layout, and the success page surfaces all three filing channels with correct status
+**Depends on**: Phase 8
+**Requirements**: CPTXT-01, CPTXT-02, CPTXT-03, CPTXT-04, CPTXT-05, AGPDF-01, AGPDF-02, AGPDF-03, AGPDF-04, DESC-01, DESC-02, DESC-03, SUCC-01, SUCC-02, SUCC-03, SUCC-04, ADA-01
+**Success Criteria** (what must be TRUE):
+  1. `generateCPPAComplaint(filing)` returns a CPPAComplaint object with all 7 CPPA form question answers; the complaint description is a natural first-person narrative under 2000 characters with no statute citations
+  2. Visit date in the generated text reads as "Month YYYY" (e.g., "March 2026") — never a raw date string, numeric code, or "N/A"
+  3. Consumer's free-text description is woven into the narrative contextually, not appended as a standalone orphaned sentence
+  4. CA AG complaint PDF uses a form-style layout (Your Information, Business Information, Complaint, Resolution, Prior Contact, Affirmation sections) with zero statute citations, no salutation, no closing, and no "N/A" placeholders for empty fields
+  5. Success page shows three distinct sections — CPPA Online (recommended), CPPA Paper PDF, and CA AG (auto-filed) — each linking to the correct destination; CA AG section shows fax status/ID
+  6. ADA (accessibility) complaint type shows only the CA AG fax section on the success page; CPPA guide link and paper PDF link are hidden for ADA filings
+  7. Guest users see a "Create Account" CTA at the bottom of the success page
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 10: CPPA Guided Filing Page
+**Goal**: Consumer can open the CPPA online complaint form and copy pre-written answers for each question from a guided page at /filing/[id]/cppa-guide
+**Depends on**: Phase 9
+**Requirements**: CPGDE-01, CPGDE-02, CPGDE-03, CPGDE-04, CPGDE-05
+**Success Criteria** (what must be TRUE):
+  1. `/filing/[id]/cppa-guide` loads as a server component, fetches the filing server-side, generates CPPA text, and renders without client-side data fetching for the initial answers
+  2. A user who does not own the filing (no userId match and no filerEmail match) is blocked from accessing the page
+  3. Each copyable answer field has a working "Copy" button that writes the answer text to the clipboard; Q1 (checkboxes), Q3 (CA resident), and Q6 (contacted business) show visual instructions only with no copy-paste box
+  4. "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 11: CPPA Paper Complaint PDF
+**Goal**: Consumer can download a fillable-style CPPA paper complaint PDF that mirrors the official CPPA form layout, generated on demand and stored in Vercel Blob
+**Depends on**: Phase 9
+**Requirements**: CPPDF-01, CPPDF-02, CPPDF-03
+**Success Criteria** (what must be TRUE):
+  1. `generateCPPAComplaintPdf(filing)` produces a PDF with all 10 official CPPA form sections pre-filled, including the perjury attestation section with a blank signature line and the CPPA mailing address header
+  2. The PDF footer contains the filing ID; the PDF contains zero references to prohibited entities
+  3. GET `/api/filings/[id]/cppa-pdf` verifies the requesting user owns the filing, generates the PDF, stores it in Vercel Blob, and returns it as a file download
+**Plans**: TBD
+**UI hint**: no
+
+---
+
+## Progress Table
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 9. Complaint Narrative Engine + AG PDF + Success Page | 0/TBD | Not started | - |
+| 10. CPPA Guided Filing Page | 0/TBD | Not started | - |
+| 11. CPPA Paper Complaint PDF | 0/TBD | Not started | - |
+
+---
+*Roadmap created: 2026-05-03*
+*Last updated: 2026-05-03 — Milestone v2.0: 3 phases (9–11), 25 requirements*

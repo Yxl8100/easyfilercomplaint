@@ -4,9 +4,9 @@ milestone: v2.0
 milestone_name: Triple-Filing (CPPA + CA AG + PDF)
 status: planning
 last_updated: "2026-05-03T00:00:00.000Z"
-last_activity: 2026-05-03 -- Milestone v2.0 started
+last_activity: 2026-05-03 -- Roadmap created (Phases 9-11)
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,18 +20,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-03)
 
 **Core value:** A consumer can pay $1.99 and have a formal privacy complaint filed with government agencies in under 5 minutes — via CPPA guided form, CPPA paper PDF, and CA AG fax.
-**Current focus:** Milestone v2.0 — defining phases
+**Current focus:** Milestone v2.0 — Phase 9 ready for planning
 
 ## Current Position
 
-Phase: Not started (defining roadmap)
+Phase: Phase 9 — Complaint Narrative Engine + AG PDF + Success Page
 Plan: —
-Status: Roadmap being created
-Last activity: 2026-05-03 — Milestone v2.0 started
+Status: Roadmap complete, Phase 9 ready for `/gsd-plan-phase 9`
+Last activity: 2026-05-03 — Roadmap created (Phases 9–11), 25 requirements mapped
 
 ## Phase Status
 
-_(phases will be added when roadmap is created)_
+| Phase | Name | Requirements | Status |
+|-------|------|--------------|--------|
+| 9 | Complaint Narrative Engine + AG PDF + Success Page | CPTXT-01–05, AGPDF-01–04, DESC-01–03, SUCC-01–04, ADA-01 | Not started |
+| 10 | CPPA Guided Filing Page | CPGDE-01–05 | Not started |
+| 11 | CPPA Paper Complaint PDF | CPPDF-01–03 | Not started |
 
 ## Milestone Context (v1 Complete)
 
@@ -59,30 +63,37 @@ v1 milestone (Phases 1–7 complete, Phase 8 planned):
 | 2026-05-03 | ADA complaints excluded from CPPA channel | ADA is not a CCPA violation — CPPA has no jurisdiction |
 | 2026-05-03 | AG PDF restructured to form-style (not legal letter) | Real consumers don't cite §1798.100; looks automated |
 | 2026-05-03 | Complaint description ≤2000 chars, no statute citations | CPPA form character limit; naturalness requirement |
+| 2026-05-03 | Phase 9 groups narrative engine + AG PDF + success page | All three touch the complaint narrative layer; AG PDF and CPPA text generator share same description template |
+| 2026-05-03 | Phase 10 is standalone CPPA guide page | Depends on Phase 9 text generator; pure UI/UX, independently verifiable |
+| 2026-05-03 | Phase 11 is standalone CPPA paper PDF | Depends on Phase 9 text generator; new PDF template + API route, independently verifiable |
 
 ## Critical Notes
 
 - CA AG fax number in agency-directory.ts is a placeholder — MUST verify against oag.ca.gov before go-live
 - www. prefix is critical in all production URLs (Vercel redirect behavior strips headers on non-www)
 - Entity separation must be verified across ALL pages, emails, and PDFs — automated assertion required
-- Fax provider: Sinch (sinch-fax.ts) — old Phaxio references in ROADMAP.md are superseded
+- Fax provider: Sinch (sinch-fax.ts) — old Phaxio references in v1 ROADMAP.md are superseded
 - @pdf-lib/fontkit installed — needed for embedded fonts in both AG and CPPA PDFs
 - Vercel cron at */15 requires Pro plan; use 0 */1 * * * on Hobby
 
 ## Accumulated Context
 
 **From v1:**
-- generate-complaint-pdf.ts: existing CA AG complaint generator (legal letter style — needs restructuring in Phase 3 of v2)
+- generate-complaint-pdf.ts: existing CA AG complaint generator (legal letter style — needs restructuring in Phase 9)
 - complaint-generator.ts: existing complaint text generator — review before writing cppa-complaint-generator.ts
 - sinch-fax.ts: Sinch fax integration (replaces old Phaxio references in v1 planning docs)
 - store-complaint-pdf.ts: Vercel Blob storage utility — reuse pattern for CPPA PDF storage
 - /api/filings/[id]/pdf: existing PDF proxy route — use as pattern for /api/filings/[id]/cppa-pdf
-- Success page at /filing/[id]/success: needs full redesign to show 3 channels
+- Success page at /filing/[id]/success: needs full redesign to show 3 channels (Phase 9)
 
 **For v2.0:**
 - CPPA form URL: cppa.ca.gov/webapplications/complaint (new tab link on guide page)
 - CPPA mailing address: California Privacy Protection Agency, ATTN: Complaints, 400 R Street, Suite 350, Sacramento, CA 95811
 - CPPA complaint description character limit: 2000 characters
 - Complaint types: privacy_tracking → 2 CPPA checkboxes; video_sharing → 1 CPPA checkbox; accessibility (ADA) → no CPPA channel
+- New file: src/lib/cppa-complaint-generator.ts (Phase 9)
+- New file: src/lib/cppa-pdf-generator.ts (Phase 11)
+- New route: /filing/[id]/cppa-guide (Phase 10)
+- New API route: /api/filings/[id]/cppa-pdf (Phase 11)
 
-*Last updated: 2026-05-03 — Milestone v2.0 started: Triple-Filing. Roadmap being created.*
+*Last updated: 2026-05-03 — Roadmap created: v2.0 Phases 9–11 defined, 25 requirements mapped, Phase 9 ready for planning.*
