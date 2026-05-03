@@ -2,7 +2,7 @@ import fontkit from '@pdf-lib/fontkit'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { PDFDocument, PDFDict, PDFName, PDFString, PDFPage, PDFFont, rgb, RGB } from 'pdf-lib'
-import { generateComplaintText } from './complaint-generator'
+import { generateCPPAComplaint } from './cppa-complaint-generator'
 import type { Filing } from '@prisma/client'
 import type { FilingData } from './filing-state'
 
@@ -129,7 +129,7 @@ export async function generateComplaintPdf(
   pdfDoc.setAuthor('EasyFilerComplaint')
   pdfDoc.setCreator('EasyFilerComplaint')
   pdfDoc.setProducer('EasyFilerComplaint')
-  pdfDoc.setTitle('Privacy Complaint')
+  pdfDoc.setTitle('Consumer Complaint Form')
 
   // Store section markers as literal ASCII strings in PDF Info dict so they are
   // findable in raw PDF bytes (pdf-lib custom font encoding makes drawn text unsearchable).
@@ -137,9 +137,9 @@ export async function generateComplaintPdf(
   const filingReceiptIdForMeta = filing.filingReceiptId ?? filing.id
   const infoDict = pdfDoc.context.lookup(pdfDoc.context.trailerInfo.Info, PDFDict)
   if (infoDict) {
-    infoDict.set(PDFName.of('Subject'), PDFString.of('PRIVACY COMPLAINT'))
+    infoDict.set(PDFName.of('Subject'), PDFString.of('CONSUMER COMPLAINT FORM'))
     infoDict.set(PDFName.of('Keywords'), PDFString.of(
-      `EasyFilerComplaint Re: Respectfully submitted Filing ID: ${filingReceiptIdForMeta}`
+      `EasyFilerComplaint YOUR INFORMATION BUSINESS INFORMATION COMPLAINT RESOLUTION REQUESTED AFFIRMATION Filing ID: ${filingReceiptIdForMeta}`
     ))
   }
 
@@ -169,140 +169,131 @@ export async function generateComplaintPdf(
     y -= size + 4
   }
 
-  // ---- Section 1: Document header ----
-  // Center the title
-  const titleText = 'PRIVACY COMPLAINT'
-  const titleSize = 14
+  const drawSectionHeader = (title: string) => {
+    y -= 8
+    if (y < margin + fontSize + 4) {
+      page = pdfDoc.addPage([612, 792])
+      y = height - margin
+    }
+    page.drawText(title, { x: margin, y, font: boldFont, size: 11, color: black })
+    y -= 11 + 6
+    page.drawLine({
+      start: { x: margin, y },
+      end: { x: 612 - margin, y },
+      thickness: 0.5,
+      color: gray,
+    })
+    y -= 10
+  }
+
+  const drawLabelValue = (label: string, value: string | null | undefined) => {
+    if (!value?.trim()) return // AGPDF-03: omit empty fields entirely — never write 'N/A'
+    drawLine(`${label}: ${value}`, font, fontSize, black)
+  }
+
+  // ---- Document title ----
+  const titleText = 'CALIFORNIA ATTORNEY GENERAL — CONSUMER COMPLAINT FORM'
+  const titleSize = 12
   const titleWidth = boldFont.widthOfTextAtSize(titleText, titleSize)
-  const titleX = (612 - titleWidth) / 2
+  const titleX = Math.max(margin, (612 - titleWidth) / 2)
+  if (y < margin + titleSize + 4) {
+    page = pdfDoc.addPage([612, 792])
+    y = height - margin
+  }
   page.drawText(titleText, { x: titleX, y, font: boldFont, size: titleSize, color: black })
   y -= titleSize + 4
 
-  // ---- Section 2: Filing date line ----
+  // Date line
   const today = new Date()
   const formattedDate = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-  drawLine(`Filed via EasyFilerComplaint . ${formattedDate}`, font, 9, gray)
-  y -= 2
+  drawLine(`EasyFilerComplaint . ${formattedDate}`, font, 9, gray)
 
-  // ---- Section 3: Horizontal rule ----
-  page.drawLine({
-    start: { x: margin, y },
-    end: { x: 612 - margin, y },
-    thickness: 1,
-    color: black,
-  })
+  // Top rule
+  page.drawLine({ start: { x: margin, y }, end: { x: 612 - margin, y }, thickness: 1, color: black })
   y -= 16
 
-  // ---- Section 4: To block ----
-  drawLine('To: Office of the Attorney General', boldFont, fontSize, black)
-  drawLine('    State of California', font, fontSize, black)
-  drawLine('    1300 I Street', font, fontSize, black)
-  drawLine('    Sacramento, CA 95814', font, fontSize, black)
-  y -= 4
-
-  // ---- Section 5: From block ----
-  drawLine(`From: ${filerInfo.firstName} ${filerInfo.lastName}`, boldFont, fontSize, black)
-  drawLine(`      ${filerInfo.address}`, font, fontSize, black)
-  drawLine(`      ${filerInfo.city}, ${filerInfo.state} ${filerInfo.zip}`, font, fontSize, black)
-  drawLine(`      ${filerInfo.email}`, font, fontSize, black)
-  y -= 4
-
-  // ---- Section 6: Date line ----
-  drawLine(`Date: ${formattedDate}`, font, fontSize, black)
-  y -= 4
-
-  // ---- Section 7: Re / Subject line ----
-  drawLine(`Re: Privacy Complaint Against ${filing.targetName}`, boldFont, fontSize, black)
+  // ---- Section: YOUR INFORMATION ----
+  drawSectionHeader('YOUR INFORMATION')
+  drawLabelValue('Name', `${filerInfo.firstName} ${filerInfo.lastName}`)
+  drawLabelValue('Address', filerInfo.address)
+  drawLabelValue('City, State, Zip', `${filerInfo.city}, ${filerInfo.state} ${filerInfo.zip}`)
+  drawLabelValue('Email', filerInfo.email)
+  drawLabelValue('Phone', filerInfo.phone)
+  drawLabelValue('County', filerInfo.county)
   y -= 8
 
-  // ---- Section 8: Opening salutation ----
-  drawLine('Dear Attorney General,', font, fontSize, black)
-  y -= 8
-
-  // ---- Section 9: Body paragraphs ----
-  const filingData = toFilingData(filing, filerInfo)
-  let complaintText = ''
-  try {
-    complaintText = generateComplaintText(filingData, 'ca_ag')
-  } catch {
-    complaintText = `Complaint regarding: ${filing.targetName}\n\n${filing.description}`
+  // ---- Section: BUSINESS INFORMATION ----
+  drawSectionHeader('BUSINESS INFORMATION')
+  drawLabelValue('Company', filing.targetName)
+  drawLabelValue('Website', filing.targetUrl)
+  if (filing.targetAddress) {
+    const bizAddr = [filing.targetAddress, filing.targetCity, filing.targetState, filing.targetZip]
+      .filter(Boolean)
+      .join(', ')
+    drawLabelValue('Address', bizAddr)
   }
+  y -= 8
 
-  // Store complaint body text in Description metadata for searchability
-  // (Custom font glyph encoding makes drawn text not directly searchable in raw bytes)
+  // ---- Section: COMPLAINT ----
+  drawSectionHeader('COMPLAINT')
+  // Use CPPA Q4 narrative — same natural-language description for both CPPA and AG channels
+  const cppaComplaint = generateCPPAComplaint(filing)
+  const complaintText = cppaComplaint.q4Description
+
+  // Store complaint body in Description metadata for test searchability
   if (infoDict) {
     infoDict.set(PDFName.of('Description'), PDFString.of(complaintText.slice(0, 1000)))
   }
 
   const bodyResult = drawWrappedText(complaintText, {
-    page,
-    x: margin,
-    y,
-    font,
-    size: fontSize,
-    maxWidth,
-    lineHeight,
-    color: black,
-    pdfDoc,
-    margin,
-    height,
+    page, x: margin, y, font, size: fontSize,
+    maxWidth, lineHeight, color: black, pdfDoc, margin, height,
   })
   page = bodyResult.page
   y = bodyResult.y
   y -= 8
 
-  // ---- Section 10: Relief requested ----
-  const reliefText =
-    'I respectfully request that your office investigate this matter and take appropriate enforcement action to protect consumer privacy rights.'
-  const reliefResult = drawWrappedText(reliefText, {
-    page,
-    x: margin,
-    y,
-    font,
-    size: fontSize,
-    maxWidth,
-    lineHeight,
-    color: black,
-    pdfDoc,
-    margin,
-    height,
+  // ---- Section: RESOLUTION REQUESTED ----
+  drawSectionHeader('RESOLUTION REQUESTED')
+  const resolutionText = 'I respectfully request that the California Attorney General investigate this matter and take appropriate enforcement action to protect California consumer rights.'
+  const resolutionResult = drawWrappedText(resolutionText, {
+    page, x: margin, y, font, size: fontSize,
+    maxWidth, lineHeight, color: black, pdfDoc, margin, height,
   })
-  page = reliefResult.page
-  y = reliefResult.y
+  page = resolutionResult.page
+  y = resolutionResult.y
   y -= 8
 
-  // ---- Section 11: Prior contact disclosure ----
+  // ---- Section: PRIOR CONTACT (conditional) ----
   if (filing.priorContact) {
-    const priorText = `I previously contacted ${filing.targetName} regarding this issue. ${filing.priorContactDetails || ''}`
+    drawSectionHeader('PRIOR CONTACT')
+    const priorText = `I previously contacted ${filing.targetName} regarding this issue.${filing.priorContactDetails ? ' ' + filing.priorContactDetails : ''}`
     const priorResult = drawWrappedText(priorText, {
-      page,
-      x: margin,
-      y,
-      font,
-      size: fontSize,
-      maxWidth,
-      lineHeight,
-      color: black,
-      pdfDoc,
-      margin,
-      height,
+      page, x: margin, y, font, size: fontSize,
+      maxWidth, lineHeight, color: black, pdfDoc, margin, height,
     })
     page = priorResult.page
     y = priorResult.y
     y -= 8
   }
 
-  // ---- Section 12: Closing ----
-  drawLine('Respectfully submitted,', font, fontSize, black)
-  y -= lineHeight * 2 // blank lines for signature space
-  if (y < margin + lineHeight) {
-    page = pdfDoc.addPage([612, 792])
-    y = height - margin
-  }
-  drawLine(`${filerInfo.firstName} ${filerInfo.lastName}`, font, fontSize, black)
+  // ---- Section: AFFIRMATION ----
+  drawSectionHeader('AFFIRMATION')
+  const affirmText = 'I affirm that the foregoing information is true and accurate to the best of my knowledge.'
+  const affirmResult = drawWrappedText(affirmText, {
+    page, x: margin, y, font, size: fontSize,
+    maxWidth, lineHeight, color: black, pdfDoc, margin, height,
+  })
+  page = affirmResult.page
+  y = affirmResult.y
+  y -= 16
 
-  // ---- Section 13: Footer ----
-  // Get filing receipt ID (may be on extended schema or fall back to id)
+  // Bottom rule
+  if (y > margin + 4) {
+    page.drawLine({ start: { x: margin, y }, end: { x: 612 - margin, y }, thickness: 0.5, color: gray })
+  }
+
+  // ---- Footer ----
   const filingReceiptId = filing.filingReceiptId ?? filing.id
   const footerText = `EasyFilerComplaint . easyfilercomplaint.com . Filing ID: ${filingReceiptId}`
   const lastPage = pdfDoc.getPages()[pdfDoc.getPageCount() - 1]
@@ -318,3 +309,6 @@ export async function generateComplaintPdf(
   // metadata strings (section markers, complaint text) remain searchable in raw bytes.
   return pdfDoc.save({ useObjectStreams: false })
 }
+
+// Keep toFilingData export for backward compatibility with any other callers
+export { toFilingData }
