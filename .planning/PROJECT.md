@@ -35,13 +35,16 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 
 ### Active (v2.0)
 
-- [ ] CPPA text generator (generateCPPAComplaint) — all 7 question answers, natural language, ≤2000 chars
 - [ ] CPPA guided filing page at /filing/[id]/cppa-guide with copy buttons and external form link
 - [ ] CPPA paper complaint PDF (generateCPPAComplaintPdf) — mirrors official form, Blob storage
-- [ ] Success page redesign — three filing channel sections with status indicators
-- [ ] CA AG complaint PDF restructured — form-style, no legal letter, no statute citations
-- [ ] ADA complaint type excludes CPPA channel (CA AG fax only for ADA)
 - [ ] Wizard complaint type → CPPA checkbox mapping
+
+### Validated (v2.0)
+
+- ✓ CPPA text generator (generateCPPAComplaint) — all 7 question answers, natural language, ≤2000 chars — Phase 09 (2026-05-03)
+- ✓ Success page redesign — three filing channel sections with status indicators — Phase 09 (2026-05-03)
+- ✓ CA AG complaint PDF restructured — form-style, no legal letter, no statute citations — Phase 09 (2026-05-03)
+- ✓ ADA complaint type excludes CPPA channel (CA AG fax only for ADA) — Phase 09 (2026-05-03)
 
 ### Validated
 
