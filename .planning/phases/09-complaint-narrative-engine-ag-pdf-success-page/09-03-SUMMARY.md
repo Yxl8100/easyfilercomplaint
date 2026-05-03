@@ -152,3 +152,13 @@ None - no external service configuration required.
 ---
 *Phase: 09-complaint-narrative-engine-ag-pdf-success-page*
 *Completed: 2026-05-03*
+
+## Self-Check: PASSED
+
+- `src/lib/generate-complaint-pdf.ts` — FOUND
+- `src/lib/cppa-complaint-generator.ts` — FOUND
+- `src/lib/__tests__/generate-complaint-pdf.test.ts` — FOUND (modified)
+- `.planning/phases/09-complaint-narrative-engine-ag-pdf-success-page/09-03-SUMMARY.md` — FOUND
+- Commit 4458bfb — FOUND in git log
+- Commit a2298e9 — FOUND in git log
+- All 11 generate-complaint-pdf.test.ts tests: PASSED GREEN
