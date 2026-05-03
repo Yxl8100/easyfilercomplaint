@@ -57,7 +57,7 @@ export async function sendFax(
   const formData = new FormData()
   formData.append('to', toNumber)
   for (const f of files) {
-    formData.append('file', new Blob([f.buffer], { type: f.contentType }), f.filename)
+    formData.append('file', new Blob([new Uint8Array(f.buffer)], { type: f.contentType }), f.filename)
   }
 
   const response = await fetch(`${SINCH_FAX_BASE}/${pid}/faxes`, {
