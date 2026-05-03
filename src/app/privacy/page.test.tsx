@@ -31,6 +31,6 @@ describe('/privacy page', () => {
     const html = JSON.stringify(PrivacyPage())
     expect(html).toContain('Stripe')
     expect(html).toContain('Resend')
-    expect(html).toContain('Phaxio')
+    expect(html).toContain('Sinch')
   })
 })

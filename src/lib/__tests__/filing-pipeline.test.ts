@@ -18,7 +18,7 @@ vi.mock('@/lib/store-complaint-pdf', () => ({
   storeComplaintPdf: vi.fn(),
 }))
 
-vi.mock('@/lib/phaxio', () => ({
+vi.mock('@/lib/sinch-fax', () => ({
   sendFax: vi.fn(),
 }))
 
@@ -39,7 +39,7 @@ vi.mock('@/lib/email-receipt', () => ({
 import { prisma } from '@/lib/prisma'
 import { generateComplaintPdf } from '@/lib/generate-complaint-pdf'
 import { storeComplaintPdf } from '@/lib/store-complaint-pdf'
-import { sendFax } from '@/lib/phaxio'
+import { sendFax } from '@/lib/sinch-fax'
 import { getAgencyFaxNumber } from '@/lib/agency-directory'
 import axios from 'axios'
 import { executeFilingPipeline } from '@/lib/filing-pipeline'
@@ -87,7 +87,7 @@ beforeEach(() => {
   mockPrismaFiling.update.mockResolvedValue({ ...mockFiling })
   mockGenerateComplaintPdf.mockResolvedValue(new Uint8Array([1, 2, 3]))
   mockStoreComplaintPdf.mockResolvedValue('https://blob.example.com/complaint.pdf')
-  mockSendFax.mockResolvedValue({ success: true, message: 'Success', data: { id: 99999 } })
+  mockSendFax.mockResolvedValue({ success: true, message: 'Success', data: { id: '99999' } })
   mockGetAgencyFaxNumber.mockReturnValue('+19163235341')
   mockAxios.get.mockResolvedValue({ data: Buffer.from([4, 5, 6]) })
   mockSendFilingReceiptEmail.mockResolvedValue(undefined)
@@ -106,7 +106,7 @@ describe('executeFilingPipeline', () => {
     })
     mockSendFax.mockImplementation(async () => {
       callOrder.push('sendFax')
-      return { success: true, message: 'Success', data: { id: 99999 } }
+      return { success: true, message: 'Success', data: { id: '99999' } }
     })
 
     await executeFilingPipeline('filing-123')

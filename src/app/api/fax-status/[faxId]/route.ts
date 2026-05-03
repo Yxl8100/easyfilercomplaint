@@ -5,9 +5,9 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { faxId: string } }
 ) {
-  const faxId = parseInt(params.faxId)
+  const { faxId } = params
 
-  if (isNaN(faxId)) {
+  if (!faxId) {
     return NextResponse.json({ error: 'Invalid fax ID' }, { status: 400 })
   }
 

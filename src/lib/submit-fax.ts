@@ -4,15 +4,15 @@
  * CA AG: Fax to (916) 323-5341
  * FDA MedWatch: Fax to 800-332-0178
  *
- * Uses Phaxio API ($0.07/page)
+ * Uses Sinch Fax API v3
  */
 
-import { sendFax, getFaxStatus } from './phaxio'
+import { sendFax, getFaxStatus } from './sinch-fax'
 import { config } from './config'
 
 interface FaxSubmitResult {
   success: boolean
-  faxId?: number
+  faxId?: string
   error?: string
 }
 
@@ -43,7 +43,7 @@ export async function submitViaFax(
   }
 }
 
-export async function checkFaxStatus(faxId: number): Promise<{
+export async function checkFaxStatus(faxId: string): Promise<{
   status: string
   completed: boolean
   success: boolean

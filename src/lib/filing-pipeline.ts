@@ -2,7 +2,7 @@ import axios from 'axios'
 import { prisma } from '@/lib/prisma'
 import { generateComplaintPdf, type FilerInfo } from '@/lib/generate-complaint-pdf'
 import { storeComplaintPdf } from '@/lib/store-complaint-pdf'
-import { sendFax, type FaxFile } from '@/lib/phaxio'
+import { sendFax, type FaxFile } from '@/lib/sinch-fax'
 import { getAgencyFaxNumber } from '@/lib/agency-directory'
 import { sendFilingReceiptEmail } from '@/lib/email-receipt'
 
@@ -86,7 +86,7 @@ export async function executeFilingPipeline(filingId: string): Promise<void> {
           },
         })
       } else {
-        throw new Error(`Phaxio returned success=false: ${faxResult.message}`)
+        throw new Error(`Sinch returned success=false: ${faxResult.message}`)
       }
     } catch (faxErr) {
       // PIPE-05: Fax failure isolated — set failed but continue to email

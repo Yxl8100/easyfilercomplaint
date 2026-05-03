@@ -108,7 +108,7 @@ export default function PrivacyPage() {
             <strong>Resend</strong> — delivers filing receipt emails; receives your email address
           </li>
           <li className="font-body text-base text-text-mid leading-relaxed">
-            <strong>Phaxio</strong> — transmits your complaint via fax to government offices;
+            <strong>Sinch</strong> — transmits your complaint via fax to government offices;
             receives the complaint PDF
           </li>
           <li className="font-body text-base text-text-mid leading-relaxed">

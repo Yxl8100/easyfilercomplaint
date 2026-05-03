@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { getFaxStatus } from '@/lib/phaxio'
+import { getFaxStatus } from '@/lib/sinch-fax'
 
 // Cron schedule: "0 0 * * *" (once daily) — safe for Vercel Hobby plan
 // For 15-minute polling, upgrade to Vercel Pro and change vercel.json schedule to "*/15 * * * *"
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
   for (const filing of filings) {
     try {
-      const result = await getFaxStatus(parseInt(filing.faxId!, 10))
+      const result = await getFaxStatus(filing.faxId!)
 
       if (!result.success || !result.data) {
         console.error(`[cron] Failed to get status for fax ${filing.faxId}`)

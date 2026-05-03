@@ -11,13 +11,13 @@ vi.mock('@/lib/prisma', () => ({
   },
 }))
 
-// Mock phaxio
-vi.mock('@/lib/phaxio', () => ({
+// Mock sinch-fax
+vi.mock('@/lib/sinch-fax', () => ({
   getFaxStatus: vi.fn(),
 }))
 
 import { prisma } from '@/lib/prisma'
-import { getFaxStatus } from '@/lib/phaxio'
+import { getFaxStatus } from '@/lib/sinch-fax'
 import { GET } from '@/app/api/cron/check-fax-status/route'
 
 const mockPrismaFindMany = prisma.filing.findMany as ReturnType<typeof vi.fn>
