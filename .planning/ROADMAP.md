@@ -220,7 +220,12 @@ CRON_SECRET=...
   5. Success page shows three distinct sections — CPPA Online (recommended), CPPA Paper PDF, and CA AG (auto-filed) — each linking to the correct destination; CA AG section shows fax status/ID
   6. ADA (accessibility) complaint type shows only the CA AG fax section on the success page; CPPA guide link and paper PDF link are hidden for ADA filings
   7. Guest users see a "Create Account" CTA at the bottom of the success page
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 09-01-PLAN.md — Wave 0: test scaffolds for CPPA generator, AG PDF, and success page
+- [ ] 09-02-PLAN.md — CPPA complaint narrative generator (cppa-complaint-generator.ts)
+- [ ] 09-03-PLAN.md — CA AG PDF restructure to form-style layout (generate-complaint-pdf.ts)
+- [ ] 09-04-PLAN.md — Success page 3-channel redesign (success/page.tsx)
 **UI hint**: yes
 
 ### Phase 10: CPPA Guided Filing Page
@@ -252,7 +257,7 @@ CRON_SECRET=...
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 9. Complaint Narrative Engine + AG PDF + Success Page | 0/TBD | Not started | - |
+| 9. Complaint Narrative Engine + AG PDF + Success Page | 0/4 | Planning complete | - |
 | 10. CPPA Guided Filing Page | 0/TBD | Not started | - |
 | 11. CPPA Paper Complaint PDF | 0/TBD | Not started | - |
 
