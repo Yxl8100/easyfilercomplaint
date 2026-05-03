@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
+import { auth } from '@/lib/auth'
+import { Providers } from '@/components/Providers'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -25,15 +27,18 @@ export const metadata: Metadata = {
   description: 'File a formal privacy complaint with the California Attorney General for $1.99. We generate the paperwork, fax it to the AG, and email you a copy.',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await auth()
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="font-body bg-bg text-text antialiased">
-        {children}
+        <Providers session={session}>
+          {children}
+        </Providers>
       </body>
     </html>
   )

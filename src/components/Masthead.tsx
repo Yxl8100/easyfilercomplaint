@@ -1,9 +1,10 @@
+'use client'
 import Link from 'next/link'
-import { auth } from '@/lib/auth'
+import { useSession } from 'next-auth/react'
 import { signOutAction } from '@/lib/actions'
 
-export async function Masthead() {
-  const session = await auth()
+export function Masthead() {
+  const { data: session } = useSession()
 
   return (
     <header className="sticky top-0 z-50 bg-bg border-b border-border">
