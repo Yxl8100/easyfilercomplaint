@@ -77,24 +77,36 @@ Exceptions:
 ## Typography
 
 Sourced from existing codebase patterns in `success/page.tsx` and `Masthead.tsx`.
-No new type roles introduced in Phase 9.
+Consolidated to exactly 4 sizes. No new type roles introduced in Phase 9.
 
 | Role | Size | Weight | Line Height | Font | Class Pattern |
 |------|------|--------|-------------|------|---------------|
 | Display | 30px (text-3xl) | 700 (font-bold) | 1.2 | Fraunces (font-serif) | `font-serif text-3xl font-bold` |
-| Heading | 16px (text-base) | 700 (font-bold) | 1.2 | Fraunces (font-serif) | `font-serif text-base font-bold` |
-| Body | 14px (text-sm) | 500 (font-body default) | 1.5 | Inter (font-body) | `font-body text-sm` |
-| Label / Eyebrow | 9px (text-[9px]) | 400 | 1 | JetBrains Mono (font-mono) | `font-mono text-[9px] uppercase tracking-[0.15em]` |
-| CTA Button | 11px (text-[11px]) | 400 | 1 | JetBrains Mono (font-mono) | `font-mono text-[11px] uppercase tracking-[0.1em]` |
-| Status Badge | 8px (text-[8px]) | 400 | 1 | JetBrains Mono (font-mono) | `font-mono text-[8px] uppercase tracking-[0.1em]` |
-| Receipt ID | 20px (text-xl) | 700 (font-bold) | 1 | JetBrains Mono (font-mono) | `font-mono text-xl font-bold tracking-wider` |
+| Large / Heading | 20px (text-xl) | 700 (font-bold) | 1.2 | JetBrains Mono (font-mono) | `font-mono text-xl font-bold tracking-wider` |
+| Body | 14px (text-sm) | 400 (font-body default) | 1.5 | Inter (font-body) | `font-body text-sm` |
+| Micro | 11px (text-[11px]) | 400 | 1 | JetBrains Mono (font-mono) | `font-mono text-[11px] uppercase tracking-[0.1em]` |
+
+Role assignments:
+
+- **Display (30px)** — h1 "Complaint Filed" on the confirmation header.
+- **Large / Heading (20px)** — Receipt ID value display; channel card `<h2>` headings
+  (e.g. "File your complaint online at cppa.ca.gov", "Download and mail your complaint
+  form", "Your complaint was automatically submitted by fax"). Uses Fraunces serif for
+  card headings: `font-serif text-xl font-bold`.
+- **Body (14px)** — Body copy within channel cards, fax status text, link text in ghost
+  style, filing detail row values.
+- **Micro (11px)** — All of: step eyebrow labels ("STEP 1", "STEP 2", "STEP 3"),
+  status badges ("Recommended", "Auto-Filed ✓", "Paid", fax status inline badge),
+  CTA button text ("File Now — Step-by-Step Guide →", "Create Free Account →"),
+  Fax ID row label, PDF download link text. Eyebrow variant adds `tracking-[0.15em]`
+  for step labels; badge and button variants use `tracking-[0.1em]`.
 
 Rules:
 - Only the two declared weights are used: 400 (regular) and 700 (bold). Weight 500 applies
   to body `<p>` globally via `globals.css` — treat as equivalent to 400 for design purposes.
 - Never introduce font-medium (500) or font-semibold (600) as a new weight in this phase.
-- Heading size for channel card titles: `text-base` (16px), not `text-lg`.
-- Step labels ("STEP 1", "STEP 2", "STEP 3") use the eyebrow pattern: `font-mono text-[9px]
+- Channel card `<h2>` headings use the Large / Heading role at 20px (`font-serif text-xl font-bold`).
+- Step labels ("STEP 1", "STEP 2", "STEP 3") use the Micro role: `font-mono text-[11px]
   uppercase tracking-[0.15em] text-text-light`.
 
 ---
@@ -167,9 +179,9 @@ Three stacked cards, each `bg-bg-alt border border-border rounded-[6px] p-6 mb-4
 [Link]     File Now — Step-by-Step Guide →
 ```
 
-- Eyebrow: `font-mono text-[9px] uppercase tracking-[0.15em] text-text-light`
-- "Recommended" badge: `bg-bg-dark text-white font-mono text-[8px] uppercase px-2 py-0.5 rounded-[4px]`
-- Heading: `font-serif text-base font-bold text-text`
+- Eyebrow: `font-mono text-[11px] uppercase tracking-[0.15em] text-text-light`
+- "Recommended" badge: `bg-bg-dark text-white font-mono text-[11px] uppercase px-2 py-0.5 rounded-[4px]`
+- Heading: `font-serif text-xl font-bold text-text`
 - Body: `font-body text-sm text-text-mid`
 - Link: `font-mono text-[11px] uppercase tracking-[0.1em] bg-bg-dark text-white px-6 py-3 rounded-[6px] inline-block hover:bg-text-mid transition-colors`
 - href: `/filing/${filing.id}/cppa-guide`
@@ -186,7 +198,7 @@ Three stacked cards, each `bg-bg-alt border border-border rounded-[6px] p-6 mb-4
 ```
 
 - Same typography pattern as Card A
-- Link: `font-mono text-[9px] uppercase tracking-[0.1em] border border-border rounded-[6px] px-3 py-1 text-text-mid hover:text-text` (secondary/ghost style — matches existing PDF download link pattern)
+- Link: `font-mono text-[11px] uppercase tracking-[0.1em] border border-border rounded-[6px] px-3 py-1 text-text-mid hover:text-text` (secondary/ghost style — matches existing PDF download link pattern)
 - href: `/api/filings/${filing.id}/cppa-pdf`
 - Condition: rendered only when `filing.category !== 'accessibility'`
 
@@ -205,7 +217,7 @@ Step label is dynamic:
 ```
 
 - "Auto-Filed ✓" badge: same style as "Paid" badge (`bg-bg-dark text-white`)
-- Fax ID row: `font-mono text-[9px] uppercase tracking-[0.1em] text-text-light` label +
+- Fax ID row: `font-mono text-[11px] uppercase tracking-[0.1em] text-text-light` label +
   `font-mono text-sm text-text` value. Omit the entire row when `faxId` is null.
 - Status label: see Fax Status States table below
 - PDF link: same ghost style as Card B
@@ -222,7 +234,7 @@ Step label is dynamic:
 
 Status display pattern:
 ```
-Status: <span class="font-mono text-[9px] uppercase px-2 py-0.5 rounded-[4px] bg-{color}-50 text-{color}">
+Status: <span class="font-mono text-[11px] uppercase px-2 py-0.5 rounded-[4px] bg-{color}-50 text-{color}">
   {label}
 </span>
 ```
@@ -329,7 +341,7 @@ A consumer who wants the latest fax status must refresh the page manually.
 - The receipt ID uses `<output aria-label="Filing receipt ID: {id}">` (existing — preserve).
 - Fax status text must not rely on color alone: always include the text label ("Delivered",
   "Delivery Failed", "Pending") alongside the color — never a color-only indicator.
-- Channel Card A, B, and C headings (`font-serif text-base font-bold`) must be rendered
+- Channel Card A, B, and C headings (`font-serif text-xl font-bold`) must be rendered
   as `<h2>` elements (not `<p>` or `<div>`) to establish landmark hierarchy under the `<h1>`.
 - The "Auto-Filed ✓" checkmark character in the badge is decorative; wrap in
   `aria-hidden="true"` span if needed so screen readers don't announce "check mark".
