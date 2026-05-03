@@ -28,6 +28,8 @@ const baseFiling = {
   paidAt: new Date('2026-04-01T10:00:00Z'),
   complaintPdfUrl: null,
   userId: null,
+  faxId: null,      // NEW — SUCC-03
+  faxStatus: null,  // NEW — SUCC-03
   createdAt: new Date('2026-04-01T09:55:00Z'),
 }
 
@@ -54,7 +56,7 @@ describe('SuccessPage', () => {
     expect(html).toContain('Acme Corp')
   })
 
-  it('renders PDF download link when complaintPdfUrl is set', async () => {
+  it('SUCC-03: renders CA AG PDF download link via proxy route when complaintPdfUrl is set', async () => {
     const { prisma } = await import('@/lib/prisma')
     ;(prisma.filing.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
       ...baseFiling,
@@ -63,17 +65,7 @@ describe('SuccessPage', () => {
     const { default: SuccessPage } = await import('./page')
     const result = await SuccessPage({ params: { id: 'filing-uuid-001' } })
     const html = JSON.stringify(result)
-    expect(html).toContain('Download Complaint PDF')
-    expect(html).toContain('https://blob.example.com/complaint.pdf')
-  })
-
-  it('renders pending message when complaintPdfUrl is null', async () => {
-    const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(baseFiling)
-    const { default: SuccessPage } = await import('./page')
-    const result = await SuccessPage({ params: { id: 'filing-uuid-001' } })
-    const html = JSON.stringify(result)
-    expect(html).toContain('will be available shortly')
+    expect(html).toContain('/api/filings/filing-uuid-001/pdf')
   })
 
   it('shows account creation CTA when Filing.userId is null', async () => {
@@ -96,6 +88,48 @@ describe('SuccessPage', () => {
     const result = await SuccessPage({ params: { id: 'filing-uuid-001' } })
     const html = JSON.stringify(result)
     expect(html).not.toContain('Track Your Filings')
+  })
+
+  it('SUCC-01: renders CPPA guide link and paper PDF link for non-ADA filing', async () => {
+    const { prisma } = await import('@/lib/prisma')
+    ;(prisma.filing.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(baseFiling)
+    const { default: SuccessPage } = await import('./page')
+    const html = JSON.stringify(await SuccessPage({ params: { id: 'filing-uuid-001' } }))
+    expect(html).toContain('/filing/filing-uuid-001/cppa-guide')
+    expect(html).toContain('/api/filings/filing-uuid-001/cppa-pdf')
+  })
+
+  it('ADA-01: hides CPPA guide and paper PDF links when category is accessibility', async () => {
+    const { prisma } = await import('@/lib/prisma')
+    ;(prisma.filing.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ...baseFiling,
+      category: 'accessibility',
+    })
+    const { default: SuccessPage } = await import('./page')
+    const html = JSON.stringify(await SuccessPage({ params: { id: 'filing-uuid-001' } }))
+    expect(html).not.toContain('cppa-guide')
+    expect(html).not.toContain('cppa-pdf')
+  })
+
+  it('SUCC-03: renders fax ID and status when faxId is present', async () => {
+    const { prisma } = await import('@/lib/prisma')
+    ;(prisma.filing.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ...baseFiling,
+      faxId: 'FAX-12345',
+      faxStatus: 'success',
+    })
+    const { default: SuccessPage } = await import('./page')
+    const html = JSON.stringify(await SuccessPage({ params: { id: 'filing-uuid-001' } }))
+    expect(html).toContain('FAX-12345')
+    expect(html).toContain('success')
+  })
+
+  it('SUCC-03: renders Pending when faxId is null', async () => {
+    const { prisma } = await import('@/lib/prisma')
+    ;(prisma.filing.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(baseFiling)
+    const { default: SuccessPage } = await import('./page')
+    const html = JSON.stringify(await SuccessPage({ params: { id: 'filing-uuid-001' } }))
+    expect(html).toContain('Pending')
   })
 
   it('renders Filing Not Found when no filing exists', async () => {
