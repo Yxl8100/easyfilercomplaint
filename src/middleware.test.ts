@@ -2,11 +2,15 @@ import { describe, it, expect } from 'vitest'
 
 // Test the middleware protection logic in isolation
 // AUTH-06: /account/* routes must redirect unauthenticated users to /login
+// /account/create is intentionally public — it is the registration page
 
 const protectedPaths = ['/dashboard', '/file', '/account']
+const publicPaths = ['/account/create']
 
 function isProtectedPath(pathname: string): boolean {
-  return protectedPaths.some((path) => pathname.startsWith(path))
+  const isProtected = protectedPaths.some((path) => pathname.startsWith(path))
+  const isPublic = publicPaths.some((path) => pathname.startsWith(path))
+  return isProtected && !isPublic
 }
 
 function buildRedirectUrl(baseUrl: string, pathname: string): string {
@@ -20,8 +24,8 @@ describe('middleware protectedPaths logic (AUTH-06)', () => {
     expect(isProtectedPath('/account/filings')).toBe(true)
   })
 
-  it('/account/create is a protected path', () => {
-    expect(isProtectedPath('/account/create')).toBe(true)
+  it('/account/create is NOT a protected path (public registration page)', () => {
+    expect(isProtectedPath('/account/create')).toBe(false)
   })
 
   it('/login is NOT a protected path', () => {
@@ -46,9 +50,7 @@ describe('middleware protectedPaths logic (AUTH-06)', () => {
     expect(url).toContain('callbackUrl=%2Faccount%2Ffilings')
   })
 
-  it('redirect URL for /account/create includes callbackUrl', () => {
-    const url = buildRedirectUrl('http://localhost:3000', '/account/create')
-    expect(url).toContain('/login')
-    expect(url).toContain('callbackUrl=%2Faccount%2Fcreate')
+  it('/account/create does not require a redirect (unauthenticated access allowed)', () => {
+    expect(isProtectedPath('/account/create')).toBe(false)
   })
 })
