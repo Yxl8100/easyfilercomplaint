@@ -1,6 +1,9 @@
 import Link from 'next/link'
+import { auth, signOut } from '@/lib/auth'
 
-export function Masthead() {
+export async function Masthead() {
+  const session = await auth()
+
   return (
     <header className="sticky top-0 z-50 bg-bg border-b border-border">
       <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
@@ -16,12 +19,36 @@ export function Masthead() {
           <Link href="/#pricing" className="font-mono text-[11px] tracking-[0.1em] uppercase text-text-mid hover:text-text transition-colors">
             Pricing
           </Link>
-          <Link
-            href="/login"
-            className="font-mono text-[11px] tracking-[0.1em] uppercase border border-bg-dark px-4 py-1.5 text-text rounded-[6px] hover:bg-bg-dark hover:text-white transition-colors"
-          >
-            Sign In
-          </Link>
+          {session?.user ? (
+            <>
+              <Link
+                href="/account/filings"
+                className="font-mono text-[11px] tracking-[0.1em] uppercase text-text-mid hover:text-text transition-colors"
+              >
+                Your Filings
+              </Link>
+              <form
+                action={async () => {
+                  'use server'
+                  await signOut({ redirectTo: '/' })
+                }}
+              >
+                <button
+                  type="submit"
+                  className="font-mono text-[11px] tracking-[0.1em] uppercase border border-bg-dark px-4 py-1.5 text-text rounded-[6px] hover:bg-bg-dark hover:text-white transition-colors"
+                >
+                  Sign Out
+                </button>
+              </form>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="font-mono text-[11px] tracking-[0.1em] uppercase border border-bg-dark px-4 py-1.5 text-text rounded-[6px] hover:bg-bg-dark hover:text-white transition-colors"
+            >
+              Sign In
+            </Link>
+          )}
         </nav>
       </div>
     </header>

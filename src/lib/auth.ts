@@ -42,6 +42,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     verifyRequest: '/auth/verify',
   },
   callbacks: {
+    async signIn({ user }) {
+      if (user?.id && user?.email) {
+        await prisma.filing.updateMany({
+          where: { filerEmail: user.email, userId: null },
+          data: { userId: user.id },
+        })
+      }
+      return true
+    },
     jwt({ token, user }) {
       if (user) token.id = user.id
       return token
