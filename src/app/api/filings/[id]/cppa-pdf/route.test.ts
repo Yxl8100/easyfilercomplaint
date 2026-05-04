@@ -1,3 +1,4 @@
+import { fileURLToPath } from "url"
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 vi.mock('@/lib/prisma', () => ({
@@ -126,10 +127,9 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
     // Static check: UUID is the access token (D-04/D-05 from Phase 10).
     // Verify the route file does not import or invoke `auth` from '@/lib/auth'.
     const fs = await import('fs')
-    const path = await import('path')
     const src = fs.readFileSync(
-      path.join(process.cwd(), 'src/app/api/filings/[id]/cppa-pdf/route.ts'),
-      'utf8'
+      fileURLToPath(new URL("./route.ts", import.meta.url)),
+      "utf8"
     )
     expect(src).not.toMatch(/from\s+['"]@\/lib\/auth['"]/)
     expect(src).not.toMatch(/await\s+auth\s*\(/)
