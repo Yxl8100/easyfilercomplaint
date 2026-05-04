@@ -202,7 +202,7 @@ CRON_SECRET=...
 
 - [x] **Phase 9: Complaint Narrative Engine + AG PDF + Success Page** - Complaint text generator, CA AG PDF restructure, and redesigned success page with three filing channel sections (completed 2026-05-03)
 - [x] **Phase 10: CPPA Guided Filing Page** - Consumer-facing walkthrough page at /filing/[id]/cppa-guide with per-question copy buttons (completed 2026-05-03)
-- [ ] **Phase 11: CPPA Paper Complaint PDF** - Downloadable PDF mirroring the CPPA official paper form layout, with API route and Blob storage
+- [x] **Phase 11: CPPA Paper Complaint PDF** - Downloadable PDF mirroring the CPPA official paper form layout, with API route and Blob storage (completed 2026-05-03)
 
 ---
 
@@ -271,9 +271,8 @@ Plans:
 |-------|----------------|--------|-----------|
 | 9. Complaint Narrative Engine + AG PDF + Success Page | 4/4 | Complete | 2026-05-03 |
 | 10. CPPA Guided Filing Page | 2/2 | Complete | 2026-05-03 |
-| 11. CPPA Paper Complaint PDF | 0/3 | Planning complete | - |
+| 11. CPPA Paper Complaint PDF | 3/3 | Complete | 2026-05-03 |
 
 ---
 *Roadmap created: 2026-05-03*
-*Last updated: 2026-05-03 — Phase 11 planned: 3 plans in 3 waves (CPPDF-01–03)*
-*Phase 11 planned: 3 plans in 3 waves (2026-05-03)*
+*Last updated: 2026-05-03 — Phase 11 complete: CPPA paper complaint PDF generator + API route (CPPDF-01–03)*
