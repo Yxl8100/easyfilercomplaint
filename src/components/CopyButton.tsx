@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+const COPY_FEEDBACK_DURATION_MS = 1500
 
 interface CopyButtonProps {
   text: string
@@ -8,11 +10,24 @@ interface CopyButtonProps {
 
 export function CopyButton({ text }: CopyButtonProps) {
   const [copied, setCopied] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) clearTimeout(timerRef.current)
+    }
+  }, [])
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      if (timerRef.current !== null) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => setCopied(false), COPY_FEEDBACK_DURATION_MS)
+    } catch {
+      // Clipboard write failed (permission denied, insecure context, etc.)
+      // Button stays in default state — no feedback lost, no console noise
+    }
   }
 
   return (
