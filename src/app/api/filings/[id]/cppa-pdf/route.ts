@@ -35,11 +35,15 @@ export async function GET(
   }
 
   // 2. Generate PDF on demand (Plan 02 generator)
-  let pdfBytes: Uint8Array
+  let pdfBytes: Uint8Array | undefined
   try {
     pdfBytes = await generateCPPAComplaintPdf(filing)
   } catch (err) {
     console.error('[cppa-pdf] PDF generation failed:', err)
+    return NextResponse.json({ error: 'pdf_generation_failed' }, { status: 500 })
+  }
+  if (!pdfBytes) {
+    console.error('[cppa-pdf] generateCPPAComplaintPdf returned empty result')
     return NextResponse.json({ error: 'pdf_generation_failed' }, { status: 500 })
   }
 

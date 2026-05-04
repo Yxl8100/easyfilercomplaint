@@ -27,9 +27,12 @@ const mockFiling = {
 
 const ORIGINAL_TOKEN = process.env.BLOB_READ_WRITE_TOKEN
 
-beforeEach(() => {
+beforeEach(async () => {
   vi.resetAllMocks()
   process.env.BLOB_READ_WRITE_TOKEN = 'test-token'
+  // Re-seed after resetAllMocks clears mockResolvedValue from the vi.mock factory
+  const { generateCPPAComplaintPdf } = await import('@/lib/cppa-pdf-generator')
+  ;(generateCPPAComplaintPdf as any).mockResolvedValue(new Uint8Array([37, 80, 68, 70, 45, 49, 46, 55]))
 })
 
 afterEach(() => {
