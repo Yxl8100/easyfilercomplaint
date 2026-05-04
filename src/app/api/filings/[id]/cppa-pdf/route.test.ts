@@ -32,7 +32,7 @@ beforeEach(async () => {
   process.env.BLOB_READ_WRITE_TOKEN = 'test-token'
   // Re-seed after resetAllMocks clears mockResolvedValue from the vi.mock factory
   const { generateCPPAComplaintPdf } = await import('@/lib/cppa-pdf-generator')
-  ;(generateCPPAComplaintPdf as any).mockResolvedValue(new Uint8Array([37, 80, 68, 70, 45, 49, 46, 55]))
+  vi.mocked(generateCPPAComplaintPdf).mockResolvedValue(new Uint8Array([37, 80, 68, 70, 45, 49, 46, 55]))
 })
 
 afterEach(() => {
@@ -43,7 +43,7 @@ afterEach(() => {
 describe('GET /api/filings/[id]/cppa-pdf', () => {
   it('CPPDF-03: returns 404 when filing does not exist', async () => {
     const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as any).mockResolvedValue(null)
+    ;vi.mocked(prisma.filing.findUnique).mockResolvedValue(null)
 
     const { GET } = await import('./route')
     const response = await GET(
@@ -55,7 +55,7 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
 
   it('CPPDF-03: returns 200 application/pdf for valid filing', async () => {
     const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as any).mockResolvedValue(mockFiling)
+    ;vi.mocked(prisma.filing.findUnique).mockResolvedValue(mockFiling)
 
     const { GET } = await import('./route')
     const response = await GET(
@@ -68,7 +68,7 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
 
   it('CPPDF-03: returns Content-Disposition attachment with CPPA_Complaint filename', async () => {
     const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as any).mockResolvedValue(mockFiling)
+    ;vi.mocked(prisma.filing.findUnique).mockResolvedValue(mockFiling)
 
     const { GET } = await import('./route')
     const response = await GET(
@@ -83,7 +83,7 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
 
   it('CPPDF-03: calls generateCPPAComplaintPdf with the filing', async () => {
     const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as any).mockResolvedValue(mockFiling)
+    ;vi.mocked(prisma.filing.findUnique).mockResolvedValue(mockFiling)
     const { generateCPPAComplaintPdf } = await import('@/lib/cppa-pdf-generator')
 
     const { GET } = await import('./route')
@@ -96,7 +96,7 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
 
   it('CPPDF-03: stores PDF in Vercel Blob at complaints/cppa/ path when token set', async () => {
     const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as any).mockResolvedValue(mockFiling)
+    ;vi.mocked(prisma.filing.findUnique).mockResolvedValue(mockFiling)
     const { put } = await import('@vercel/blob')
 
     const { GET } = await import('./route')
@@ -105,7 +105,7 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
       { params: { id: 'test-uuid-1234' } }
     )
     expect(put).toHaveBeenCalled()
-    const callArgs = (put as any).mock.calls[0]
+    const callArgs = vi.mocked(put).mock.calls[0]
     expect(callArgs[0]).toContain('complaints/cppa/test-uuid-1234/')
     expect(callArgs[0]).toContain('CPPA_EFC-20260315-CPPDF.pdf')
     expect(callArgs[2]).toMatchObject({ access: 'private', contentType: 'application/pdf' })
@@ -114,7 +114,7 @@ describe('GET /api/filings/[id]/cppa-pdf', () => {
   it('CPPDF-03: returns PDF bytes even when BLOB_READ_WRITE_TOKEN absent', async () => {
     delete process.env.BLOB_READ_WRITE_TOKEN
     const { prisma } = await import('@/lib/prisma')
-    ;(prisma.filing.findUnique as any).mockResolvedValue(mockFiling)
+    ;vi.mocked(prisma.filing.findUnique).mockResolvedValue(mockFiling)
     const { put } = await import('@vercel/blob')
 
     const { GET } = await import('./route')

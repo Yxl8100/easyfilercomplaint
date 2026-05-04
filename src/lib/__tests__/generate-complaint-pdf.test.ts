@@ -170,12 +170,6 @@ const mockFilingVideoSharing = {
   categoryFields: { contentType: 'video', platform: 'social-media' },
 }
 
-const mockFilingPrivacyTracking = {
-  ...mockFiling,
-  category: 'privacy_tracking',
-  categoryFields: { visitMonth: '3', visitYear: '2026' },
-}
-
 // Prohibited strings (union of REQUIREMENTS.md PDF-06 and ROADMAP.md SC#4 lists)
 const PROHIBITED = [
   'DPW',
