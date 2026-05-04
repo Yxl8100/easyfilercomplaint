@@ -49,7 +49,11 @@ function buildVisitDate(categoryFields: Record<string, unknown>): string {
   const year  = categoryFields?.visitYear  as string | undefined
   if (month && year) {
     const idx = parseInt(month, 10) - 1
-    return `${MONTH_NAMES[idx] ?? month} ${year}`
+    // WR-04: Validate idx is in range to avoid "undefined YYYY" in sworn document
+    if (idx >= 0 && idx < MONTH_NAMES.length) {
+      return `${MONTH_NAMES[idx]} ${year}`
+    }
+    // Invalid month — fall through to year-only fallback
   }
   if (year) return year
   return 'a recent date'
@@ -120,9 +124,18 @@ export function generateCPPAComplaint(filing: Filing): CPPAComplaint {
   const visitDate   = buildVisitDate(cf)
   const q4          = buildDescription(filing, visitDate)
 
-  // Q5: fixed string with filing receipt ID
+  // Q5: category-specific supporting materials text (CR-02)
   const receiptId = filing.filingReceiptId ?? filing.id
-  const q5 = `I have a screenshot of the website's tracking activity, a record of cookies placed on my device, and a filing receipt from EasyFilerComplaint (Filing ID: ${receiptId}).`
+  const q5Map: Record<string, string> = {
+    accessibility:
+      `I have screenshots documenting the accessibility barriers I encountered and a filing receipt from EasyFilerComplaint (Filing ID: ${receiptId}).`,
+    video_sharing:
+      `I have records documenting the unauthorized sharing of my video content and a filing receipt from EasyFilerComplaint (Filing ID: ${receiptId}).`,
+    'video-sharing':
+      `I have records documenting the unauthorized sharing of my video content and a filing receipt from EasyFilerComplaint (Filing ID: ${receiptId}).`,
+  }
+  const q5 = q5Map[filing.category]
+    ?? `I have a screenshot of the website's tracking activity, a record of cookies placed on my device, and a filing receipt from EasyFilerComplaint (Filing ID: ${receiptId}).`
 
   // Q7: filerInfo stored as JSON on Filing.filerInfo
   const fi = (filing.filerInfo as Record<string, string> | null) ?? {}
@@ -134,12 +147,18 @@ export function generateCPPAComplaint(filing: Filing): CPPAComplaint {
     phone  || null,
     address ? `${address}, ${fi.city ?? ''}, ${fi.state ?? ''} ${fi.zip ?? ''}`.trim() : null,
   ].filter(Boolean).join('\n')
+  // WR-07: Guard against empty contact section in a sworn legal document
+  if (!q7Lines) {
+    throw new Error('[cppa-complaint] filerInfo is missing required contact fields')
+  }
 
+  // WR-03: Null fallback for targetName to avoid literal "null" in sworn document
+  const name = filing.targetName ?? 'Unknown Business'
   return {
     q1CheckboxInstructions: CATEGORY_TO_CPPA_CHECKBOXES[filing.category] ?? [],
     q2BusinessName: filing.targetUrl
-      ? `${filing.targetName} (${filing.targetUrl})`
-      : filing.targetName,
+      ? `${name} (${filing.targetUrl})`
+      : name,
     q3CaliforniaResident:  'Yes',
     q4Description:         q4,
     q5SupportingMaterials: q5,
