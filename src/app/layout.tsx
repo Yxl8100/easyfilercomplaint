@@ -25,6 +25,10 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'EasyFilerComplaint — File a Privacy Complaint in 5 Minutes',
   description: 'File a formal privacy complaint with the California Attorney General for $1.99. We generate the paperwork, fax it to the AG, and email you a copy.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default async function RootLayout({
