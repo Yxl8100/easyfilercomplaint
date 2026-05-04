@@ -71,7 +71,7 @@ export async function GET(
 
   // 4. Return PDF as file download (attachment, not inline — consumer must print and mail)
   const downloadId = filing.filingReceiptId ?? filing.id
-  return new NextResponse(pdfBytes, {
+  return new NextResponse(Buffer.from(pdfBytes), {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Length': String(pdfBytes.byteLength),
