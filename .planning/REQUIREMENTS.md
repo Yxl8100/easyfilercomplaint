@@ -101,11 +101,11 @@
 
 ### CPPA Text Generator
 
-- [ ] **CPTXT-01**: `generateCPPAComplaint(filing: Filing): CPPAComplaint` returns all 7 CPPA form question answers
-- [ ] **CPTXT-02**: Complaint description is a natural first-person narrative, no statute citations, ≤2000 characters
-- [ ] **CPTXT-03**: Visit date formatted as "Month YYYY" readable text (e.g., "March 2026"), never "N/A" or numeric codes
-- [ ] **CPTXT-04**: User's free-text description integrated naturally into complaint narrative (not orphaned "Specifically, I observed:" sentence)
-- [ ] **CPTXT-05**: Business name field: "{targetName} ({targetUrl})" or just "{targetName}" if no URL
+- [x] **CPTXT-01**: `generateCPPAComplaint(filing: Filing): CPPAComplaint` returns all 7 CPPA form question answers
+- [x] **CPTXT-02**: Complaint description is a natural first-person narrative, no statute citations, ≤2000 characters
+- [x] **CPTXT-03**: Visit date formatted as "Month YYYY" readable text (e.g., "March 2026"), never "N/A" or numeric codes
+- [x] **CPTXT-04**: User's free-text description integrated naturally into complaint narrative (not orphaned "Specifically, I observed:" sentence)
+- [x] **CPTXT-05**: Business name field: "{targetName} ({targetUrl})" or just "{targetName}" if no URL
 
 ### CPPA Guide Page
 
@@ -117,33 +117,33 @@
 
 ### Success Page
 
-- [ ] **SUCC-01**: Success page shows 3 distinct filing channel sections: CPPA Online (★ recommended), CPPA Paper PDF, CA AG (auto-filed ✓)
-- [ ] **SUCC-02**: CPPA section links to `/filing/[id]/cppa-guide`; Paper PDF section links to `/api/filings/[id]/cppa-pdf`
-- [ ] **SUCC-03**: CA AG section shows fax ID and status if available; shows failure or pending state if fax not complete
-- [ ] **SUCC-04**: Guest users see "Create Account" CTA at the bottom of the success page
+- [x] **SUCC-01**: Success page shows 3 distinct filing channel sections: CPPA Online (★ recommended), CPPA Paper PDF, CA AG (auto-filed ✓)
+- [x] **SUCC-02**: CPPA section links to `/filing/[id]/cppa-guide`; Paper PDF section links to `/api/filings/[id]/cppa-pdf`
+- [x] **SUCC-03**: CA AG section shows fax ID and status if available; shows failure or pending state if fax not complete
+- [x] **SUCC-04**: Guest users see "Create Account" CTA at the bottom of the success page
 
 ### ADA Complaint Handling
 
-- [ ] **ADA-01**: ADA (accessibility) complaint type hides CPPA channel (guide page + paper PDF) — CA AG fax is the only channel for ADA complaints
+- [x] **ADA-01**: ADA (accessibility) complaint type hides CPPA channel (guide page + paper PDF) — CA AG fax is the only channel for ADA complaints
 
 ### CPPA Paper PDF
 
-- [ ] **CPPDF-01**: `generateCPPAComplaintPdf(filing)` produces a PDF that mirrors the CPPA official paper form layout with all 10 sections pre-filled
-- [ ] **CPPDF-02**: PDF includes perjury attestation section with blank signature line, CPPA mailing address header, and filing ID footer
-- [ ] **CPPDF-03**: `GET /api/filings/[id]/cppa-pdf` authenticates user (owns filing), generates PDF, stores in Vercel Blob, and returns as file download
+- [x] **CPPDF-01**: `generateCPPAComplaintPdf(filing)` produces a PDF that mirrors the CPPA official paper form layout with all 10 sections pre-filled
+- [x] **CPPDF-02**: PDF includes perjury attestation section with blank signature line, CPPA mailing address header, and filing ID footer
+- [x] **CPPDF-03**: `GET /api/filings/[id]/cppa-pdf` authenticates user (owns filing), generates PDF, stores in Vercel Blob, and returns as file download
 
 ### CA AG PDF Restructure
 
-- [ ] **AGPDF-01**: CA AG complaint PDF uses form-style layout with sections: Your Information, Business Information, Complaint, Resolution Requested, Prior Contact, Affirmation
-- [ ] **AGPDF-02**: AG PDF has zero statute citations, no "Dear Attorney General" salutation, no "Respectfully submitted" closing
-- [ ] **AGPDF-03**: Empty fields are omitted entirely — no "N/A" placeholder text anywhere in the AG PDF
-- [ ] **AGPDF-04**: Sinch fax pipeline is unchanged — same delivery mechanism, only PDF content changes
+- [x] **AGPDF-01**: CA AG complaint PDF uses form-style layout with sections: Your Information, Business Information, Complaint, Resolution Requested, Prior Contact, Affirmation
+- [x] **AGPDF-02**: AG PDF has zero statute citations, no "Dear Attorney General" salutation, no "Respectfully submitted" closing
+- [x] **AGPDF-03**: Empty fields are omitted entirely — no "N/A" placeholder text anywhere in the AG PDF
+- [x] **AGPDF-04**: Sinch fax pipeline is unchanged — same delivery mechanism, only PDF content changes
 
 ### Complaint Description Quality
 
-- [ ] **DESC-01**: Generated complaint description uses natural first-person language throughout; user's free-text integrated contextually (not as a separate orphaned sentence)
-- [ ] **DESC-02**: Description stays ≤2000 characters; visit date formatted as readable "Month YYYY" text
-- [ ] **DESC-03**: Wizard complaint types map correctly to CPPA checkboxes: privacy_tracking → 2 boxes ("collection/use/storage/sharing" + "Right to Opt-out"), video_sharing → 1 box, accessibility → none (CPPA channel skipped)
+- [x] **DESC-01**: Generated complaint description uses natural first-person language throughout; user's free-text integrated contextually (not as a separate orphaned sentence)
+- [x] **DESC-02**: Description stays ≤2000 characters; visit date formatted as readable "Month YYYY" text
+- [x] **DESC-03**: Wizard complaint types map correctly to CPPA checkboxes: privacy_tracking → 2 boxes ("collection/use/storage/sharing" + "Right to Opt-out"), video_sharing → 1 box, accessibility → none (CPPA channel skipped)
 
 ## Out of Scope
 
@@ -181,31 +181,31 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CPTXT-01 | Phase 9 | Pending |
-| CPTXT-02 | Phase 9 | Pending |
-| CPTXT-03 | Phase 9 | Pending |
-| CPTXT-04 | Phase 9 | Pending |
-| CPTXT-05 | Phase 9 | Pending |
-| AGPDF-01 | Phase 9 | Pending |
-| AGPDF-02 | Phase 9 | Pending |
-| AGPDF-03 | Phase 9 | Pending |
-| AGPDF-04 | Phase 9 | Pending |
-| DESC-01 | Phase 9 | Pending |
-| DESC-02 | Phase 9 | Pending |
-| DESC-03 | Phase 9 | Pending |
-| SUCC-01 | Phase 9 | Pending |
-| SUCC-02 | Phase 9 | Pending |
-| SUCC-03 | Phase 9 | Pending |
-| SUCC-04 | Phase 9 | Pending |
-| ADA-01 | Phase 9 | Pending |
+| CPTXT-01 | Phase 9 | Complete |
+| CPTXT-02 | Phase 9 | Complete |
+| CPTXT-03 | Phase 9 | Complete |
+| CPTXT-04 | Phase 9 | Complete |
+| CPTXT-05 | Phase 9 | Complete |
+| AGPDF-01 | Phase 9 | Complete |
+| AGPDF-02 | Phase 9 | Complete |
+| AGPDF-03 | Phase 9 | Complete |
+| AGPDF-04 | Phase 9 | Complete |
+| DESC-01 | Phase 9 | Complete |
+| DESC-02 | Phase 9 | Complete |
+| DESC-03 | Phase 9 | Complete |
+| SUCC-01 | Phase 9 | Complete |
+| SUCC-02 | Phase 9 | Complete |
+| SUCC-03 | Phase 9 | Complete |
+| SUCC-04 | Phase 9 | Complete |
+| ADA-01 | Phase 9 | Complete |
 | CPGDE-01 | Phase 10 | Complete |
 | CPGDE-02 | Phase 10 | Complete (UUID = access token — decision D-04/D-05) |
 | CPGDE-03 | Phase 10 | Complete |
 | CPGDE-04 | Phase 10 | Complete |
 | CPGDE-05 | Phase 10 | Complete |
-| CPPDF-01 | Phase 11 | Pending |
-| CPPDF-02 | Phase 11 | Pending |
-| CPPDF-03 | Phase 11 | Pending |
+| CPPDF-01 | Phase 11 | Complete |
+| CPPDF-02 | Phase 11 | Complete |
+| CPPDF-03 | Phase 11 | Complete |
 
 **v2.0 coverage:** 25 requirements, 25 mapped ✓
 
