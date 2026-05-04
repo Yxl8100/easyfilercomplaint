@@ -18,6 +18,11 @@ const ATTESTATION_TEXT =
   'of my knowledge and belief. I authorize the California Privacy Protection Agency ' +
   'to contact the business(es) or person(s) named in this complaint regarding this matter.'
 
+// WR-01: Cache font bytes at module load time — readFileSync blocks the event loop;
+// running it once at cold start is the correct trade-off for static assets.
+const regularBytes = readFileSync(join(process.cwd(), 'src/assets/fonts/LiberationSerif-Regular.ttf'))
+const boldBytes    = readFileSync(join(process.cwd(), 'src/assets/fonts/LiberationSerif-Bold.ttf'))
+
 // Word-wrap helper that draws text and returns the new y position.
 // Copied verbatim from src/lib/generate-complaint-pdf.ts lines 63-114.
 function drawWrappedText(
@@ -74,9 +79,7 @@ function drawWrappedText(
 }
 
 export async function generateCPPAComplaintPdf(filing: Filing): Promise<Uint8Array> {
-  // ---- Fonts ----
-  const regularBytes = readFileSync(join(process.cwd(), 'src/assets/fonts/LiberationSerif-Regular.ttf'))
-  const boldBytes    = readFileSync(join(process.cwd(), 'src/assets/fonts/LiberationSerif-Bold.ttf'))
+  // ---- Fonts (WR-01: use module-level cached bytes, not readFileSync here) ----
 
   // ---- Document ----
   const pdfDoc = await PDFDocument.create()
@@ -99,19 +102,21 @@ export async function generateCPPAComplaintPdf(filing: Filing): Promise<Uint8Arr
   // (Identity-H 2-byte encoding) and is not directly byte-searchable. This is what
   // makes extractPdfText assertions work in tests.
   const infoDict = pdfDoc.context.lookup(pdfDoc.context.trailerInfo.Info, PDFDict)
-  if (infoDict) {
-    infoDict.set(PDFName.of('Subject'), PDFString.of('CPPA CONSUMER COMPLAINT FORM'))
-    infoDict.set(PDFName.of('Keywords'), PDFString.of(
-      `EasyFilerComplaint CPPA COMPLAINT MAILING ADDRESS Q1 Q2 Q3 Q4 Q5 Q6 Q7 PERJURY ATTESTATION Filing ID: ${filingReceiptId}`
-    ))
-    // Store mailing address header so tests can find it in extractPdfText output.
-    // Drawn text is identity-H encoded and not directly searchable via latin1.
-    infoDict.set(PDFName.of('Description'), PDFString.of(
-      `California Privacy Protection Agency ATTN: Complaints 400 R Street, Suite 350 Sacramento, CA 95811`
-    ))
-    // Store attestation text so tests can assert penalty-of-perjury text.
-    infoDict.set(PDFName.of('Comments'), PDFString.of(ATTESTATION_TEXT))
+  // WR-02: Throw if Info dict is unavailable — silent skip loses the perjury attestation metadata.
+  if (!infoDict) {
+    throw new Error('[cppa-pdf] PDF Info dictionary not available — cannot set section markers')
   }
+  infoDict.set(PDFName.of('Subject'), PDFString.of('CPPA CONSUMER COMPLAINT FORM'))
+  infoDict.set(PDFName.of('Keywords'), PDFString.of(
+    `EasyFilerComplaint CPPA COMPLAINT MAILING ADDRESS Q1 Q2 Q3 Q4 Q5 Q6 Q7 PERJURY ATTESTATION Filing ID: ${filingReceiptId}`
+  ))
+  // Store mailing address header so tests can find it in extractPdfText output.
+  // Drawn text is identity-H encoded and not directly searchable via latin1.
+  infoDict.set(PDFName.of('Description'), PDFString.of(
+    `California Privacy Protection Agency ATTN: Complaints 400 R Street, Suite 350 Sacramento, CA 95811`
+  ))
+  // Store attestation text so tests can assert penalty-of-perjury text.
+  infoDict.set(PDFName.of('Comments'), PDFString.of(ATTESTATION_TEXT))
 
   // ---- Layout constants ----
   let page = pdfDoc.addPage([612, 792])
