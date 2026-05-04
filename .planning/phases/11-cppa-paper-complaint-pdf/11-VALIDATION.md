@@ -38,9 +38,10 @@ created: 2026-05-03
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 11-01-01 | 01 | 1 | CPPDF-01 | — | N/A | unit | `rtk vitest run src/__tests__/cppa-pdf-generator` | ❌ W0 | ⬜ pending |
-| 11-01-02 | 01 | 1 | CPPDF-02 | — | N/A | unit | `rtk vitest run src/__tests__/cppa-pdf-generator` | ❌ W0 | ⬜ pending |
-| 11-02-01 | 02 | 2 | CPPDF-03 | T-11-01 | UUID-only auth — no session required; route returns 404 for unowned filings | integration | `rtk vitest run src/__tests__/cppa-pdf-route` | ❌ W0 | ⬜ pending |
+| 11-01-T1 | 01 | 1 | CPPDF-01, CPPDF-02 | — | N/A (Wave 0 scaffolds) | unit (failing) | `rtk vitest run src/lib/__tests__/cppa-pdf-generator.test.ts` | ❌ W0 | ⬜ pending |
+| 11-01-T2 | 01 | 1 | CPPDF-03 | — | N/A (Wave 0 scaffolds) | unit (failing) | `rtk vitest run "src/app/api/filings/[id]/cppa-pdf/route.test.ts"` | ❌ W0 | ⬜ pending |
+| 11-02-T1 | 02 | 2 | CPPDF-01, CPPDF-02 | — | N/A | unit | `rtk vitest run src/lib/__tests__/cppa-pdf-generator.test.ts` | ✅ W0 | ⬜ pending |
+| 11-03-T1 | 03 | 3 | CPPDF-03 | T-11-01 | UUID-only auth — no session required; route returns 404 for unowned filings | unit | `rtk vitest run "src/app/api/filings/[id]/cppa-pdf/route.test.ts"` | ✅ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -48,9 +49,8 @@ created: 2026-05-03
 
 ## Wave 0 Requirements
 
-- [ ] `src/__tests__/cppa-pdf-generator.test.ts` — stubs for CPPDF-01, CPPDF-02
-- [ ] `src/__tests__/cppa-pdf-route.test.ts` — stubs for CPPDF-03
-- [ ] `src/lib/cppa-pdf-generator.ts` — file exists (stub) before generator tests run
+- [ ] `src/lib/__tests__/cppa-pdf-generator.test.ts` — stubs for CPPDF-01, CPPDF-02
+- [ ] `src/app/api/filings/[id]/cppa-pdf/route.test.ts` — stubs for CPPDF-03
 
 *Existing vitest infrastructure covers framework setup.*
 

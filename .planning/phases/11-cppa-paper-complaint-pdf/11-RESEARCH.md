@@ -619,7 +619,7 @@ None — verified by codebase inspection. This is a greenfield addition.
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **CPPA form section count (CPPDF-01 says "10 sections")**
    - What we know: The CPPA online form and official FAQ reference 7 questions. The PDF could have additional intro/instruction sections that bring the count to 10.

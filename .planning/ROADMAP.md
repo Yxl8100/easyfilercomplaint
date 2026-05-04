@@ -251,7 +251,16 @@ Plans:
   1. `generateCPPAComplaintPdf(filing)` produces a PDF with all 10 official CPPA form sections pre-filled, including the perjury attestation section with a blank signature line and the CPPA mailing address header
   2. The PDF footer contains the filing ID; the PDF contains zero references to prohibited entities
   3. GET `/api/filings/[id]/cppa-pdf` verifies the requesting user owns the filing, generates the PDF, stores it in Vercel Blob, and returns it as a file download
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+**Wave 1**
+- [ ] 11-01-PLAN.md — Wave 0: failing Vitest test scaffolds for CPPA PDF generator and API route
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 11-02-PLAN.md — Wave 1: CPPA paper PDF generator (cppa-pdf-generator.ts) — 10 sections, perjury attestation, signature line, filing ID footer (CPPDF-01, CPPDF-02)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 11-03-PLAN.md — Wave 2: GET /api/filings/[id]/cppa-pdf route — UUID-only access (D-04/D-05), Vercel Blob at complaints/cppa/ (CPPDF-03)
 **UI hint**: no
 
 ---
@@ -262,9 +271,9 @@ Plans:
 |-------|----------------|--------|-----------|
 | 9. Complaint Narrative Engine + AG PDF + Success Page | 4/4 | Complete | 2026-05-03 |
 | 10. CPPA Guided Filing Page | 2/2 | Complete | 2026-05-03 |
-| 11. CPPA Paper Complaint PDF | 0/TBD | Not started | - |
+| 11. CPPA Paper Complaint PDF | 0/3 | Planning complete | - |
 
 ---
 *Roadmap created: 2026-05-03*
-*Last updated: 2026-05-03 — Phase 10 planned: 2 plans in 2 waves (CPGDE-01–05)*
-*Phase 10 planned: 2 plans in 2 waves (2026-05-03)*
+*Last updated: 2026-05-03 — Phase 11 planned: 3 plans in 3 waves (CPPDF-01–03)*
+*Phase 11 planned: 3 plans in 3 waves (2026-05-03)*
