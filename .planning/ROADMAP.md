@@ -254,13 +254,13 @@ Plans:
 **Plans**: 3 plans
 Plans:
 **Wave 1**
-- [ ] 11-01-PLAN.md — Wave 0: failing Vitest test scaffolds for CPPA PDF generator and API route
+- [x] 11-01-PLAN.md — Wave 0: failing Vitest test scaffolds for CPPA PDF generator and API route
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 11-02-PLAN.md — Wave 1: CPPA paper PDF generator (cppa-pdf-generator.ts) — 10 sections, perjury attestation, signature line, filing ID footer (CPPDF-01, CPPDF-02)
+- [x] 11-02-PLAN.md — Wave 1: CPPA paper PDF generator (cppa-pdf-generator.ts) — 10 sections, perjury attestation, signature line, filing ID footer (CPPDF-01, CPPDF-02)
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 11-03-PLAN.md — Wave 2: GET /api/filings/[id]/cppa-pdf route — UUID-only access (D-04/D-05), Vercel Blob at complaints/cppa/ (CPPDF-03)
+- [x] 11-03-PLAN.md — Wave 2: GET /api/filings/[id]/cppa-pdf route — UUID-only access (D-04/D-05), Vercel Blob at complaints/cppa/ (CPPDF-03)
 **UI hint**: no
 
 ---

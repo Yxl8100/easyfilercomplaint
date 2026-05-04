@@ -35,7 +35,7 @@ Last activity: 2026-05-04 -- Phase 11 planning complete
 |-------|------|--------------|--------|
 | 9 | Complaint Narrative Engine + AG PDF + Success Page | CPTXT-01–05, AGPDF-01–04, DESC-01–03, SUCC-01–04, ADA-01 | Complete (2026-05-03) |
 | 10 | CPPA Guided Filing Page | CPGDE-01–05 | Complete (2026-05-03) |
-| 11 | CPPA Paper Complaint PDF | CPPDF-01–03 | Not started |
+| 11 | CPPA Paper Complaint PDF | CPPDF-01–03 | Complete (2026-05-03) |
 
 ## Milestone Context (v1 Complete)
 
