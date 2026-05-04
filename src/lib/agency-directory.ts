@@ -9,7 +9,7 @@ export const AGENCY_DIRECTORY: Record<string, AgencyEntry> = {
   ca_ag: {
     code: 'ca_ag',
     name: 'California Attorney General',
-    faxNumber: '+19898989898',  // TODO: Replace with real CA AG fax number before go-live
+    faxNumber: '+19163235341',
     state: 'CA',
   },
 }
