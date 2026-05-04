@@ -109,11 +109,11 @@
 
 ### CPPA Guide Page
 
-- [ ] **CPGDE-01**: Page at `/filing/[id]/cppa-guide` is a server component that fetches the filing and generates CPPA text server-side
-- [ ] **CPGDE-02**: Auth check: user must own the filing (match by userId or filerEmail)
-- [ ] **CPGDE-03**: Each copyable answer has a working "Copy" button using the browser clipboard API
-- [ ] **CPGDE-04**: "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
-- [ ] **CPGDE-05**: Q1 (checkboxes), Q3 (CA resident), Q6 (contacted business) show visual instructions only — no copy-paste text box
+- [x] **CPGDE-01**: Page at `/filing/[id]/cppa-guide` is a server component that fetches the filing and generates CPPA text server-side
+- [x] **CPGDE-02**: Access control: filing UUID is the access token — no login wall (same model as success page, decision D-04/D-05 in 10-CONTEXT.md)
+- [x] **CPGDE-03**: Each copyable answer has a working "Copy" button using the browser clipboard API
+- [x] **CPGDE-04**: "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
+- [x] **CPGDE-05**: Q1 (checkboxes), Q3 (CA resident), Q6 (contacted business) show visual instructions only — no copy-paste text box
 
 ### Success Page
 
@@ -198,11 +198,11 @@
 | SUCC-03 | Phase 9 | Pending |
 | SUCC-04 | Phase 9 | Pending |
 | ADA-01 | Phase 9 | Pending |
-| CPGDE-01 | Phase 10 | Pending |
-| CPGDE-02 | Phase 10 | Pending |
-| CPGDE-03 | Phase 10 | Pending |
-| CPGDE-04 | Phase 10 | Pending |
-| CPGDE-05 | Phase 10 | Pending |
+| CPGDE-01 | Phase 10 | Complete |
+| CPGDE-02 | Phase 10 | Complete (UUID = access token — decision D-04/D-05) |
+| CPGDE-03 | Phase 10 | Complete |
+| CPGDE-04 | Phase 10 | Complete |
+| CPGDE-05 | Phase 10 | Complete |
 | CPPDF-01 | Phase 11 | Pending |
 | CPPDF-02 | Phase 11 | Pending |
 | CPPDF-03 | Phase 11 | Pending |

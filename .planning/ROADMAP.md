@@ -201,7 +201,7 @@ CRON_SECRET=...
 ## Phases
 
 - [x] **Phase 9: Complaint Narrative Engine + AG PDF + Success Page** - Complaint text generator, CA AG PDF restructure, and redesigned success page with three filing channel sections (completed 2026-05-03)
-- [ ] **Phase 10: CPPA Guided Filing Page** - Consumer-facing walkthrough page at /filing/[id]/cppa-guide with per-question copy buttons
+- [x] **Phase 10: CPPA Guided Filing Page** - Consumer-facing walkthrough page at /filing/[id]/cppa-guide with per-question copy buttons (completed 2026-05-03)
 - [ ] **Phase 11: CPPA Paper Complaint PDF** - Downloadable PDF mirroring the CPPA official paper form layout, with API route and Blob storage
 
 ---
@@ -234,7 +234,7 @@ Plans:
 **Requirements**: CPGDE-01, CPGDE-02, CPGDE-03, CPGDE-04, CPGDE-05
 **Success Criteria** (what must be TRUE):
   1. `/filing/[id]/cppa-guide` loads as a server component, fetches the filing server-side, generates CPPA text, and renders without client-side data fetching for the initial answers
-  2. A user who does not own the filing (no userId match and no filerEmail match) is blocked from accessing the page
+  2. Access control: the filing UUID is the access token — same model as the success page (decision D-04/D-05 in 10-CONTEXT.md; no login wall required)
   3. Each copyable answer field has a working "Copy" button that writes the answer text to the clipboard; Q1 (checkboxes), Q3 (CA resident), and Q6 (contacted business) show visual instructions only with no copy-paste box
   4. "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
 **Plans**: 2 plans

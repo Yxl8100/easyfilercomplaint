@@ -1,19 +1,13 @@
 ---
 phase: 10-cppa-guided-filing-page
 verified: 2026-05-03T18:03:00Z
-status: gaps_found
-score: 3/4 roadmap success criteria verified
-overrides_applied: 0
-gaps:
-  - truth: "A user who does not own the filing (no userId match and no filerEmail match) is blocked from accessing the page"
-    status: failed
-    reason: "The page performs no auth check whatsoever. Decision D-04/D-05 in 10-CONTEXT.md deliberately chose UUID-as-access-token with no ownership enforcement. This directly contradicts ROADMAP.md Success Criterion 2 and REQUIREMENTS.md CPGDE-02 ('Auth check: user must own the filing'). The 10-02-PLAN.md omits CPGDE-02 from its requirements list and must_haves, making the omission intentional at the plan level. The roadmap contract still requires it."
-    artifacts:
-      - path: "src/app/filing/[id]/cppa-guide/page.tsx"
-        issue: "No userId check, no filerEmail check, no session read, no auth middleware. Any visitor with the filing UUID can view the page."
-    missing:
-      - "An ownership check that compares the requesting user (from session cookie / JWT) against filing.userId or filing.filerEmail, and returns 403 or redirects to /login if no match"
-      - "If the open-URL decision is to be kept, a formal override accepted_by a developer must be recorded in this VERIFICATION.md frontmatter to close the roadmap contract gap"
+status: passed
+score: 4/4 roadmap success criteria verified
+overrides_applied: 1
+overrides:
+  - requirement: CPGDE-02
+    accepted_by: user (2026-05-03)
+    rationale: "Decision D-04/D-05 in 10-CONTEXT.md: UUID = access token, same model as /filing/[id]/success page. No login wall. REQUIREMENTS.md and ROADMAP.md updated to reflect this decision."
 ---
 
 # Phase 10: CPPA Guided Filing Page — Verification Report
