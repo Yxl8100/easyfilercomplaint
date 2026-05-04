@@ -239,8 +239,8 @@ Plans:
   4. "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
 **Plans**: 2 plans
 Plans:
-- [ ] 10-01-PLAN.md — CopyButton client component and Vitest unit tests
-- [ ] 10-02-PLAN.md — cppa-guide server component page and Vitest tests
+- [ ] 10-01-PLAN.md — Wave 1: CopyButton 'use client' component + Vitest unit tests
+- [ ] 10-02-PLAN.md — **Wave 2** *(blocked on Wave 1 completion)*: /filing/[id]/cppa-guide server component page + Vitest tests
 **UI hint**: yes
 
 ### Phase 11: CPPA Paper Complaint PDF
@@ -261,10 +261,10 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 9. Complaint Narrative Engine + AG PDF + Success Page | 4/4 | Complete | 2026-05-03 |
-| 10. CPPA Guided Filing Page | 0/2 | Planning complete | - |
+| 10. CPPA Guided Filing Page | 0/2 | Ready to execute | - |
 | 11. CPPA Paper Complaint PDF | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-05-03*
-*Last updated: 2026-05-03 — Milestone v2.0: 3 phases (9–11), 25 requirements*
+*Last updated: 2026-05-03 — Phase 10 planned: 2 plans in 2 waves (CPGDE-01–05)*
 *Phase 10 planned: 2 plans in 2 waves (2026-05-03)*
