@@ -237,7 +237,10 @@ Plans:
   2. A user who does not own the filing (no userId match and no filerEmail match) is blocked from accessing the page
   3. Each copyable answer field has a working "Copy" button that writes the answer text to the clipboard; Q1 (checkboxes), Q3 (CA resident), and Q6 (contacted business) show visual instructions only with no copy-paste box
   4. "Open CPPA Complaint Form" button opens cppa.ca.gov/webapplications/complaint in a new tab
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 10-01-PLAN.md — CopyButton client component and Vitest unit tests
+- [ ] 10-02-PLAN.md — cppa-guide server component page and Vitest tests
 **UI hint**: yes
 
 ### Phase 11: CPPA Paper Complaint PDF
@@ -258,9 +261,10 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 9. Complaint Narrative Engine + AG PDF + Success Page | 4/4 | Complete | 2026-05-03 |
-| 10. CPPA Guided Filing Page | 0/TBD | Not started | - |
+| 10. CPPA Guided Filing Page | 0/2 | Planning complete | - |
 | 11. CPPA Paper Complaint PDF | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-05-03*
 *Last updated: 2026-05-03 — Milestone v2.0: 3 phases (9–11), 25 requirements*
+*Phase 10 planned: 2 plans in 2 waves (2026-05-03)*
