@@ -35,7 +35,13 @@ export async function GET(
   }
 
   // 2. Generate PDF on demand (Plan 02 generator)
-  const pdfBytes = await generateCPPAComplaintPdf(filing)
+  let pdfBytes: Uint8Array
+  try {
+    pdfBytes = await generateCPPAComplaintPdf(filing)
+  } catch (err) {
+    console.error('[cppa-pdf] PDF generation failed:', err)
+    return NextResponse.json({ error: 'pdf_generation_failed' }, { status: 500 })
+  }
 
   // 3. Store in Vercel Blob at the dedicated CPPA path (Pitfall 3 — avoid AG PDF collision)
   //    Skip silently if BLOB_READ_WRITE_TOKEN is absent (matches store-complaint-pdf.ts pattern).
@@ -64,6 +70,7 @@ export async function GET(
   return new NextResponse(pdfBytes, {
     headers: {
       'Content-Type': 'application/pdf',
+      'Content-Length': String(pdfBytes.byteLength),
       'Content-Disposition': `attachment; filename="CPPA_Complaint_${downloadId}.pdf"`,
     },
   })
