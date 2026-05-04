@@ -54,7 +54,7 @@ export async function GET(
     try {
       await put(
         `complaints/cppa/${filing.id}/CPPA_${receiptId}.pdf`,
-        pdfBytes,
+        Buffer.from(pdfBytes),
         {
           access: 'private',
           contentType: 'application/pdf',
