@@ -35,7 +35,7 @@ A consumer can pay $1.99 and have a formal privacy complaint filed with a govern
 
 ### Active (v2.0)
 
-- [ ] CPPA paper complaint PDF (generateCPPAComplaintPdf) — mirrors official form, Blob storage
+- ✓ CPPA paper complaint PDF (generateCPPAComplaintPdf) — mirrors official form, Blob storage — Phase 11 (2026-05-03)
 - [ ] Wizard complaint type → CPPA checkbox mapping
 
 ### Validated (v2.0)
@@ -139,4 +139,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-03 — Milestone v2.0 started: Triple-Filing (CPPA + CA AG + PDF). CPPA becomes primary channel. AG PDF restructured. Success page redesigned. 23 requirements defined across 7 categories.*
+*Last updated: 2026-05-03 — Milestone v2.0 complete: All 11 phases done. Phase 11 (CPPA Paper PDF) verified — generateCPPAComplaintPdf + GET /api/filings/[id]/cppa-pdf deployed. Triple-filing channel live: CPPA online guide, CPPA paper PDF, CA AG fax.*
